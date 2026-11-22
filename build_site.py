@@ -712,42 +712,73 @@ main { flex: 1; min-width: 0; width: 100%; padding: clamp(0.85rem, 2vw, 1.75rem)
 .week-progress .where { display: block; color: var(--ink); font-weight: 650; }
 html.nav-collapsed .place, html.nav-collapsed .week-progress { display: none; }
 .mark {
-  position: absolute;
-  left: -2.45rem;
-  top: 0.15rem;
-  z-index: 2;
-  width: 1.85rem;
-  height: 1.85rem;
+  width: 1.7rem;
+  height: 1.7rem;
   margin: 0;
   padding: 0;
   display: inline-grid;
   place-items: center;
+  vertical-align: middle;
   border: 1px solid var(--line);
-  background: white;
-  color: var(--ink);
+  background: #fffdf9;
+  color: var(--muted);
   border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 1px 0 rgba(36, 32, 27, 0.04);
+  box-shadow: none;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
 }
-h1 .mark { top: 0.3rem; }
-h3 .mark, blockquote .mark { width: 1.65rem; height: 1.65rem; top: 0.1rem; }
-h3 .mark svg, blockquote .mark svg { width: 0.9rem; height: 0.9rem; }
-.q .mark { top: 0.45rem; }
-.mark svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mark svg { width: 0.92rem; height: 0.92rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .mark .icon-on { display: none; }
+.mark:hover, .mark:focus-visible {
+  color: var(--ink);
+  border-color: #cfc4b4;
+  background: white;
+  outline: none;
+}
+.mark:focus-visible { box-shadow: 0 0 0 3px rgba(14, 74, 72, 0.14); }
 .mark[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
 .mark[aria-pressed="true"] .icon-off { display: none; }
 .mark[aria-pressed="true"] .icon-on { display: block; fill: currentColor; stroke: none; }
-article :is(h1, h2, h3),
+@media (hover: hover) and (pointer: fine) {
+  article :is(h1, h2, h3) .mark { opacity: 0.42; }
+  article :is(h1, h2, h3):hover .mark,
+  article :is(h1, h2, h3):focus-within .mark,
+  article .mark:hover,
+  article .mark:focus-visible,
+  article .mark[aria-pressed="true"] { opacity: 1; }
+}
+article :is(h1, h2, h3) {
+  display: block;
+  position: relative;
+  max-width: 100%;
+}
+article :is(h1, h2, h3) .mark {
+  position: static;
+  margin-left: 0.4rem;
+  transform: translateY(-0.06em);
+}
 article .q,
 article > blockquote {
   position: relative;
+  padding-right: 2.4rem;
 }
-article :is(h1, h2, h3).reached,
-article .q.reached,
-article > blockquote.reached {
+article .q .mark,
+article > blockquote .mark {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.15rem;
+  left: auto;
+  z-index: 2;
+}
+article :is(h1, h2, h3).reached {
   box-shadow: inset 3px 0 0 var(--accent);
   padding-left: 0.55rem;
+}
+article .q.reached,
+article > blockquote.reached {
+  outline: 1px solid #c5d9d5;
+  background: #f7faf9;
+  border-radius: 10px;
 }
 .place-item .place-snippet {
   grid-column: 1 / -1;
@@ -759,20 +790,20 @@ article > blockquote.reached {
 }
 .hero h1, article h1 { font-size: 1.85rem; line-height: 1.25; margin: 0 0 0.7rem; font-weight: 700; }
 .kicker { margin: 0 0 0.35rem; color: var(--accent); font-weight: 650; font-size: 0.92rem; }
-article { font-size: 1.0625rem; line-height: 1.8; text-wrap: pretty; padding-left: 2.55rem; }
+article { font-size: 1.0625rem; line-height: 1.8; text-wrap: pretty; }
 article p { margin: 1.05em 0; }
-article blockquote { margin: 0.2rem 0 1.15rem; padding: 0.1rem 0 0.1rem 0.85rem; border-left: 3px solid var(--accent); }
+article blockquote { margin: 0.2rem 0 1.15rem; padding: 0.35rem 2.4rem 0.35rem 0.85rem; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; background: #fbf8f3; }
 article blockquote p { margin: 0.28em 0; }
 article ul, article ol { margin: 0.85em 0; padding-left: 1.3rem; }
 article li { margin: 0.4em 0; }
 article h1 ~ h1 { font-size: 1.5rem; margin-top: 0.15rem; padding-top: 0; border-top: 0; }
 hr { border: 0; height: 0; margin: 2.1rem 0 1.35rem; border-top: 1px solid var(--line); }
-article h2 { margin: 1.9rem 0 0.45rem; font-size: 1.25rem; line-height: 1.35; color: inherit; }
+article h2 { margin: 1.9rem 0 0.45rem; font-size: 1.25rem; line-height: 1.4; color: inherit; }
 article h1 + h2 { margin-top: 1.1rem; }
-article h3 { margin: 1.35rem 0 0.3rem; font-size: 1.05rem; line-height: 1.4; }
+article h3 { margin: 1.35rem 0 0.3rem; font-size: 1.05rem; line-height: 1.45; }
 a { color: var(--accent); }
 code, pre { font-family: Consolas, "Cascadia Mono", monospace; }
-p code, li code, td code {
+:is(p, li, td, h1, h2, h3, blockquote) code {
   font-size: 0.92em;
   color: inherit;
   background: #f3eee6;
@@ -797,7 +828,13 @@ pre {
   overscroll-behavior-x: contain;
 }
 pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
-.q { margin: 1.5rem 0 1.8rem; }
+.q {
+  margin: 1.5rem 0 1.8rem;
+  padding: 0.85rem 2.4rem 0.85rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf9;
+}
 .choices { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.75rem 0 0.55rem; }
 .choice { display: flex; align-items: flex-start; gap: 0.7rem; width: 100%; text-align: left; font: inherit; color: inherit; background: #fbf8f3; border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.75rem; cursor: pointer; line-height: 1.5; }
 .choice:hover { border-color: #cfc4b4; }
@@ -1072,9 +1109,11 @@ article ul:has(> .task) {
   .sheet { padding: 1rem 0.95rem 1.2rem; border-radius: 12px; }
   .weeks { grid-template-columns: 1fr; }
   .hero h1, article h1 { font-size: 1.45rem; }
-  article { font-size: 1.05rem; padding-left: 2.35rem; }
-  .mark { width: 2rem; height: 2rem; left: -2.2rem; }
-  h3 .mark, blockquote .mark { width: 1.85rem; height: 1.85rem; }
+  article { font-size: 1.05rem; }
+  .mark { width: 2.05rem; height: 2.05rem; }
+  article :is(h1, h2, h3) .mark { opacity: 1; }
+  article .q,
+  article > blockquote { padding-right: 2.7rem; }
   .sheet { overflow-x: auto; }
   .table-wrap { margin-left: -0.15rem; margin-right: -0.15rem; }
   .reveal {
@@ -1438,7 +1477,7 @@ function attachMark(el) {
     }
     clearMark(el);
   });
-  el.insertBefore(button, el.firstChild);
+  el.appendChild(button);
 }
 
 const markTargets = [

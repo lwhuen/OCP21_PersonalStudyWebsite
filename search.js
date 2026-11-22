@@ -336,7 +336,7 @@ function attachMark(el) {
     }
     clearMark(el);
   });
-  el.insertBefore(button, el.firstChild);
+  el.appendChild(button);
 }
 
 const markTargets = [
