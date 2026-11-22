@@ -1,4 +1,5 @@
 """Build a static reading site from the study markdown files."""
+import hashlib
 import html
 import html.parser
 import re
@@ -8,6 +9,7 @@ import markdown
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "site"
+ASSET_V = "dev"
 
 SOURCES = [
     ("開始", [
@@ -440,7 +442,7 @@ def shell(dest, title, body, lang):
 <script>try{{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}}catch(e){{}}</script>
 <title>{html.escape(title)} · OCP Java 21</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={ASSET_V}">
 </head>
 <body>
 <a class="skip" href="#content">跳到本文</a>
@@ -461,7 +463,7 @@ def shell(dest, title, body, lang):
 </main>
 </div>
 <nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
-<script src="search.js"></script>
+<script src="search.js?v={ASSET_V}"></script>
 </body>
 </html>
 """
@@ -544,7 +546,7 @@ def home():
 <script>try{{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}}catch(e){{}}</script>
 <title>OCP Java 21</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={ASSET_V}">
 </head>
 <body>
 <a class="skip" href="#content">跳到本文</a>
@@ -554,7 +556,7 @@ def home():
 {body}
 </main>
 </div>
-<script src="search.js"></script>
+<script src="search.js?v={ASSET_V}"></script>
 </body>
 </html>
 """
@@ -1589,6 +1591,8 @@ def notes_outline(body):
 
 
 def main():
+    global ASSET_V
+    ASSET_V = hashlib.sha1((CSS + SEARCH_JS).encode("utf-8")).hexdigest()[:10]
     OUT.mkdir(exist_ok=True)
     (OUT / "favicon.svg").write_text(FAVICON, encoding="utf-8")
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
