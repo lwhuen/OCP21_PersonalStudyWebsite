@@ -379,6 +379,20 @@ article > blockquote.reached {
 .hero h1, article h1 { font-size: 1.85rem; line-height: 1.25; margin: 0 0 0.7rem; font-weight: 700; }
 .kicker { margin: 0 0 0.35rem; color: var(--accent); font-weight: 650; font-size: 0.92rem; }
 article { font-size: 1.0625rem; line-height: 1.8; text-wrap: pretty; }
+article p,
+article li,
+article td,
+article th,
+article blockquote,
+.day-body,
+.task-body,
+.choice-body,
+.home p,
+.home li {
+  text-align: justify;
+  text-justify: inter-ideograph;
+  text-align-last: left;
+}
 article p { margin: 1.05em 0; }
 article blockquote { margin: 0.2rem 0 1.15rem; padding: 0.35rem 2.4rem 0.35rem 0.85rem; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; background: #fbf8f3; }
 article blockquote p { margin: 0.28em 0; }
@@ -733,6 +747,9 @@ article ul:has(> .task) {
   font-size: 0.95rem;
   font-weight: 550;
   line-height: 1.45;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  text-align-last: left;
 }
 .jump {
   position: fixed;

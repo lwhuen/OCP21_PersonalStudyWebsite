@@ -87,11 +87,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **21 h.** Gate: chapter questions at 70%.
 
-- Mon: JDK, IntelliJ, one `main` line
-- Wed: primitives, literals, `var`
-- Fri: operators, precedence, casts
-- Sat: `Math`, `if` / `else`, both switches
-- Sun: loops, `break`, `continue`, review
+- Mon: install JDK 21 and IntelliJ, print one line from `main`.
+- Wed: eight primitives, literals, `var`.
+- Fri: operators, precedence, and casts. Write the answer before you run it.
+- Sat: `Math`, if / else, and both kinds of switch.
+- Sun: loops, `break`, `continue`, then the review questions.
 
 - [ ] Install JDK 21 and IntelliJ IDEA Community. `java -version` prints 21. A class with `main` prints your name.
 - [ ] Write the eight primitives, their sizes, and their default values from memory.
@@ -104,11 +104,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **21 h.** Gate: 70%, plus one hour with autocomplete off.
 
-- Mon: methods, return, overloading
-- Wed: varargs, pass-by-value
-- Fri: `String`, `StringBuilder`, text blocks
-- Sat: arrays, sort, `binarySearch`
-- Sun: autocomplete off, then questions
+- Mon: methods, return, overloading.
+- Wed: varargs and pass-by-value.
+- Fri: `String`, `StringBuilder`, and a text block.
+- Sat: arrays, sort, `binarySearch`.
+- Sun: autocomplete off for one hour, then questions.
 
 - [ ] Overload one method three ways, including varargs. Varargs is the last parameter, and there is only one.
 - [ ] Prove pass-by-value: reassigning the parameter does not change the caller; mutating the object does.
@@ -121,11 +121,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **21 h.** Gate: you can hand-trace initializer order, and score 70%.
 
-- Mon: classes, fields, constructors, `this`
-- Wed: statics, initializer order
-- Fri: encapsulation
-- Sat: immutable class, GC diagrams
-- Sun: chapter questions
+- Mon: classes, fields, constructors, `this`.
+- Wed: static members and initializer order.
+- Fri: encapsulation.
+- Sat: an immutable class and five garbage-collection diagrams.
+- Sun: chapter questions.
 
 - [ ] A class with fields, a constructor, and `this`. No public fields.
 - [ ] Hand-write static-then-instance initializer order for a superclass and a subclass. Run code that prints the order and compare.
@@ -138,11 +138,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **25 h. Weekend days are 8 h.** Gate: mixed OOP questions at 70%. This is the heavy week before the holidays.
 
-- Mon: `extends`, `super`, override rules
-- Wed: reference vs object type, field hiding
-- Fri: `equals`, `hashCode`, interfaces, enums
-- Sat (8 h): records, sealed types, patterns
-- Sun (8 h): nested classes, mixed OOP set
+- Mon: `extends`, `super`, overriding rules on one card.
+- Wed: reference type versus object type, and field hiding.
+- Fri: `equals`, `hashCode`, interfaces, and enums.
+- Sat (8 h): records, sealed types, switch patterns, record patterns.
+- Sun (8 h): nested-class rules in the notebook, then a mixed OOP set.
 
 - [ ] `Animal`, `Dog`, and `Cat`. Overriding rules on one card: signature, covariant return, access, checked exceptions.
 - [ ] One example where a field is hidden, not overridden. The reference type decides what compiles; the object type decides which override runs.
@@ -155,11 +155,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **15 h. Holiday week.** Gate: exceptions and dates at 70%. Friday 25 Dec is off.
 
-- Mon: `try` / `catch` / `finally`, multi-catch
-- Wed: try-with-resources, custom exception
-- Fri: off
-- Sat: `LocalDate`, `LocalTime`, `Period`, `Duration`
-- Sun: DST example, 15 formatters, questions
+- Mon: `try` / `catch` / `finally`, multi-catch, checked versus unchecked.
+- Wed: try-with-resources and a custom checked exception.
+- Fri 25 Dec: off.
+- Sat: `LocalDate`, `LocalTime`, `LocalDateTime`, `Period`, `Duration`, `Instant`.
+- Sun: one daylight-saving example, 15 formatter predictions, then questions.
 
 - [ ] From memory: checked versus unchecked versus `Error`, and what `finally` does when the catch block throws.
 - [ ] A custom checked exception, and a try-with-resources class whose close messages print in reverse order of creation.
@@ -172,11 +172,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **15 h. Holiday week.** Gate: collections questions at 70%. Friday 1 Jan is off.
 
-- Mon: `List`, `remove` overload trap
-- Wed: `Set`, `Map`, null rules, order
-- Fri: off
-- Sat: `Deque`, sequenced APIs, sorting
-- Sun: generics, then questions
+- Mon: `List`, and the `remove` overload trap.
+- Wed: `Set`, `Map`, null rules, and order.
+- Fri 1 Jan: off.
+- Sat: `Deque`, sequenced methods, `Comparable`, and `Comparator`.
+- Sun: generics, then the questions.
 
 - [ ] Show `list.remove(1)` versus `list.remove(Integer.valueOf(1))`.
 - [ ] The same data in a `List`, a `HashSet`, a `TreeSet`, and a `HashMap`. Write down what is ordered and what allows null.
@@ -189,11 +189,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **25 h. Weekend days are 8 h.** Gate: 30 stream questions at 70%. Under 60% means mock week 1 opens with streams.
 
-- Mon: lambdas, effectively final
-- Wed: functional interfaces, method refs
-- Fri: `Optional`, `orElse` vs `orElseGet`
-- Sat (8 h): stream pipelines on paper
-- Sun (8 h): `groupingBy`, primitives, 30 Qs
+- Mon: lambda syntax and effectively final variables.
+- Wed: `Predicate`, `Function`, `Consumer`, `Supplier`, `UnaryOperator`, and method references.
+- Fri: `Optional`, including `orElse` versus `orElseGet`.
+- Sat (8 h): pipelines, on paper first.
+- Sun (8 h): `groupingBy`, primitive streams, 30 questions.
 
 - [ ] Rewrite eight anonymous classes as lambdas, then as method references: static, bound, unbound, and constructor.
 - [ ] Name the functional interface from a snippet, 15 out of 15. Include a primitive form such as `IntPredicate` or `ToIntFunction`.
@@ -206,11 +206,11 @@ Generics are week 6. Annotations and the logging API are week 8, at recognition 
 
 **25 h. Weekend days are 8 h.** Gate: mixed quiz at 65%. Sunday 17 Jan the syllabus is closed.
 
-- Mon: streams, `Path`, `Files`
-- Wed: serialization, locales, bundles
-- Fri: modules in the terminal
-- Sat (8 h): threads, executors, races
-- Sun (8 h): mixed quiz, weak-topic list
+- Mon: byte and character streams, `Path`, and `Files`.
+- Wed: serialization, locales, resource bundles.
+- Fri: modules, compiled in a terminal.
+- Sat (8 h): threads, executors, a race, virtual threads.
+- Sun (8 h): mixed quiz and the weak-topic list.
 
 - [ ] With `Path` and try-with-resources, read a file, count words, and write a report. One notebook example each for `resolve`, `relativize`, and `normalize`.
 - [ ] State what `transient` and `serialVersionUID` do. A resource bundle in two locales, printing a date and a currency. Search order is full locale, then language, then the base bundle.
@@ -238,11 +238,11 @@ Five timed mocks. Review is part of the mock: a score with no notebook lines doe
 
 **21 h.** Gate: a ranked list of objectives. No full mock yet.
 
-- Mon: 40 Qs — OOP and exceptions
-- Wed: 40 Qs — collections and streams
-- Fri: 30 Qs — dates, I/O, locales
-- Sat: 30 Qs — modules and threads
-- Sun: one-page rule sheet, ranked weak list
+- Mon: 40 questions on OOP and exceptions, review the same day.
+- Wed: 40 on collections and streams.
+- Fri: 30 on dates, I/O, and locales.
+- Sat: 30 on modules and threads, and code every miss.
+- Sun: turn the notebook into a one-page rule sheet, ranked worst objective to best.
 
 - [ ] 40 Enthuware questions on OOP and exceptions. Review each miss before Wednesday.
 - [ ] 40 questions on collections and streams. If streams were under 60% in week 7, this day is streams only.
@@ -255,11 +255,10 @@ Five timed mocks. Review is part of the mock: a score with no notebook lines doe
 
 **21 h.** Gate: timed mock 1 at 65% after a full review.
 
-- Mon: code weakest-objective traps
-- Wed: code weakest-objective traps
-- Fri: 20 Qs on that objective
-- Sat: timed mock 1, start review
-- Sun: finish review before next mock
+- Mon and Wed: code the traps from your weakest objective only.
+- Fri: 20 mixed questions from that objective.
+- Sat: timed mock 1, 120 minutes, closed book, then start the review.
+- Sun: finish the review. A second mock waits until every miss has a notebook line.
 
 - [ ] Two weekday sessions on the single weakest objective. Small programs.
 - [ ] Friday: 20 questions on that same objective.
@@ -272,11 +271,11 @@ Five timed mocks. Review is part of the mock: a score with no notebook lines doe
 
 **21 h.** Gate: mock 2 at 70%. Mock 3 at 75%.
 
-- Mon: code new weakest objective
-- Wed: timed mock 2, then mark
-- Fri: review mock 2
-- Sat: timed mock 3
-- Sun: review mock 3
+- Mon: code the new weakest objective.
+- Wed: timed mock 2 (2 hours) and mark it (1 hour).
+- Fri: review mock 2.
+- Sat: timed mock 3.
+- Sun: review mock 3.
 
 - [ ] Monday: code the traps from whichever objective mock 1 scored lowest.
 - [ ] Wednesday: timed mock 2. Target 70%.
@@ -289,11 +288,11 @@ Five timed mocks. Review is part of the mock: a score with no notebook lines doe
 
 **21 h.** Gate: mock 5 at 80% (40 of 50). This Sunday closes the mock month.
 
-- Mon: one weak objective, coded
-- Wed: timed mock 4
-- Fri: review mock 4
-- Sat: timed mock 5
-- Sun: review, record carry score
+- Mon: one objective, coded.
+- Wed: timed mock 4.
+- Fri: review it.
+- Sat: timed mock 5.
+- Sun: review, and write the score you are carrying into the last three weeks.
 
 - [ ] Monday: the objective that is still under 70% across the mocks so far.
 - [ ] Wednesday: timed mock 4. Target 75%.
@@ -318,11 +317,10 @@ The exam is three weeks after the mock month ends. These weeks repeat mocks and 
 
 **21 h.** Gate: mock 6 at 80%, or a written list of what is still under 75%.
 
-- Mon: re-code repeated mock traps
-- Wed: re-code repeated mock traps
-- Fri: 30 Qs at exam pace, review
-- Sat: timed mock 6
-- Sun: review mock 6
+- Mon and Wed: the rules that showed up in more than one mock, coded again.
+- Fri: 30 mixed questions at exam pace (about 70 minutes) plus review.
+- Sat: timed mock 6.
+- Sun: review.
 
 - [ ] Re-code the repeated traps from the notebook. Two weekday sessions.
 - [ ] Friday: 30 mixed questions at two minutes each, then review.
@@ -350,11 +348,11 @@ If mock 6 was 80% or higher: Mon, Wed, and Sat are notebook and flashcards only,
 
 **About 12 h, then stop.** Saturday is two hours. Sunday 7 Mar is the exam.
 
-- Mon: mock if under 75%, else flashcards
-- Wed: rule sheet, 3 hours
-- Fri: flashcards, stop by 18:00
-- Sat: short review, confirm exam setup
-- Sun: exam
+- Mon: a timed mock only if you are still under 75%. Otherwise flashcards for 3 hours.
+- Wed: rule sheet, 3 hours.
+- Fri: flashcards, stop by 18:00.
+- Sat: two hours in the morning, confirm ID and the test center or the online setup, then stop.
+- Sun: exam.
 
 - [ ] Monday: timed mock 8 only if the last two mocks are not both at 75%. Otherwise the notebook.
 - [ ] Wednesday: one-page rule sheet, out loud.
