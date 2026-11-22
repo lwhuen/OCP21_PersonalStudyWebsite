@@ -376,14 +376,24 @@ def plain_text(fragment):
     return re.sub(r"\s+", " ", text).strip()
 
 
+def toc_skip_title(title):
+    text = title.strip().lower()
+    if text == "what you must know":
+        return True
+    if text.endswith(" answers"):
+        return True
+    return False
+
+
 def page_toc(body):
     heads = []
-    for match in re.finditer(r"<h([12]) id=\"([^\"]+)\">(.*?)</h\1>", body, flags=re.S):
+    for match in re.finditer(r"<h([123]) id=\"([^\"]+)\">(.*?)</h\1>", body, flags=re.S):
         title = plain_text(match.group(3))
         if title:
             heads.append((match.group(1), match.group(2), title))
     if heads and heads[0][0] == "1":
         heads = heads[1:]
+    heads = [(level, anchor, title) for level, anchor, title in heads if not toc_skip_title(title)]
     if not heads:
         return ""
     parts = ['<ul class="toc-list">']
@@ -396,7 +406,8 @@ def page_toc(body):
             parts.append(f'<li class="chapter">{link}<ul>')
             open_chapter = True
         else:
-            parts.append(f"<li>{link}</li>")
+            kind = "topic" if level == "3" else "section"
+            parts.append(f'<li class="{kind}">{link}</li>')
     if open_chapter:
         parts.append("</ul></li>")
     parts.append("</ul>")
@@ -1079,6 +1090,8 @@ article ul:has(> .task) {
 .toc .chapter > a { color: var(--ink); font-weight: 650; }
 .toc .chapter > ul { margin: 0.12rem 0 0.55rem 0.7rem; }
 .toc .chapter > ul a { color: var(--muted); font-size: 0.92rem; }
+.toc .section > a { color: var(--ink); font-weight: 650; font-size: 0.92rem; }
+.toc .topic > a { color: var(--muted); font-size: 0.9rem; }
 .toc a { text-decoration: none; }
 .toc a:hover, .toc a:focus { color: var(--accent); }
 .jump {
@@ -1110,13 +1123,15 @@ article ul:has(> .task) {
 .jump-panel {
   order: 1;
   display: none;
-  width: 13rem;
-  max-height: calc(100vh - 8rem);
+  width: min(20rem, calc(100vw - 1.5rem));
+  max-height: min(72dvh, calc(100vh - 8rem));
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 0.55rem 0.65rem 0.7rem;
+  box-shadow: 0 10px 28px rgba(36, 32, 27, 0.12);
 }
 .jump.open .jump-panel { display: block; }
 .jump-head {
@@ -1134,11 +1149,12 @@ article ul:has(> .task) {
   letter-spacing: 0.04em;
 }
 .jump ul { list-style: none; margin: 0; padding: 0; }
-.jump li { margin: 0.18rem 0; line-height: 1.35; }
+.jump li { margin: 0.16rem 0; line-height: 1.35; }
 .jump .chapter > a { color: var(--ink); font-weight: 650; font-size: 0.82rem; }
-.jump .chapter > ul { margin: 0.08rem 0 0.4rem 0.55rem; }
-.jump .chapter > ul a { color: var(--muted); font-size: 0.78rem; }
-.jump a { text-decoration: none; display: block; }
+.jump .chapter > ul { margin: 0.08rem 0 0.45rem 0.55rem; }
+.jump .section > a { color: var(--ink); font-weight: 650; font-size: 0.78rem; }
+.jump .topic > a { color: var(--muted); font-size: 0.76rem; }
+.jump a { text-decoration: none; display: block; padding: 0.12rem 0; }
 .jump a:hover, .jump a:focus { color: var(--accent); }
 .jump a[aria-current="true"] { color: var(--accent); }
 .pager { display: flex; gap: 0.7rem; margin-top: 2rem; }
@@ -1274,8 +1290,8 @@ article ul:has(> .task) {
   }
   .jump-fab { width: 3rem; height: 3rem; }
   .jump-panel {
-    width: min(16rem, calc(100vw - 1.5rem - env(safe-area-inset-left) - env(safe-area-inset-right)));
-    max-height: min(50dvh, calc(100dvh - 7rem));
+    width: min(20rem, calc(100vw - 1.5rem - env(safe-area-inset-left) - env(safe-area-inset-right)));
+    max-height: min(70dvh, calc(100dvh - 7rem));
   }
 }
 """
@@ -1878,14 +1894,14 @@ def notes_outline(body):
     chapters = []
     current = None
     seen_h1 = 0
-    for match in re.finditer(r"<h([12]) id=\"([^\"]+)\">(.*?)</h\1>", body, flags=re.S):
+    for match in re.finditer(r"<h([123]) id=\"([^\"]+)\">(.*?)</h\1>", body, flags=re.S):
         level, anchor, raw = match.group(1), match.group(2), match.group(3)
+        title = plain_text(raw)
         if level == "1":
             seen_h1 += 1
             if seen_h1 == 1:
                 current = None
                 continue
-            title = plain_text(raw)
             current = {
                 "id": anchor,
                 "title": title,
@@ -1893,7 +1909,7 @@ def notes_outline(body):
                 "parts": [],
             }
             chapters.append(current)
-        elif current is not None:
+        elif current is not None and title and not toc_skip_title(title):
             current["parts"].append(anchor)
     return chapters
 
