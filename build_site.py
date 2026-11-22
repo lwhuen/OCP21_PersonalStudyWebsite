@@ -250,34 +250,32 @@ def render_question(blocks, qid, answer):
         parts.extend(choice_button(letter, body) for letter, body in choices)
         parts.append("</div>")
     if answer_html:
-        parts.append(
-            '<button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案">'
-            '<svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true">'
-            '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>'
-            '<circle cx="12" cy="12" r="3"/></svg>'
-            '<svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true">'
-            '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>'
-            '<circle cx="12" cy="12" r="3"/>'
-            '<path d="M4 4l16 16"/></svg></button>'
-        )
+        parts.append(reveal_button())
         parts.append(f'<div class="answer" hidden>{answer_html}</div>')
     parts.extend(suffix)
     parts.append("</section>")
     return "".join(parts)
 
 
+def reveal_button():
+    return (
+        '<button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案">'
+        '<svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true">'
+        '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>'
+        '<circle cx="12" cy="12" r="3"/></svg>'
+        '<svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true">'
+        '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>'
+        '<circle cx="12" cy="12" r="3"/>'
+        '<path d="M4 4l16 16"/></svg>'
+        '<span class="reveal-label">揭曉答案</span></button>'
+    )
+
+
 def reveal_panel(heading, blocks, qid):
     return (
         heading
         + f'<div class="kept" data-qid="{html.escape(qid)}">'
-        + '<button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案">'
-        + '<svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true">'
-        + '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>'
-        + '<circle cx="12" cy="12" r="3"/></svg>'
-        + '<svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true">'
-        + '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>'
-        + '<circle cx="12" cy="12" r="3"/>'
-        + '<path d="M4 4l16 16"/></svg></button>'
+        + reveal_button()
         + f'<div class="answer" hidden>{"".join(blocks)}</div></div>'
     )
 
@@ -706,7 +704,7 @@ main { flex: 1; min-width: 0; width: 100%; padding: clamp(0.85rem, 2vw, 1.75rem)
 .week-progress small { display: block; margin-top: 0.38rem; color: var(--muted); font-size: 0.75rem; line-height: 1.35; }
 .week-progress .where { display: block; color: var(--ink); font-weight: 650; }
 html.nav-collapsed .place, html.nav-collapsed .week-progress { display: none; }
-article :is(h1, h2) { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+article :is(h1, h2, h3) { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
 .mark {
   flex: none;
   width: 1.85rem;
@@ -720,12 +718,15 @@ article :is(h1, h2) { display: flex; align-items: baseline; justify-content: spa
   border-radius: 999px;
   cursor: pointer;
 }
+h3 .mark { width: 1.65rem; height: 1.65rem; }
+h3 .mark svg { width: 0.9rem; height: 0.9rem; }
 .mark svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .mark .icon-on { display: none; }
 .mark[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
 .mark[aria-pressed="true"] .icon-off { display: none; }
 .mark[aria-pressed="true"] .icon-on { display: block; fill: currentColor; stroke: none; }
-article :is(h1, h2).reached { box-shadow: inset 3px 0 0 var(--accent); padding-left: 0.6rem; }
+article :is(h1, h2, h3).reached { box-shadow: inset 3px 0 0 var(--accent); padding-left: 0.6rem; }
+.place-path { display: block; color: var(--ink); font-weight: 650; margin-top: 0.2rem; line-height: 1.35; }
 .hero h1, article h1 { font-size: 1.85rem; line-height: 1.25; margin: 0 0 0.7rem; font-weight: 700; }
 .kicker { margin: 0 0 0.35rem; color: var(--accent); font-weight: 650; font-size: 0.92rem; }
 article { font-size: 1.0625rem; line-height: 1.8; text-wrap: pretty; }
@@ -758,7 +759,8 @@ pre {
 }
 pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
 .q { margin: 1.5rem 0 1.8rem; }
-.choices { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.75rem 0 0.85rem; }
+.choices { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.75rem 0 0.55rem; }
+.q .reveal, .kept .reveal { margin-top: 0.1rem; }
 .choice { display: flex; align-items: flex-start; gap: 0.7rem; width: 100%; text-align: left; font: inherit; color: inherit; background: #fbf8f3; border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.75rem; cursor: pointer; line-height: 1.5; }
 .choice:hover { border-color: #cfc4b4; }
 .choice[aria-pressed="true"] { background: #eef4f3; border-color: #b7d0cc; }
@@ -768,22 +770,41 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
 .choice-body code { background: transparent; padding: 0; color: inherit; }
 .choice-body .snippet { display: block; white-space: pre-wrap; font-size: 0.92rem; line-height: 1.55; }
 .reveal {
-  width: 2.1rem;
-  height: 2.1rem;
-  padding: 0;
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.15rem;
+  min-height: 2.4rem;
+  padding: 0.4rem 0.95rem 0.4rem 0.75rem;
   border: 1px solid var(--line);
   background: white;
   color: var(--ink);
   border-radius: 999px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 650;
   cursor: pointer;
 }
-.reveal svg { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.reveal svg {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .reveal .icon-hide { display: none; }
+.reveal[aria-expanded="true"] {
+  background: var(--accent-soft);
+  border-color: #b7d0cc;
+  color: var(--accent);
+}
 .reveal[aria-expanded="true"] .icon-show { display: none; }
 .reveal[aria-expanded="true"] .icon-hide { display: block; }
-.reveal:hover, .reveal:focus { background: var(--accent-soft); }
+.reveal:hover, .reveal:focus-visible { background: var(--accent-soft); border-color: #b7d0cc; outline: none; }
+.reveal-label { line-height: 1; }
 .answer { margin-top: 0.7rem; padding: 0.75rem 0.9rem; background: #f6f3ec; border: 1px solid var(--line); border-radius: 10px; }
 .answer > :first-child { margin-top: 0; }
 .answer > :last-child { margin-bottom: 0; }
@@ -1001,9 +1022,10 @@ tbody tr:nth-child(even) { background: #fbf8f3; }
   .weeks { grid-template-columns: 1fr; }
   .hero h1, article h1 { font-size: 1.45rem; }
   article { font-size: 1.05rem; }
-  article :is(h1, h2) { gap: 0.45rem; }
+  article :is(h1, h2, h3) { gap: 0.45rem; }
   .mark { width: 2.25rem; height: 2.25rem; }
-  .reveal { width: 2.4rem; height: 2.4rem; }
+  h3 .mark { width: 2rem; height: 2rem; }
+  .reveal { min-height: 2.6rem; padding: 0.5rem 1.05rem 0.5rem 0.85rem; font-size: 0.95rem; }
   .choice { padding: 0.7rem 0.8rem; }
   .pager { flex-direction: column; }
   .pager a:only-child { max-width: none; }
@@ -1158,6 +1180,23 @@ function headingText(heading) {
   return copy.textContent.replace(/\s+/g, " ").trim();
 }
 
+function placePath(heading) {
+  const heads = [...document.querySelectorAll("article :is(h1, h2, h3)[id]")];
+  const at = heads.indexOf(heading);
+  let chapter = "";
+  let section = "";
+  for (let i = at - 1; i >= 0; i--) {
+    if (!section && heads[i].matches("h2")) section = headingText(heads[i]);
+    if (!chapter && heads[i].matches("h1")) {
+      chapter = headingText(heads[i]);
+      break;
+    }
+  }
+  if (heading.matches("h1")) return "";
+  if (heading.matches("h2")) return chapter;
+  return [chapter, section].filter(Boolean).join(" · ");
+}
+
 function paintPlace() {
   const saved = readPlace();
   [placeBox, placeHome].forEach((box) => {
@@ -1168,7 +1207,8 @@ function paintPlace() {
       return;
     }
     box.hidden = false;
-    box.innerHTML = `<div class="place-head"><p>溫到呢度</p><button type="button" class="place-clear" aria-label="清除"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><a href="${esc(saved.href)}">${esc(saved.heading)}</a><small>${esc(saved.where)}</small>`;
+    const path = saved.path ? `<small class="place-path">${esc(saved.path)}</small>` : "";
+    box.innerHTML = `<div class="place-head"><p>溫到呢度</p><button type="button" class="place-clear" aria-label="清除"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><a href="${esc(saved.href)}">${esc(saved.heading)}</a>${path}<small>${esc(saved.where)}</small>`;
     box.querySelector(".place-clear").addEventListener("click", () => {
       localStorage.removeItem(PLACE_KEY);
       paintPlace();
@@ -1181,7 +1221,7 @@ function paintPlace() {
 function paintMarks() {
   const saved = readPlace();
   document.querySelectorAll("article .mark").forEach((button) => {
-    const heading = button.closest("h1, h2");
+    const heading = button.closest("h1, h2, h3");
     const on = !!(saved && saved.href === fileName() + "#" + heading.id);
     heading.classList.toggle("reached", on);
     button.setAttribute("aria-label", on ? "溫到呢度" : "記低");
@@ -1190,7 +1230,7 @@ function paintMarks() {
   });
 }
 
-document.querySelectorAll("article h1[id], article h2[id]").forEach((heading) => {
+document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "mark";
@@ -1202,6 +1242,7 @@ document.querySelectorAll("article h1[id], article h2[id]").forEach((heading) =>
     const saved = {
       href: fileName() + "#" + heading.id,
       heading: headingText(heading),
+      path: placePath(heading),
       where
     };
     localStorage.setItem(PLACE_KEY, JSON.stringify(saved));
@@ -1370,9 +1411,12 @@ function saveQuestion(host) {
 }
 
 function paintReveal(button, open) {
-  button.setAttribute("aria-label", open ? "收起答案" : "揭曉答案");
+  const label = open ? "收起答案" : "揭曉答案";
+  button.setAttribute("aria-label", label);
   button.setAttribute("aria-expanded", open ? "true" : "false");
-  button.title = open ? "收起答案" : "揭曉答案";
+  button.title = label;
+  const text = button.querySelector(".reveal-label");
+  if (text) text.textContent = label;
 }
 
 document.querySelectorAll(".q").forEach((q) => {
