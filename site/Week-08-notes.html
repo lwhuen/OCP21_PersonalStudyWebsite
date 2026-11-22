@@ -6,7 +6,7 @@
 <script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
 <title>Week 8 notes — I/O, modules, and threads · OCP Java 21</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=26e25e9b78">
+<link rel="stylesheet" href="style.css?v=2778ac834a">
 </head>
 <body>
 <a class="skip" href="#content">跳到本文</a>
@@ -74,12 +74,12 @@
 </table></div>
 <p>Same checklist as the study plan:</p>
 <ul>
-<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> With <code>Path</code> and try-with-resources, read a file, count words, and write a report. One notebook example each for <code>resolve</code>, <code>relativize</code>, and <code>normalize</code>.</li>
-<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> State what <code>transient</code> and <code>serialVersionUID</code> do. A resource bundle in two locales, printing a date and a currency. Search order is full locale, then language, then the base bundle.</li>
-<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Two modules, one <code>exports</code> and one <code>requires</code>, run with <code>java -p</code> and <code>-m</code>. Then a service with <code>provides</code>, <code>with</code>, and <code>uses</code>. Break a missing <code>exports</code> once and save the error.</li>
-<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A counter that loses updates, then the same counter fixed with <code>synchronized</code> or <code>AtomicInteger</code>. Run tasks on a fixed pool and on <code>newVirtualThreadPerTaskExecutor</code>.</li>
-<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> From memory: thread states, <code>Runnable</code> versus <code>Callable</code>, <code>start</code> versus <code>run</code>, <code>shutdown</code> versus <code>shutdownNow</code>. Calling <code>run</code> does not start a thread. <code>Future.get</code> blocks.</li>
-<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Mixed quiz on I/O, locale, modules, and threads at 65%. Write your three weakest topics at the top of the notebook. The book is now a reference, not a reading plan.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button><span class="task-body">With <code>Path</code> and try-with-resources, read a file, count words, and write a report. One notebook example each for <code>resolve</code>, <code>relativize</code>, and <code>normalize</code>.</span></li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button><span class="task-body">State what <code>transient</code> and <code>serialVersionUID</code> do. A resource bundle in two locales, printing a date and a currency. Search order is full locale, then language, then the base bundle.</span></li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button><span class="task-body">Two modules, one <code>exports</code> and one <code>requires</code>, run with <code>java -p</code> and <code>-m</code>. Then a service with <code>provides</code>, <code>with</code>, and <code>uses</code>. Break a missing <code>exports</code> once and save the error.</span></li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button><span class="task-body">A counter that loses updates, then the same counter fixed with <code>synchronized</code> or <code>AtomicInteger</code>. Run tasks on a fixed pool and on <code>newVirtualThreadPerTaskExecutor</code>.</span></li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button><span class="task-body">From memory: thread states, <code>Runnable</code> versus <code>Callable</code>, <code>start</code> versus <code>run</code>, <code>shutdown</code> versus <code>shutdownNow</code>. Calling <code>run</code> does not start a thread. <code>Future.get</code> blocks.</span></li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button><span class="task-body">Mixed quiz on I/O, locale, modules, and threads at 65%. Write your three weakest topics at the top of the notebook. The book is now a reference, not a reading plan.</span></li>
 </ul>
 <p>Predict each listing before you run it. Each miss goes in the notebook as one rule and a five-line program.</p>
 <p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
@@ -369,6 +369,6 @@ public class Race {
 </main>
 </div>
 <nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
-<script src="search.js?v=26e25e9b78"></script>
+<script src="search.js?v=2778ac834a"></script>
 </body>
 </html>
