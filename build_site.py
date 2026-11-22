@@ -485,10 +485,21 @@ def sidebar(current):
                 f'<a href="{dest}"{current_attr}>{html.escape(label)}</a>'
             )
         kind = "pair" if name.startswith("第") else "stack"
-        groups.append(
-            f'<section class="{kind}"><h2>{html.escape(name)}</h2>'
-            f'<div class="links">{"".join(links)}</div></section>'
-        )
+        if kind == "pair":
+            groups.append(
+                f'<section class="pair" data-week="{html.escape(name)}">'
+                f'<div class="pair-top"><h2>{html.escape(name)}</h2>'
+                f'<button type="button" class="week-done" aria-pressed="false" '
+                f'aria-label="標記{html.escape(name)}完成" title="完成本週">'
+                f'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>'
+                f'</button></div>'
+                f'<div class="links">{"".join(links)}</div></section>'
+            )
+        else:
+            groups.append(
+                f'<section class="{kind}"><h2>{html.escape(name)}</h2>'
+                f'<div class="links">{"".join(links)}</div></section>'
+            )
     mark = ' aria-current="page"' if current == "index.html" else ""
     return f"""<aside class="side">
 <div class="side-head">
@@ -620,7 +631,7 @@ body {
 .side-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0 0.15rem; }
 .brand { display: inline-flex; align-items: center; gap: 0.45rem; color: var(--ink); font-weight: 700; text-decoration: none; }
 .brand img { width: 1.4rem; height: 1.4rem; display: block; }
-button, .choice, .mark, .reveal, .fold, .jump-fab, .box { touch-action: manipulation; }
+button, .choice, .mark, .reveal, .fold, .jump-fab, .box, .week-done { touch-action: manipulation; }
 .fold { width: 2rem; height: 2rem; padding: 0; display: inline-grid; place-items: center; border: 1px solid var(--line); background: white; color: var(--ink); border-radius: 8px; cursor: pointer; }
 .fold svg { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .fold .icon-shut { display: none; }
@@ -664,13 +675,73 @@ html.nav-collapsed .fold { background: var(--accent); color: white; border-color
 .side .links a { display: block; padding: 0.32rem 0.45rem; color: var(--ink); text-decoration: none; border-radius: 7px; font-size: 0.92rem; }
 .side .links a:hover, .side .links a:focus { background: #efe8dc; }
 .side .links a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); font-weight: 650; }
-.pair { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.15rem; margin-top: 0.05rem; border-radius: 8px; }
-.pair h2 { margin: 0; padding: 0.32rem 0.45rem; font-size: 0.84rem; letter-spacing: 0; color: var(--ink); }
-.pair .links { display: flex; gap: 0; }
+.pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  margin-top: 0.05rem;
+  padding: 0.2rem 0.2rem 0.28rem;
+  border-radius: 8px;
+}
+.pair-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-height: 1.9rem;
+}
+.pair h2 {
+  margin: 0;
+  padding: 0.28rem 0.35rem;
+  font-size: 0.84rem;
+  letter-spacing: 0;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.pair .links { display: flex; flex-wrap: wrap; gap: 0; padding: 0 0.15rem; }
 .pair .links a { background: transparent; border: 0; padding: 0.28rem 0.38rem; font-size: 0.78rem; color: var(--muted); }
 .pair .links a:hover, .pair .links a:focus { background: transparent; color: var(--ink); }
 .pair .links a[aria-current="page"] { background: transparent; color: var(--accent); }
 .pair:has(a[aria-current="page"]) { background: var(--accent-soft); }
+.week-done {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin: 0 0.15rem 0 0;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 1.5px solid #cfc4b4;
+  border-radius: 7px;
+  background: white;
+  color: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.week-done svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.week-done:hover, .week-done:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  outline: none;
+}
+.week-done:focus-visible { box-shadow: 0 0 0 3px rgba(14, 74, 72, 0.14); }
+.week-done[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.pair.done h2 { color: var(--muted); }
+.pair.done .links a { color: #a39e97; }
+.pair.done:not(:has(a[aria-current="page"])) { background: transparent; }
 main {
   flex: 1;
   min-width: 0;
@@ -1088,8 +1159,7 @@ article ul:has(> .task) {
 .weeks a:hover, .weeks a:focus { background: var(--accent); color: white; }
 @media (max-width: 1100px) {
   :root { --side: 13.5rem; }
-  .pair { grid-template-columns: 1fr; }
-  .pair .links { padding: 0 0.2rem 0.2rem 0.45rem; }
+  .pair .links { padding: 0 0.15rem 0.1rem; }
 }
 @media (max-width: 860px) {
   html.nav-collapsed .place:not([hidden]),
@@ -1143,6 +1213,8 @@ article ul:has(> .task) {
     display: inline-flex;
     align-items: center;
   }
+  .week-done { width: 2.15rem; height: 2.15rem; }
+  .week-done svg { width: 1.05rem; height: 1.05rem; }
   .side .links a { padding: 0.55rem 0.55rem; min-height: 2.4rem; }
   main {
     width: 100%;
@@ -1320,6 +1392,27 @@ try {
       const on = button.classList.toggle("on");
       button.setAttribute("aria-pressed", on ? "true" : "false");
       localStorage.setItem(key, on ? "1" : "0");
+    });
+  });
+} catch (error) {}
+
+try {
+  document.querySelectorAll(".pair[data-week]").forEach((section) => {
+    const week = section.dataset.week;
+    const key = "ocp-week-done:" + week;
+    const button = section.querySelector(".week-done");
+    if (!button) return;
+    const paint = (on) => {
+      section.classList.toggle("done", on);
+      button.setAttribute("aria-pressed", on ? "true" : "false");
+      button.title = on ? "取消完成本週" : "完成本週";
+      button.setAttribute("aria-label", on ? "取消" + week + "完成" : "標記" + week + "完成");
+    };
+    paint(localStorage.getItem(key) === "1");
+    button.addEventListener("click", () => {
+      const on = button.getAttribute("aria-pressed") !== "true";
+      localStorage.setItem(key, on ? "1" : "0");
+      paint(on);
     });
   });
 } catch (error) {}

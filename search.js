@@ -116,6 +116,27 @@ try {
   });
 } catch (error) {}
 
+try {
+  document.querySelectorAll(".pair[data-week]").forEach((section) => {
+    const week = section.dataset.week;
+    const key = "ocp-week-done:" + week;
+    const button = section.querySelector(".week-done");
+    if (!button) return;
+    const paint = (on) => {
+      section.classList.toggle("done", on);
+      button.setAttribute("aria-pressed", on ? "true" : "false");
+      button.title = on ? "取消完成本週" : "完成本週";
+      button.setAttribute("aria-label", on ? "取消" + week + "完成" : "標記" + week + "完成");
+    };
+    paint(localStorage.getItem(key) === "1");
+    button.addEventListener("click", () => {
+      const on = button.getAttribute("aria-pressed") !== "true";
+      localStorage.setItem(key, on ? "1" : "0");
+      paint(on);
+    });
+  });
+} catch (error) {}
+
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
 const placeBox = document.querySelector("#place");
