@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 6 notes — collections and generics · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html" aria-current="page">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 6 週 · 筆記</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li class="chapter"><a href="#chapter-1-list-and-remove">Chapter 1 — List and remove</a><ul><li><a href="#what-you-must-know">What you must know</a></li><li><a href="#chapter-1-questions">Chapter 1 questions</a></li></ul></li><li class="chapter"><a href="#chapter-2-set-map-null-and-order">Chapter 2 — Set , Map , null, and order</a><ul><li><a href="#what-you-must-know_1">What you must know</a></li><li><a href="#chapter-2-questions">Chapter 2 questions</a></li></ul></li><li class="chapter"><a href="#chapter-3-deque-sequenced-collections-and-sorting">Chapter 3 — Deque , sequenced collections, and sorting</a><ul><li><a href="#what-you-must-know_2">What you must know</a></li><li><a href="#chapter-3-questions">Chapter 3 questions</a></li></ul></li><li class="chapter"><a href="#chapter-4-generics">Chapter 4 — Generics</a><ul><li><a href="#what-you-must-know_3">What you must know</a></li><li><a href="#chapter-4-questions">Chapter 4 questions</a></li></ul></li><li class="chapter"><a href="#rules-to-copy-onto-one-card">Rules to copy onto one card</a><ul></ul></li></ul></details>
+<article>
+<h1 id="week-6-notes-collections-and-generics">Week 6 notes — collections and generics</h1>
+<p><strong>28 Dec 2026–3 Jan 2027. 15 hours.</strong> Friday 1 Jan is off. This file follows Week 6 of the study plan. The gate is the collections and generics questions at <strong>70%</strong> (14 of the 20 questions in this file).</p>
+<p>Monday and Wednesday are 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Friday is a day off. Saturday is 6 hours. Sunday is 3 hours: generics, then the questions, then the score. Monday’s first 20 minutes are the Week 5 misses.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>What the plan says</th>
+<th>Where it is in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td><code>List</code>, and the <code>remove</code> overload trap</td>
+<td>Chapter 1, <code>Removes</code>, questions Q1–Q4</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td><code>Set</code>, <code>Map</code>, null rules, and order</td>
+<td>Chapter 2, <code>SameData</code>, questions Q1–Q4</td>
+</tr>
+<tr>
+<td>Fri 1 Jan</td>
+<td>Off</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Sat</td>
+<td><code>Deque</code>, sequenced methods, <code>Comparable</code>, and <code>Comparator</code></td>
+<td>Chapter 3, <code>Lines</code>, <code>Names</code>, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Sun</td>
+<td>Generics, then the questions</td>
+<td>Chapter 4, questions Q1–Q6, then score all 20</td>
+</tr>
+</tbody>
+</table></div>
+<p>Same checklist as the study plan:</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Show <code>list.remove(1)</code> versus <code>list.remove(Integer.valueOf(1))</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> The same data in a <code>List</code>, a <code>HashSet</code>, a <code>TreeSet</code>, and a <code>HashMap</code>. Write down what is ordered and what allows null.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Use a <code>Deque</code> as a stack and as a queue. Call <code>getFirst</code>, <code>getLast</code>, <code>addFirst</code>, <code>addLast</code>, and <code>reversed</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Sort with <code>Comparable</code> and with <code>Comparator.comparing</code> followed by <code>thenComparing</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> For <code>? extends</code> and for <code>? super</code>, say whether you can add and whether you can get. One example of each.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Collections and generics questions at 70%.</li>
+</ul>
+<p>Predict each listing before you run it. Each miss goes in the notebook as one rule and a five-line program.</p>
+<p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
+<hr>
+<h1 id="chapter-1-list-and-remove">Chapter 1 — <code>List</code> and <code>remove</code></h1>
+<blockquote>
+<p><strong>必睇</strong>　第 9 章 Collections and Generics，pp. 482–495：“Using Common Collection APIs” 同 “Using the List Interface”。</p>
+<p><strong>唔使睇</strong>　“Working with Generics”（p. 526）留星期日。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Monday</strong> is this chapter, <code>Removes</code>, and questions Q1–Q4.</p>
+<h2 id="what-you-must-know">What you must know</h2>
+<p><code>List</code> keeps insertion order and allows duplicates. <code>list.get(i)</code> and <code>list.remove(i)</code> use an index when the argument is an <code>int</code>.</p>
+<p><code>remove</code> is overloaded. <code>remove(int)</code> deletes by index. <code>remove(Object)</code> deletes the first element that <code>equals</code> the argument. For a <code>List&lt;Integer&gt;</code>, the literal <code>1</code> is an <code>int</code>, so <code>remove(1)</code> deletes index 1. <code>remove(Integer.valueOf(1))</code> deletes the value 1.</p>
+<p><code>List.of</code> returns an immutable list. It rejects <code>null</code> and it rejects <code>add</code> or <code>remove</code>. <code>Arrays.asList</code> is fixed-size and backed by the array: <code>set</code> works, <code>add</code> and <code>remove</code> throw <code>UnsupportedOperationException</code>.</p>
+<h3 id="removes"><code>Removes</code></h3>
+<pre><code class="language-java">import java.util.*;
+
+public class Removes {
+    public static void main(String[] args) {
+        List&lt;Integer&gt; list = new ArrayList&lt;&gt;(List.of(1, 2, 3));
+        list.remove(1);
+        System.out.println(list);
+        list.remove(Integer.valueOf(1));
+        System.out.println(list);
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">[1, 3]
+[3]
+</code></pre>
+<p><code>remove(1)</code> deleted the element at index 1, which was <code>2</code>. The list was <code>[1, 3]</code>. <code>remove(Integer.valueOf(1))</code> then deleted the value <code>1</code>.</p>
+<p>Monday’s questions are Q1–Q4.</p>
+<h2 id="chapter-1-questions">Chapter 1 questions</h2>
+<section class="q" id="chapter-1-questions-Q1" data-qid="chapter-1-questions-Q1" data-multi="0" data-key="C"><p><strong>Q1.</strong> What is the list after <code>remove(1)</code> in <code>Removes</code>, before the second remove?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[1, 2, 3]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[2, 3]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[1, 3]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> The <code>int</code> overload deletes an index. Index 1 held <code>2</code>, so <code>[1, 2, 3]</code> becomes <code>[1, 3]</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q2" data-qid="chapter-1-questions-Q2" data-multi="0" data-key="A"><p><strong>Q2.</strong> <code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(List.of(1, 2, 3));</code> What does <code>list.remove(Integer.valueOf(2))</code> leave?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[1, 3]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[1, 2]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[1, 2, 3]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It throws <code>IndexOutOfBoundsException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>Integer.valueOf(2)</code> selects <code>remove(Object)</code>. The value <code>2</code> is deleted. Index 2 is not used.</p></div></section>
+<section class="q" id="chapter-1-questions-Q3" data-qid="chapter-1-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What is the result of <code>List.of(1, 2).add(3)</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The list becomes <code>[1, 2, 3]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">An <code>UnsupportedOperationException</code> is thrown</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An <code>IndexOutOfBoundsException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>List.of</code> returns a list that cannot be changed. <code>add</code> throws <code>UnsupportedOperationException</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q4" data-qid="chapter-1-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> <code>String[] names = {"Ada"}; List&lt;String&gt; list = Arrays.asList(names);</code> Which call succeeds?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>list.add("Bea")</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>list.set(0, "Bea")</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>list.remove(0)</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">None of them</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Arrays.asList</code> can replace an element with <code>set</code>. <code>add</code> and <code>remove</code> would change the size, and this list refuses that.</p><hr></div></section>
+<h1 id="chapter-2-set-map-null-and-order">Chapter 2 — <code>Set</code>, <code>Map</code>, null, and order</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 9 章 “Using the Set Interface”，pp. 496–497。“Using the Map Interface”，pp. 502–508。</p>
+<p><strong>唔使睇</strong>　Queue / Deque（pp. 498–501）係星期六。</p>
+</blockquote>
+<p><strong>Wednesday</strong> is this chapter, <code>SameData</code>, and questions Q1–Q4.</p>
+<h2 id="what-you-must-know_1">What you must know</h2>
+<p>Write this table from memory before you run <code>SameData</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Order</th>
+<th>Null</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ArrayList</code></td>
+<td>Insertion order, duplicates allowed</td>
+<td>Null elements allowed</td>
+</tr>
+<tr>
+<td><code>HashSet</code></td>
+<td>No order you can rely on</td>
+<td>One null element</td>
+</tr>
+<tr>
+<td><code>TreeSet</code></td>
+<td>Sorted</td>
+<td>No null when it uses natural order</td>
+</tr>
+<tr>
+<td><code>HashMap</code></td>
+<td>No key order you can rely on</td>
+<td>One null key, and null values</td>
+</tr>
+<tr>
+<td><code>TreeMap</code></td>
+<td>Keys sorted</td>
+<td>No null key when it uses natural order</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>HashSet</code> and <code>HashMap</code> use <code>hashCode</code> and <code>equals</code>. <code>TreeSet</code> and <code>TreeMap</code> use <code>Comparable</code> or a <code>Comparator</code>. A <code>TreeSet</code> of <code>String</code> prints in alphabetical order.</p>
+<p><code>Map</code> keys are unique by <code>equals</code>. Putting the same key again replaces the value. <code>get</code> on a missing key returns <code>null</code>. A null value that was stored also returns <code>null</code>, so <code>containsKey</code> is the test for a missing key.</p>
+<h3 id="samedata"><code>SameData</code></h3>
+<pre><code class="language-java">import java.util.*;
+
+public class SameData {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = new ArrayList&lt;&gt;(List.of(&quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;));
+        Set&lt;String&gt; hash = new HashSet&lt;&gt;(list);
+        Set&lt;String&gt; tree = new TreeSet&lt;&gt;(list);
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;b&quot;, 1);
+        map.put(&quot;a&quot;, 2);
+        map.put(&quot;c&quot;, 3);
+        map.put(&quot;a&quot;, 9);
+        System.out.println(list);
+        System.out.println(hash.size());
+        System.out.println(tree);
+        System.out.println(map.get(&quot;a&quot;));
+    }
+}
+</code></pre>
+<p>The run prints the list <code>[b, a, c, a]</code>, the hash size <code>3</code>, the tree <code>[a, b, c]</code>, and the map value <code>9</code>. The hash set’s own order is not part of the result. The size is. The second <code>put</code> of <code>"a"</code> replaced <code>2</code> with <code>9</code>.</p>
+<p>Wednesday’s questions are Q1–Q4.</p>
+<h2 id="chapter-2-questions">Chapter 2 questions</h2>
+<section class="q" id="chapter-2-questions-Q1" data-qid="chapter-2-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What does <code>SameData</code> print for the <code>TreeSet</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[b, a, c, a]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[a, b, c]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[b, a, c]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>TreeSet</code> sorts the elements and drops the duplicate <code>"a"</code>. The print is <code>[a, b, c]</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q2" data-qid="chapter-2-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> What is <code>map.get("a")</code> after the two <code>put</code> calls for <code>"a"</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>9</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> One key has one value. The second <code>put</code> replaces <code>2</code> with <code>9</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q3" data-qid="chapter-2-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> Does <code>new TreeSet&lt;String&gt;().add(null)</code> succeed?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes. A set may hold one null</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes. <code>TreeSet</code> sorts null first</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. Natural order has no place for null, and the call throws <code>NullPointerException</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>TreeSet</code> with natural ordering compares elements. Comparing to <code>null</code> throws <code>NullPointerException</code>. A <code>HashSet</code> can hold one <code>null</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q4" data-qid="chapter-2-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> A <code>HashMap</code> already contains the key <code>null</code>. What is the result of a second <code>put(null, 1)</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It throws <code>NullPointerException</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It stores a second null key</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It replaces the value for the one null key</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>HashMap</code> allows one null key. Putting that key again replaces the value.</p><hr></div></section>
+<h1 id="chapter-3-deque-sequenced-collections-and-sorting">Chapter 3 — <code>Deque</code>, sequenced collections, and sorting</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 9 章 pp. 498–501（Queue 同 Deque）、pp. 509–525（sorting、sequenced collections、“Reviewing Collection Types”）。</p>
+<p><strong>唔使睇</strong>　generics 仍然留星期日。</p>
+</blockquote>
+<p><strong>Saturday</strong> is 6 hours: this chapter, <code>Lines</code>, <code>Names</code>, and questions Q1–Q6.</p>
+<h2 id="what-you-must-know_2">What you must know</h2>
+<p><code>Deque</code> is a double-ended queue. As a stack, <code>push</code> and <code>pop</code> use the front. As a queue, <code>offer</code> adds at the back and <code>poll</code> removes from the front. <code>ArrayDeque</code> does not allow null elements.</p>
+<p>Java 21 sequenced collections add <code>addFirst</code>, <code>addLast</code>, <code>getFirst</code>, <code>getLast</code>, <code>removeFirst</code>, <code>removeLast</code>, and <code>reversed</code>. <code>reversed</code> returns a reverse-ordered view. <code>List</code>, <code>Deque</code>, <code>SortedSet</code>, and <code>LinkedHashSet</code> are sequenced. <code>HashSet</code> is not.</p>
+<p><code>Comparable.compareTo</code> defines a class’s natural order. The sign is negative, zero, or positive, in the same style as Week 2’s <code>Arrays.compare</code>. <code>Comparator.comparing</code> builds an order from a method. <code>thenComparing</code> breaks ties with a second order. Sort a <code>List</code> with <code>list.sort(comparator)</code>.</p>
+<h3 id="lines"><code>Lines</code></h3>
+<pre><code class="language-java">import java.util.*;
+
+public class Lines {
+    public static void main(String[] args) {
+        Deque&lt;String&gt; stack = new ArrayDeque&lt;&gt;();
+        stack.push(&quot;a&quot;);
+        stack.push(&quot;b&quot;);
+        System.out.print(stack.pop());
+        System.out.print(stack.pop());
+
+        Deque&lt;String&gt; queue = new ArrayDeque&lt;&gt;();
+        queue.offer(&quot;a&quot;);
+        queue.offer(&quot;b&quot;);
+        System.out.print(queue.poll());
+        System.out.print(queue.poll());
+
+        Deque&lt;String&gt; seq = new ArrayDeque&lt;&gt;();
+        seq.addLast(&quot;a&quot;);
+        seq.addFirst(&quot;b&quot;);
+        System.out.print(seq.getFirst());
+        System.out.print(seq.getLast());
+        System.out.println(seq.reversed());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">baabba[a, b]
+</code></pre>
+<p>Read it as <code>ba</code>, then <code>ab</code>, then <code>ba</code>, then <code>[a, b]</code>. The stack pops <code>b</code> then <code>a</code>. The queue polls <code>a</code> then <code>b</code>. After <code>addLast("a")</code> and <code>addFirst("b")</code>, the first element is <code>b</code> and the last is <code>a</code>. The reversed view prints <code>[a, b]</code>.</p>
+<h3 id="names"><code>Names</code></h3>
+<pre><code class="language-java">import java.util.*;
+
+public class Names {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = new ArrayList&lt;&gt;(List.of(&quot;Ada&quot;, &quot;Bea&quot;, &quot;Cy&quot;));
+        names.sort(Comparator.comparing(String::length).thenComparing(Comparator.naturalOrder()));
+        System.out.println(names);
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">[Cy, Ada, Bea]
+</code></pre>
+<p><code>Cy</code> has length 2, so it comes first. <code>Ada</code> and <code>Bea</code> both have length 3, so natural alphabetical order puts <code>Ada</code> before <code>Bea</code>.</p>
+<p>Saturday’s questions are Q1–Q6.</p>
+<h2 id="chapter-3-questions">Chapter 3 questions</h2>
+<section class="q" id="chapter-3-questions-Q1" data-qid="chapter-3-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> A stack is pushed <code>"a"</code> then <code>"b"</code>. What does the first <code>pop</code> return?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>b</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>push</code> puts the element at the front. <code>pop</code> removes that front element. <code>b</code> was pushed last, so it comes off first.</p></div></section>
+<section class="q" id="chapter-3-questions-Q2" data-qid="chapter-3-questions-Q2" data-multi="0" data-key="A"><p><strong>Q2.</strong> A queue is offered <code>"a"</code> then <code>"b"</code>. What does the first <code>poll</code> return?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>b</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It throws <code>NoSuchElementException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>offer</code> adds at the back. <code>poll</code> removes from the front. <code>a</code> was offered first. <code>poll</code> on an empty deque returns <code>null</code>. <code>pop</code> on an empty deque throws <code>NoSuchElementException</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q3" data-qid="chapter-3-questions-Q3" data-multi="0" data-key="B"><p><strong>Q3.</strong> <code>addLast("a")</code> then <code>addFirst("b")</code>. What are <code>getFirst</code> and <code>getLast</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code> then <code>b</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>b</code> then <code>a</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>a</code> then <code>a</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile on a <code>Deque</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>a</code> is at the back. <code>b</code> is then placed at the front. <code>getFirst</code> is <code>b</code> and <code>getLast</code> is <code>a</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q4" data-qid="chapter-3-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> What does <code>seq.reversed()</code> print after those two adds?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[b, a]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[a, b]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[a]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The deque’s own order is <code>b</code>, <code>a</code>. The reversed view is <code>[a, b]</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q5" data-qid="chapter-3-questions-Q5" data-multi="0" data-key="C"><p><strong>Q5.</strong> What does <code>Names</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[Ada, Bea, Cy]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[Cy, Bea, Ada]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[Cy, Ada, Bea]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>[Ada, Cy, Bea]</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> Length is the first key, so <code>Cy</code> leads. Equal lengths use alphabetical order, so <code>Ada</code> precedes <code>Bea</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q6" data-qid="chapter-3-questions-Q6" data-multi="0" data-key="B"><p><strong>Q6.</strong> <code>compareTo</code> returns a negative number. Where does this object belong relative to the argument?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">After the argument</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Before the argument</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">At the same position, and <code>equals</code> must be true</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The sort throws <code>IllegalArgumentException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> A negative <code>compareTo</code> means this object sorts before the argument. A zero result does not by itself prove <code>equals</code>.</p><hr></div></section>
+<h1 id="chapter-4-generics">Chapter 4 — Generics</h1>
+<blockquote>
+<p><strong>必睇</strong>　“Working with Generics”，pp. 526–542，包括 Summary 同 Exam Essentials。</p>
+<p><strong>唔使睇</strong>　Review Questions（p. 543 起）唔使做。</p>
+</blockquote>
+<p><strong>Sunday</strong> is 3 hours. The first 20 minutes are Saturday’s misses. Then this chapter, questions Q1–Q6, and the score.</p>
+<h2 id="what-you-must-know_3">What you must know</h2>
+<p>A generic class stores a type parameter, such as <code>List&lt;String&gt;</code>. The compiler checks the type. At runtime the parameter is erased, so <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code> are both just <code>List</code>. You cannot overload two methods that erase to the same signature.</p>
+<p><code>List&lt;? extends Number&gt;</code> is a producer. You can <code>get</code> a <code>Number</code>. You cannot <code>add</code> an <code>Integer</code> or a <code>Double</code>, because the list might be a <code>List&lt;Integer&gt;</code> or a <code>List&lt;Double&gt;</code>. <code>null</code> is the one reference you may add.</p>
+<p><code>List&lt;? super Integer&gt;</code> is a consumer. You can <code>add</code> an <code>Integer</code>. <code>get</code> returns <code>Object</code>, because the list might be a <code>List&lt;Integer&gt;</code>, a <code>List&lt;Number&gt;</code>, or a <code>List&lt;Object&gt;</code>.</p>
+<p>Remember it as: <code>extends</code> lets you get, <code>super</code> lets you add. An unbounded <code>?</code> lets you get <code>Object</code> and lets you add only <code>null</code>.</p>
+<pre><code class="language-java">List&lt;? extends Number&gt; nums = new ArrayList&lt;Integer&gt;();
+Number n = nums.size() == 0 ? null : nums.get(0);
+List&lt;? super Integer&gt; sink = new ArrayList&lt;Number&gt;();
+sink.add(1);
+Object got = sink.get(0);
+</code></pre>
+<p><code>got</code> is the <code>Integer</code> <code>1</code>, seen through an <code>Object</code> variable. <code>nums.add(1)</code> does not compile.</p>
+<h2 id="chapter-4-questions">Chapter 4 questions</h2>
+<section class="q" id="chapter-4-questions-Q1" data-qid="chapter-4-questions-Q1" data-multi="0" data-key="C"><p><strong>Q1.</strong> <code>List&lt;? extends Number&gt; nums = new ArrayList&lt;Integer&gt;();</code> Does <code>nums.add(1)</code> compile?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, but only because <code>1</code> is an <code>Integer</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It compiles and throws <code>ClassCastException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>? extends Number</code> might be a <code>List&lt;Double&gt;</code>. Adding an <code>Integer</code> is rejected at compile time.</p></div></section>
+<section class="q" id="chapter-4-questions-Q2" data-qid="chapter-4-questions-Q2" data-multi="0" data-key="C"><p><strong>Q2.</strong> <code>List&lt;? super Integer&gt; sink = new ArrayList&lt;Number&gt;();</code> What is the compile-time type of <code>sink.get(0)</code> after <code>sink.add(1)</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>Integer</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>Number</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>Object</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The <code>get</code> does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>? super Integer</code> might be a <code>List&lt;Object&gt;</code> or a <code>List&lt;Number&gt;</code>. <code>get</code> is typed as <code>Object</code>. The <code>add</code> of an <code>Integer</code> is legal.</p></div></section>
+<section class="q" id="chapter-4-questions-Q3" data-qid="chapter-4-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> Does this compile?</p><pre><code class="language-java">void show(List&lt;String&gt; a) {}
+void show(List&lt;Integer&gt; a) {}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, because the type arguments differ</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. Erasure gives both methods the same signature</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. A method cannot take a <code>List</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> After erasure both methods are <code>show(List)</code>. The class does not compile.</p></div></section>
+<section class="q" id="chapter-4-questions-Q4" data-qid="chapter-4-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> What can you add to a <code>List&lt;?&gt;</code> besides leaving it unchanged?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Any <code>Object</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Only <code>null</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Only <code>String</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Nothing, including <code>null</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> An unbounded wildcard hides the element type. <code>null</code> is the only reference that is safe to add. <code>get</code> returns <code>Object</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q5" data-qid="chapter-4-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> Which assignment compiles?</p><pre><code class="language-java">List&lt;String&gt; words = new ArrayList&lt;&gt;();
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>List&lt;Object&gt; objs = words;</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>List&lt;? extends CharSequence&gt; objs = words;</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>List&lt;CharSequence&gt; objs = words;</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>List&lt;? super Object&gt; objs = words;</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> A <code>List&lt;String&gt;</code> is a <code>List&lt;? extends CharSequence&gt;</code>. It is not a <code>List&lt;Object&gt;</code>, a <code>List&lt;CharSequence&gt;</code>, or a <code>List&lt;? super Object&gt;</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q6" data-qid="chapter-4-questions-Q6" data-multi="0" data-key="B"><p><strong>Q6.</strong> <code>TreeSet&lt;String&gt;</code> natural order versus <code>HashSet</code>. Which statement is true?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Both print elements in insertion order</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>TreeSet</code> is sorted. <code>HashSet</code> has no order you can rely on</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Both reject duplicate <code>equals</code> matches and both allow one null</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>HashSet</code> rejects null and <code>TreeSet</code> allows one</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>TreeSet</code> sorts. <code>HashSet</code> does not promise an order. <code>HashSet</code> allows one null. A naturally ordered <code>TreeSet</code> does not.</p><p>Score Chapter 1 (4), Chapter 2 (4), Chapter 3 (6), and Chapter 4 (6). <strong>14 or more</strong> of the 20 questions is the gate. Every miss becomes one rule and a five-line program before Monday of Week 7.</p><hr></div></section>
+<h1 id="rules-to-copy-onto-one-card">Rules to copy onto one card</h1>
+<ul>
+<li><code>remove(int)</code> deletes an index. <code>remove(Object)</code> deletes a value. On <code>List&lt;Integer&gt;</code>, <code>remove(1)</code> is the index.</li>
+<li><code>List.of</code> rejects null and rejects modification. <code>Arrays.asList</code> allows <code>set</code> and refuses <code>add</code> and <code>remove</code>.</li>
+<li><code>HashSet</code> and <code>HashMap</code> have no reliable order. <code>TreeSet</code> and <code>TreeMap</code> are sorted. One null key is legal in <code>HashMap</code> and illegal in a naturally ordered <code>TreeMap</code>.</li>
+<li>A stack pops the last push. A queue polls the first offer. <code>getFirst</code> and <code>getLast</code> read the ends. <code>reversed</code> is a reverse view.</li>
+<li><code>comparing</code> then <code>thenComparing</code> sorts by the first key and breaks ties with the second. A negative <code>compareTo</code> sorts first.</li>
+<li><code>? extends</code> can get and cannot add. <code>? super</code> can add and <code>get</code> returns <code>Object</code>. Overloads that erase to the same signature do not compile.</li>
+</ul>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-05-glossary.html"><small>上一篇</small>第 5 週 · 詞彙</a>
+<a class="next" href="Week-06-glossary.html"><small>下一篇</small>第 6 週 · 詞彙</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 7 notes — lambdas and streams · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html" aria-current="page">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 7 週 · 筆記</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li class="chapter"><a href="#chapter-1-lambda-syntax">Chapter 1 — Lambda syntax</a><ul><li><a href="#what-you-must-know">What you must know</a></li><li><a href="#eight-rewrites">Eight rewrites</a></li><li><a href="#chapter-1-questions">Chapter 1 questions</a></li></ul></li><li class="chapter"><a href="#chapter-2-functional-interfaces">Chapter 2 — Functional interfaces</a><ul><li><a href="#what-you-must-know_1">What you must know</a></li><li><a href="#name-these-15">Name these 15</a></li><li><a href="#chapter-2-questions">Chapter 2 questions</a></li></ul></li><li class="chapter"><a href="#chapter-3-optional">Chapter 3 — Optional</a><ul><li><a href="#what-you-must-know_2">What you must know</a></li><li><a href="#chapter-3-questions">Chapter 3 questions</a></li></ul></li><li class="chapter"><a href="#chapter-4-pipelines">Chapter 4 — Pipelines</a><ul><li><a href="#twelve-pipelines">Twelve pipelines</a></li><li><a href="#chapter-4-questions">Chapter 4 questions</a></li></ul></li><li class="chapter"><a href="#chapter-5-groupingby-and-primitive-streams">Chapter 5 — groupingBy and primitive streams</a><ul><li><a href="#what-you-must-know_3">What you must know</a></li><li><a href="#chapter-5-questions">Chapter 5 questions</a></li></ul></li><li class="chapter"><a href="#rules-to-copy-onto-one-card">Rules to copy onto one card</a><ul></ul></li></ul></details>
+<article>
+<h1 id="week-7-notes-lambdas-and-streams">Week 7 notes — lambdas and streams</h1>
+<p><strong>4–10 Jan 2027. 25 hours.</strong> Weekend days are 8 hours. This file follows Week 7 of the study plan. The gate is the 30 stream questions at <strong>70%</strong> (21 of 30). Under <strong>60%</strong> (under 18) means the first days of the mock month are streams, coded, before any other objective.</p>
+<p>Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 8 hours each. The extra two hours are questions. Monday’s first 20 minutes are the Week 6 misses.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>What the plan says</th>
+<th>Where it is in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td>Lambda syntax and effectively final variables</td>
+<td>Chapter 1, the eight rewrites, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>The six functional interfaces and method references</td>
+<td>Chapter 2, the 15 names, questions Q7–Q12</td>
+</tr>
+<tr>
+<td>Fri</td>
+<td><code>Optional</code>, including <code>orElse</code> versus <code>orElseGet</code></td>
+<td>Chapter 3, <code>Opts</code>, questions Q13–Q18</td>
+</tr>
+<tr>
+<td>Sat (8 h)</td>
+<td>Pipelines, on paper first</td>
+<td>Chapter 4, the 12 pipelines, questions Q19–Q24</td>
+</tr>
+<tr>
+<td>Sun (8 h)</td>
+<td><code>groupingBy</code>, primitive streams, 30 questions</td>
+<td>Chapter 5, questions Q25–Q30, then score all 30</td>
+</tr>
+</tbody>
+</table></div>
+<p>Same checklist as the study plan:</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Rewrite eight anonymous classes as lambdas, then as method references: static, bound, unbound, and constructor.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Name the functional interface from a snippet, 15 out of 15. Include a primitive form such as <code>IntPredicate</code> or <code>ToIntFunction</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>Optional</code> <code>map</code>, <code>flatMap</code>, <code>orElse</code>, and <code>orElseGet</code>. Show that <code>orElse</code> evaluates its argument even when a value is present.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> On paper, 12 pipelines using <code>filter</code>, <code>map</code>, <code>flatMap</code>, <code>sorted</code>, <code>distinct</code>, <code>limit</code>, <code>reduce</code>, and <code>collect</code>. Then type them.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>groupingBy</code> into a map of lists, and into a map of counts. <code>partitioningBy</code> into true and false. <code>IntStream.average</code> returns <code>OptionalDouble</code>. Reuse a consumed stream and read the exception.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> 30 stream questions at 70%. Under 60%: the first days of the mock month are streams, coded, before any other objective.</li>
+</ul>
+<p>Predict each listing before you run it. Each miss goes in the notebook as one rule and a five-line program.</p>
+<p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
+<hr>
+<h1 id="chapter-1-lambda-syntax">Chapter 1 — Lambda syntax</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 8 章 pp. 440–444（“Writing Simple Lambdas”）同 pp. 465–469（“Working with Variables in Lambdas”）。第 5 章 “Effectively Final Variables”，p. 244。</p>
+<p><strong>唔使睇</strong>　functional interfaces 同 method references 係星期三。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Monday</strong> is this chapter, eight rewrites, and questions Q1–Q6.</p>
+<h2 id="what-you-must-know">What you must know</h2>
+<p>A lambda is a method body with no name. The target type is a functional interface: one abstract method. <code>var</code> is allowed for a parameter only inside parentheses, and if one parameter uses <code>var</code> then every parameter does.</p>
+<pre><code class="language-java">s -&gt; s.isEmpty()
+(s) -&gt; s.isEmpty()
+(String s) -&gt; s.isEmpty()
+(var s) -&gt; s.isEmpty()
+</code></pre>
+<p>A body with braces uses <code>return</code> when the abstract method returns a value. A body without braces returns the expression and does not use <code>return</code> or a semicolon.</p>
+<p>A lambda may use a local variable only when that variable is final or effectively final. One assignment, and no assignment after that, makes it effectively final. A field does not have this limit. The lambda reads the field when it runs.</p>
+<h2 id="eight-rewrites">Eight rewrites</h2>
+<p>Type each anonymous class, then replace it with the lambda, then with the method reference. Two of each kind is enough for the checklist.</p>
+<p>Static:</p>
+<pre><code class="language-java">Function&lt;String, Integer&gt; a = new Function&lt;&gt;() {
+    public Integer apply(String s) { return Integer.parseInt(s); }
+};
+Function&lt;String, Integer&gt; b = s -&gt; Integer.parseInt(s);
+Function&lt;String, Integer&gt; c = Integer::parseInt;
+</code></pre>
+<pre><code class="language-java">Function&lt;String, String&gt; a = s -&gt; s.trim();
+Function&lt;String, String&gt; c = String::trim;
+</code></pre>
+<p><code>String::trim</code> is an unbound instance method. The instance arrives as the argument. <code>Integer::parseInt</code> is static. The argument is the parameter.</p>
+<p>Bound. The instance is already chosen:</p>
+<pre><code class="language-java">String word = &quot;hi&quot;;
+Supplier&lt;Integer&gt; a = new Supplier&lt;&gt;() {
+    public Integer get() { return word.length(); }
+};
+Supplier&lt;Integer&gt; b = () -&gt; word.length();
+Supplier&lt;Integer&gt; c = word::length;
+</code></pre>
+<p>Unbound again, with the instance as the first argument:</p>
+<pre><code class="language-java">Function&lt;String, Integer&gt; len = String::length;
+BiFunction&lt;String, String, String&gt; cat = String::concat;
+</code></pre>
+<p>Constructor:</p>
+<pre><code class="language-java">Supplier&lt;List&lt;String&gt;&gt; lists = ArrayList::new;
+Function&lt;String, StringBuilder&gt; builders = StringBuilder::new;
+</code></pre>
+<p><code>ArrayList::new</code> matches <code>get()</code> with the empty constructor. <code>StringBuilder::new</code> matches <code>apply(String)</code> with <code>new StringBuilder(String)</code>.</p>
+<p>Monday’s questions are Q1–Q6.</p>
+<h2 id="chapter-1-questions">Chapter 1 questions</h2>
+<section class="q" id="chapter-1-questions-Q1" data-qid="chapter-1-questions-Q1" data-multi="0" data-key="C"><p><strong>Q1.</strong> Does this compile?</p><pre><code class="language-java">int n = 1;
+Runnable r = () -&gt; System.out.println(n);
+n = 2;
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes, and <code>r.run()</code> prints <code>2</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and <code>r.run()</code> prints <code>1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It compiles and throws when <code>r.run()</code> is called</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>n</code> is assigned after the lambda captures it, so <code>n</code> is not effectively final.</p></div></section>
+<section class="q" id="chapter-1-questions-Q2" data-qid="chapter-1-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> Which lambda assigns to <code>Supplier&lt;String&gt;</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>s -&gt; "ok"</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>() -&gt; "ok"</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>(String s) -&gt; s</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>() -&gt; {}</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Supplier.get</code> takes no arguments and returns a value. <code>() -&gt; "ok"</code> matches. <code>() -&gt; {}</code> returns nothing, so it is a <code>Runnable</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q3" data-qid="chapter-1-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> Does this compile as a <code>Function&lt;String, Integer&gt;</code>?</p><pre><code class="language-java">s -&gt; { s.length(); }
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and the result is the length</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. A brace body that produces a value needs <code>return</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. A lambda cannot use braces</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> Braces make a statement body. <code>s.length();</code> throws the length away. <code>return s.length();</code> is the body that matches <code>Function</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q4" data-qid="chapter-1-questions-Q4" data-multi="0" data-key="A"><p><strong>Q4.</strong> Does <code>(var s) -&gt; s.length()</code> compile as a <code>Function&lt;String, Integer&gt;</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">No. <code>var</code> is illegal in a lambda</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. <code>var</code> cannot sit inside parentheses</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. <code>length</code> returns <code>int</code>, not <code>Integer</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> A parenthesized <code>var</code> parameter takes its type from the target. <code>int</code> returned from <code>length</code> is boxed to <code>Integer</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q5" data-qid="chapter-1-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> <code>String word = "hi"; Supplier&lt;Integer&gt; len = word::length;</code> What does <code>len.get()</code> return?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>"hi"</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>word::length</code> is a bound reference. The supplier calls <code>length</code> on <code>"hi"</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q6" data-qid="chapter-1-questions-Q6" data-multi="0" data-key="B"><p><strong>Q6.</strong> What does <code>Function&lt;String, Integer&gt; f = Integer::parseInt; f.apply("10")</code> return?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>"10"</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>10</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Integer::parseInt</code> is a static method reference. <code>apply</code> passes <code>"10"</code> to <code>parseInt</code>.</p><hr></div></section>
+<h1 id="chapter-2-functional-interfaces">Chapter 2 — Functional interfaces</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 8 章 pp. 445–464：“Coding Functional Interfaces”、“Using Method References”、“Working with Built-in Functional Interfaces”。</p>
+<p><strong>唔使睇</strong>　<code>Optional</code> 在第 10 章，星期五先睇。</p>
+</blockquote>
+<p><strong>Wednesday</strong> is this chapter, 15 names, and questions Q7–Q12.</p>
+<h2 id="what-you-must-know_1">What you must know</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Abstract method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Supplier&lt;T&gt;</code></td>
+<td><code>T get()</code></td>
+</tr>
+<tr>
+<td><code>Consumer&lt;T&gt;</code></td>
+<td><code>void accept(T)</code></td>
+</tr>
+<tr>
+<td><code>Predicate&lt;T&gt;</code></td>
+<td><code>boolean test(T)</code></td>
+</tr>
+<tr>
+<td><code>Function&lt;T, R&gt;</code></td>
+<td><code>R apply(T)</code></td>
+</tr>
+<tr>
+<td><code>UnaryOperator&lt;T&gt;</code></td>
+<td><code>T apply(T)</code></td>
+</tr>
+<tr>
+<td><code>BinaryOperator&lt;T&gt;</code></td>
+<td><code>T apply(T, T)</code></td>
+</tr>
+<tr>
+<td><code>IntSupplier</code></td>
+<td><code>int getAsInt()</code></td>
+</tr>
+<tr>
+<td><code>IntConsumer</code></td>
+<td><code>void accept(int)</code></td>
+</tr>
+<tr>
+<td><code>IntPredicate</code></td>
+<td><code>boolean test(int)</code></td>
+</tr>
+<tr>
+<td><code>IntFunction&lt;R&gt;</code></td>
+<td><code>R apply(int)</code></td>
+</tr>
+<tr>
+<td><code>ToIntFunction&lt;T&gt;</code></td>
+<td><code>int applyAsInt(T)</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>UnaryOperator&lt;T&gt;</code> is a <code>Function&lt;T, T&gt;</code>. Use the primitive interface when the snippet takes or returns a primitive and the target type says so. Boxing still lets <code>Function&lt;String, Integer&gt;</code> accept <code>String::length</code>.</p>
+<h2 id="name-these-15">Name these 15</h2>
+<p>Write the interface, including type arguments, before you look at the key.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Snippet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>() -&gt; "a"</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>s -&gt; s.isEmpty()</code> for a <code>String</code> argument and a <code>boolean</code> result</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>s -&gt; System.out.println(s)</code> for a <code>String</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>s -&gt; s.trim()</code> for <code>String</code> in and <code>String</code> out</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>(a, b) -&gt; a + b</code> for two <code>Integer</code>s</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>() -&gt; 1</code> as a primitive <code>int</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>n -&gt; n &gt; 0</code> for a primitive <code>int</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>s -&gt; s.length()</code> as a primitive <code>int</code> result from a <code>String</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>n -&gt; "n" + n</code> from a primitive <code>int</code> to a <code>String</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>n -&gt; System.out.println(n)</code> for a primitive <code>int</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>(s, n) -&gt; s.substring(n)</code> for <code>String</code> and <code>int</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>() -&gt; {}</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>x -&gt; x</code> for one <code>String</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>list -&gt; list.add("a")</code> for a <code>List&lt;String&gt;</code>, result ignored</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>() -&gt; new ArrayList&lt;String&gt;()</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>The names are: 1 <code>Supplier&lt;String&gt;</code>. 2 <code>Predicate&lt;String&gt;</code>. 3 <code>Consumer&lt;String&gt;</code>. 4 <code>UnaryOperator&lt;String&gt;</code>. 5 <code>BinaryOperator&lt;Integer&gt;</code>. 6 <code>IntSupplier</code>. 7 <code>IntPredicate</code>. 8 <code>ToIntFunction&lt;String&gt;</code>. 9 <code>IntFunction&lt;String&gt;</code>. 10 <code>IntConsumer</code>. 11 <code>BiFunction&lt;String, Integer, String&gt;</code>. 12 <code>Runnable</code>. 13 <code>UnaryOperator&lt;String&gt;</code>. 14 <code>Consumer&lt;List&lt;String&gt;&gt;</code>. 15 <code>Supplier&lt;List&lt;String&gt;&gt;</code>.</p>
+<p>15 of 15 is the checklist item. A miss here is a notebook line even if the later questions go well.</p>
+<h2 id="chapter-2-questions">Chapter 2 questions</h2>
+<section class="q" id="chapter-2-questions-Q7" data-qid="chapter-2-questions-Q7" data-multi="0" data-key="A"><p><strong>Q7.</strong> <code>Predicate&lt;String&gt; p = String::isEmpty;</code> What is <code>p.test("")</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>true</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>false</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>""</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>String::isEmpty</code> is an unbound reference and matches <code>test(String)</code>. The empty string is empty.</p></div></section>
+<section class="q" id="chapter-2-questions-Q8" data-qid="chapter-2-questions-Q8" data-multi="0" data-key="C"><p><strong>Q8.</strong> What is the target of <code>n -&gt; n + 1</code> when <code>n</code> is an <code>Integer</code> and the result is an <code>Integer</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>Predicate&lt;Integer&gt;</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>Consumer&lt;Integer&gt;</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>UnaryOperator&lt;Integer&gt;</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>IntSupplier</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> The same type goes in and comes out. That is <code>UnaryOperator&lt;Integer&gt;</code>. <code>IntUnaryOperator</code> would be the primitive form.</p></div></section>
+<section class="q" id="chapter-2-questions-Q9" data-qid="chapter-2-questions-Q9" data-multi="0" data-key="A"><p><strong>Q9.</strong> <code>ToIntFunction&lt;String&gt; f = String::length;</code> What is <code>f.applyAsInt("java")</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>4</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>"java"</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>Integer.valueOf(4)</code> as the only legal return</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>applyAsInt</code> returns the primitive <code>4</code>. <code>String::length</code> matches <code>ToIntFunction&lt;String&gt;</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q10" data-qid="chapter-2-questions-Q10" data-multi="0" data-key="B"><p><strong>Q10.</strong> <code>Supplier&lt;List&lt;String&gt;&gt; lists = ArrayList::new;</code> What is <code>lists.get().size()</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>ArrayList::new</code> calls the empty constructor. The new list has size 0.</p></div></section>
+<section class="q" id="chapter-2-questions-Q11" data-qid="chapter-2-questions-Q11" data-multi="0" data-key="B"><p><strong>Q11.</strong> Does <code>IntPredicate p = n -&gt; n &gt; 0; p.test(1)</code> compile and return <code>true</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It does not compile. <code>IntPredicate</code> has no <code>test</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It compiles and returns <code>true</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It compiles and returns <code>false</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It compiles and throws, because <code>1</code> is boxed</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>IntPredicate.test</code> takes an <code>int</code>. <code>1</code> passes the <code>n &gt; 0</code> test.</p></div></section>
+<section class="q" id="chapter-2-questions-Q12" data-qid="chapter-2-questions-Q12" data-multi="0" data-key="C"><p><strong>Q12.</strong> Which reference is bound?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>String::length</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>Integer::parseInt</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>word::length</code>, where <code>word</code> is a <code>String</code> variable</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>ArrayList::new</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> A bound reference fixes the instance. <code>String::length</code> is unbound. <code>Integer::parseInt</code> is static. <code>ArrayList::new</code> is a constructor.</p><hr></div></section>
+<h1 id="chapter-3-optional">Chapter 3 — <code>Optional</code></h1>
+<blockquote>
+<p><strong>必睇</strong>　第 10 章 “Returning an Optional”，pp. 554–557。同後面 “Chaining Optionals”，p. 587。</p>
+<p><strong>唔使睇</strong>　中間嘅 stream pipeline 留星期六。唔好順住讀完整章。</p>
+</blockquote>
+<p><strong>Friday</strong> is this chapter, <code>Opts</code>, and questions Q13–Q18.</p>
+<h2 id="what-you-must-know_2">What you must know</h2>
+<p><code>Optional.of(value)</code> rejects null. <code>Optional.ofNullable(value)</code> turns null into an empty optional. <code>Optional.empty()</code> is empty.</p>
+<p><code>map</code> applies a function when a value is present and wraps the result. On an empty optional, <code>map</code> stays empty. <code>flatMap</code> is the same idea when the function already returns an <code>Optional</code>. Use <code>flatMap</code> so you do not end up with <code>Optional&lt;Optional&lt;T&gt;&gt;</code>.</p>
+<p><code>orElse(other)</code> always evaluates <code>other</code>, then returns the stored value if there is one. <code>orElseGet(supplier)</code> calls the supplier only when the optional is empty. <code>orElseThrow</code> with no supplier throws <code>NoSuchElementException</code> when the optional is empty.</p>
+<h3 id="opts"><code>Opts</code></h3>
+<pre><code class="language-java">import java.util.*;
+
+public class Opts {
+    static int calls;
+    static String mark() { calls++; return &quot;x&quot;; }
+    public static void main(String[] args) {
+        Optional.of(&quot;a&quot;).orElse(mark());
+        System.out.print(calls);
+        Optional.of(&quot;a&quot;).orElseGet(Opts::mark);
+        System.out.println(calls);
+        System.out.println(Optional.&lt;String&gt;empty().map(String::length));
+        System.out.println(Optional.of(&quot;hi&quot;).flatMap(s -&gt; Optional.of(s.length())));
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">11
+Optional.empty
+Optional[2]
+</code></pre>
+<p><code>orElse</code> called <code>mark</code> even though <code>"a"</code> was present, so <code>calls</code> became 1. <code>orElseGet</code> did not call <code>mark</code>, so <code>calls</code> stayed 1. The two digits are stuck together: <code>11</code>.</p>
+<p>Friday’s questions are Q13–Q18.</p>
+<h2 id="chapter-3-questions">Chapter 3 questions</h2>
+<section class="q" id="chapter-3-questions-Q13" data-qid="chapter-3-questions-Q13" data-multi="0" data-key="B"><p><strong>Q13.</strong> <code>Optional.of("a").orElse(mark())</code> calls <code>mark</code>, and <code>mark</code> increments a counter that started at 0. What is the counter afterward?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>orElse</code> evaluates its argument before it looks at the optional. The value <code>"a"</code> is returned, and <code>mark</code> has already run.</p></div></section>
+<section class="q" id="chapter-3-questions-Q14" data-qid="chapter-3-questions-Q14" data-multi="0" data-key="A"><p><strong>Q14.</strong> After that call, <code>Optional.of("a").orElseGet(Opts::mark)</code> runs. What is the counter if it was already <code>1</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>orElseGet</code> calls the supplier only when the optional is empty. This optional holds <code>"a"</code>, so the counter stays <code>1</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q15" data-qid="chapter-3-questions-Q15" data-multi="0" data-key="B"><p><strong>Q15.</strong> What is <code>Optional.&lt;String&gt;empty().map(String::length)</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>Optional.empty</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>Optional[0]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>map</code> on an empty optional does not call the function. The result is still empty. It is not <code>Optional[0]</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q16" data-qid="chapter-3-questions-Q16" data-multi="0" data-key="B"><p><strong>Q16.</strong> What does <code>Optional.of("hi").flatMap(s -&gt; Optional.of(s.length()))</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>Optional[2]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>Optional[Optional[2]]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>flatMap</code> expects an <code>Optional</code> and unwraps one level. The length of <code>"hi"</code> is <code>2</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q17" data-qid="chapter-3-questions-Q17" data-multi="0" data-key="C"><p><strong>Q17.</strong> What is the result of <code>Optional.of(null)</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">An empty optional</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>Optional[null]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>Optional.of</code> requires a non-null value. <code>Optional.ofNullable(null)</code> is the call that returns an empty optional.</p></div></section>
+<section class="q" id="chapter-3-questions-Q18" data-qid="chapter-3-questions-Q18" data-multi="0" data-key="C"><p><strong>Q18.</strong> What does <code>Optional.empty().orElseThrow()</code> throw?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>NullPointerException</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>IllegalStateException</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>NoSuchElementException</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Nothing. It returns <code>null</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>orElseThrow()</code> with no argument throws <code>NoSuchElementException</code> when the optional is empty.</p><hr></div></section>
+<h1 id="chapter-4-pipelines">Chapter 4 — Pipelines</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 10 章 “Using Streams”，pp. 558–578。</p>
+<p><strong>唔使睇</strong>　primitive streams（p. 579 起）同 “Collecting Results”（p. 590）留星期日。</p>
+</blockquote>
+<p><strong>Saturday</strong> is 8 hours. Write the result of each pipeline on paper, then type it. Questions Q19–Q24 are after the 12 lines.</p>
+<p>A pipeline is lazy. Intermediate operations (<code>filter</code>, <code>map</code>, <code>flatMap</code>, <code>sorted</code>, <code>distinct</code>, <code>limit</code>, <code>skip</code>, <code>peek</code>) do nothing until a terminal operation runs (<code>toList</code>, <code>reduce</code>, <code>count</code>, <code>collect</code>, <code>forEach</code>, <code>findFirst</code>, <code>anyMatch</code>, <code>allMatch</code>, <code>noneMatch</code>). A stream can be consumed once. <code>Stream.toList()</code> returns a list that refuses <code>add</code>.</p>
+<h2 id="twelve-pipelines">Twelve pipelines</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Pipeline</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>List.of(1, 2, 2, 3).stream().filter(x -&gt; x &gt; 1).distinct().map(x -&gt; x * 10).toList()</code></td>
+<td><code>[20, 30]</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>Stream.of(List.of(1, 2), List.of(3)).flatMap(List::stream).toList()</code></td>
+<td><code>[1, 2, 3]</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>Stream.of(1, 2, 3).reduce(0, Integer::sum)</code></td>
+<td><code>6</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>Stream.of(3, 1, 2).sorted().limit(2).toList()</code></td>
+<td><code>[1, 2]</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>Stream.of("a", "b", "a").distinct().toList()</code></td>
+<td><code>[a, b]</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>Stream.of("a", "b", "c").skip(1).limit(1).toList()</code></td>
+<td><code>[b]</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>Stream.of("hi", "a").map(String::length).toList()</code></td>
+<td><code>[2, 1]</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>Stream.of(1, 2, 3).anyMatch(n -&gt; n &gt; 2)</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>Stream.of(1, 2).allMatch(n -&gt; n &gt; 0)</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>Stream.of(1, 2).noneMatch(n -&gt; n &lt; 0)</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>Stream.of("a", "a").distinct().count()</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>Stream.of("a", "b").collect(Collectors.joining(","))</code></td>
+<td><code>a,b</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Lines 1, 2, and 3 were run on JDK 21. Run the other nine yourself and keep any miss.</p>
+<h2 id="chapter-4-questions">Chapter 4 questions</h2>
+<section class="q" id="chapter-4-questions-Q19" data-qid="chapter-4-questions-Q19" data-multi="0" data-key="B"><p><strong>Q19.</strong> What is pipeline 1?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[20, 20, 30]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[20, 30]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[10, 20, 30]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>[2, 3]</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>filter</code> keeps <code>2, 2, 3</code>. <code>distinct</code> keeps <code>2, 3</code>. <code>map</code> multiplies by 10.</p></div></section>
+<section class="q" id="chapter-4-questions-Q20" data-qid="chapter-4-questions-Q20" data-multi="0" data-key="B"><p><strong>Q20.</strong> What is pipeline 2?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[[1, 2], [3]]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[1, 2, 3]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[1, 2]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>flatMap</code> turns each inner list into a stream of its elements and joins those streams. <code>map</code> would have left a stream of lists.</p></div></section>
+<section class="q" id="chapter-4-questions-Q21" data-qid="chapter-4-questions-Q21" data-multi="0" data-key="B"><p><strong>Q21.</strong> What is pipeline 4?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[3, 1]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[1, 2]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[1, 2, 3]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>[2, 3]</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>sorted</code> produces <code>1, 2, 3</code>. <code>limit(2)</code> keeps the first two of that sorted stream.</p></div></section>
+<section class="q" id="chapter-4-questions-Q22" data-qid="chapter-4-questions-Q22" data-multi="0" data-key="B"><p><strong>Q22.</strong> A stream is built and <code>peek</code> prints each element. No terminal operation is called. What prints?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Every element</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Nothing</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The first element</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An <code>IllegalStateException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>peek</code> is intermediate. Without a terminal operation the pipeline does not run.</p></div></section>
+<section class="q" id="chapter-4-questions-Q23" data-qid="chapter-4-questions-Q23" data-multi="0" data-key="C"><p><strong>Q23.</strong> <code>Stream.of("a").count()</code> has already run. A second <code>count</code> on that same stream does what?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It returns <code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It returns <code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It throws <code>IllegalStateException</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It throws <code>NullPointerException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> A stream is consumed by the first terminal operation. Using it again throws <code>IllegalStateException</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q24" data-qid="chapter-4-questions-Q24" data-multi="0" data-key="B"><p><strong>Q24.</strong> What does <code>Stream.of(1, 2, 3).filter(n -&gt; n &gt; 1).toList().add(9)</code> do?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The list becomes <code>[2, 3, 9]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It throws <code>UnsupportedOperationException</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It throws <code>IllegalStateException</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Stream.toList()</code> returns a list that cannot be modified. <code>add</code> throws <code>UnsupportedOperationException</code>.</p><hr></div></section>
+<h1 id="chapter-5-groupingby-and-primitive-streams">Chapter 5 — <code>groupingBy</code> and primitive streams</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 10 章 pp. 579–586（primitive streams）同 pp. 590–603（“Collecting Results”、Summary、Exam Essentials）。第 13 章 “Working with Parallel Streams”，pp. 786–794。</p>
+<p><strong>略讀</strong>　p. 587：“Linking Streams to the Underlying Data”。“Chaining Optionals” 星期五讀過就跳過。“Using a Spliterator”（p. 599）知道個名就得，唔使記 API。</p>
+<p><strong>唔使睇</strong>　第 13 章其餘 threads 留第 8 週。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Sunday</strong> is 8 hours. The first 20 minutes are Saturday’s misses. Then this chapter, questions Q25–Q30, and the score of all 30.</p>
+<h2 id="what-you-must-know_3">What you must know</h2>
+<p><code>Collectors.groupingBy</code> builds a <code>Map</code>. The classifier is the key. The default downstream value is a <code>List</code> of the elements. <code>Collectors.counting()</code> makes the value a <code>Long</code> count instead.</p>
+<p><code>Collectors.partitioningBy</code> always produces both keys, <code>true</code> and <code>false</code>.</p>
+<p><code>IntStream.average</code> returns <code>OptionalDouble</code>, because an empty stream has no average. <code>OptionalDouble[2.0]</code> is the print for the average of <code>1, 2, 3</code>. <code>IntStream.range(1, 4)</code> is <code>1, 2, 3</code>. <code>rangeClosed(1, 4)</code> includes <code>4</code>. <code>mapToInt</code> turns an object stream into an <code>IntStream</code>. <code>boxed</code> turns an <code>IntStream</code> back into <code>Stream&lt;Integer&gt;</code>.</p>
+<pre><code class="language-java">Map&lt;Integer, List&lt;String&gt;&gt; grouped = Stream.of(&quot;a&quot;, &quot;bb&quot;, &quot;a&quot;)
+    .collect(Collectors.groupingBy(String::length));
+Map&lt;Integer, Long&gt; counts = Stream.of(&quot;a&quot;, &quot;bb&quot;, &quot;a&quot;)
+    .collect(Collectors.groupingBy(String::length, Collectors.counting()));
+Map&lt;Boolean, List&lt;String&gt;&gt; parts = Stream.of(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;)
+    .collect(Collectors.partitioningBy(s -&gt; s.length() &gt; 1));
+</code></pre>
+<p>The run produces <code>{1=[a, a], 2=[bb]}</code>, <code>{1=2, 2=1}</code>, and <code>{false=[a], true=[bb, ccc]}</code>. Map print order can vary. The keys and the members are the result that matters.</p>
+<p><code>Stream.concat(Stream.of(1), Stream.of(2, 3))</code> is one stream of <code>1, 2, 3</code>. That is concatenation. The joined stream is parallel when either input is parallel. <code>flatMap</code> is decomposition: one element becomes its own stream, and those streams are joined. <code>reduce</code> is reduction.</p>
+<p><code>stream.parallel()</code> and <code>list.parallelStream()</code> run the pipeline on more than one thread. <code>sequential()</code> switches that stream back. A parallel stream is still consumed once. <code>forEach</code> on a parallel stream does not promise encounter order. <code>forEachOrdered</code> does. A sum, or any <code>reduce</code> whose operator is associative and has no side effects, has the same result as the sequential stream. Do not store into an ordinary <code>ArrayList</code> from <code>forEach</code> on a parallel stream. That list is not safe for concurrent adds.</p>
+<h2 id="chapter-5-questions">Chapter 5 questions</h2>
+<section class="q" id="chapter-5-questions-Q25" data-qid="chapter-5-questions-Q25" data-multi="0" data-key="B"><p><strong>Q25.</strong> <code>Stream.of("a", "bb", "a")</code> grouped by <code>String::length</code>. Which list sits under key <code>1</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[a]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[a, a]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[bb]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>[a, bb]</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>"a"</code> and <code>"a"</code> both have length 1. <code>"bb"</code> has length 2.</p></div></section>
+<section class="q" id="chapter-5-questions-Q26" data-qid="chapter-5-questions-Q26" data-multi="0" data-key="A"><p><strong>Q26.</strong> The same strings, grouped with <code>Collectors.counting()</code>. What is the value for key <code>2</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>[bb]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> Counting replaces the list. One string has length 2, so the <code>Long</code> value is <code>1</code>. The two strings of length 1 produce <code>2</code>.</p></div></section>
+<section class="q" id="chapter-5-questions-Q27" data-qid="chapter-5-questions-Q27" data-multi="0" data-key="A"><p><strong>Q27.</strong> <code>Stream.of("a", "bb", "ccc")</code> partitioned by <code>length &gt; 1</code>. Which list is under <code>false</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>[a]</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>[bb, ccc]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The key <code>false</code> is absent</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>[a, bb, ccc]</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>"a"</code> fails the test. <code>partitioningBy</code> still creates the <code>false</code> key. <code>"bb"</code> and <code>"ccc"</code> are under <code>true</code>.</p></div></section>
+<section class="q" id="chapter-5-questions-Q28" data-qid="chapter-5-questions-Q28" data-multi="0" data-key="B"><p><strong>Q28.</strong> What does <code>IntStream.of(1, 2, 3).average()</code> return?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2.0</code> as a <code>double</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>OptionalDouble[2.0]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>Optional[2.0]</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>2</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>average</code> returns <code>OptionalDouble</code>. An empty <code>IntStream</code> returns an empty <code>OptionalDouble</code>, not a number.</p></div></section>
+<section class="q" id="chapter-5-questions-Q29" data-qid="chapter-5-questions-Q29" data-multi="0" data-key="A"><p><strong>Q29.</strong> What does <code>IntStream.range(1, 4).sum()</code> return?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>6</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>10</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>4</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An empty optional</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>range(1, 4)</code> is <code>1, 2, 3</code>. The end is exclusive. The sum is <code>6</code>. <code>rangeClosed(1, 4)</code> would include <code>4</code> and sum to <code>10</code>.</p></div></section>
+<section class="q" id="chapter-5-questions-Q30" data-qid="chapter-5-questions-Q30" data-multi="0" data-key="B"><p><strong>Q30.</strong> <code>Stream.of("b", "a").sorted().findFirst()</code> returns what?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>"b"</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>Optional[a]</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>Optional.empty</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception, because <code>findFirst</code> requires a present value</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>sorted</code> on an ordered stream of strings yields <code>"a"</code> then <code>"b"</code>. <code>findFirst</code> wraps that first element. It returns an empty optional when the stream has no element. It does not throw.</p><p>Score all 30. <strong>21 or more</strong> is the gate. Under 18, the mock month opens with streams. Every miss becomes one rule and a five-line program before Monday of Week 8.</p><hr></div></section>
+<h1 id="rules-to-copy-onto-one-card">Rules to copy onto one card</h1>
+<ul>
+<li>A lambda’s locals are final or effectively final. A brace body that returns a value uses <code>return</code>.</li>
+<li><code>Supplier</code> gets, <code>Consumer</code> accepts, <code>Predicate</code> tests, <code>Function</code> applies. <code>UnaryOperator</code> is a function with one type. Primitive forms avoid boxing: <code>IntPredicate</code>, <code>ToIntFunction</code>, <code>IntFunction</code>.</li>
+<li>Static reference: <code>Integer::parseInt</code>. Bound: <code>word::length</code>. Unbound: <code>String::length</code>. Constructor: <code>ArrayList::new</code>.</li>
+<li><code>orElse</code> always evaluates its argument. <code>orElseGet</code> evaluates the supplier only when the optional is empty. <code>of(null)</code> throws. <code>ofNullable(null)</code> is empty.</li>
+<li>Intermediate operations run when a terminal operation runs. A stream is consumed once.</li>
+<li><code>flatMap</code> flattens a stream of streams. <code>Stream.concat</code> joins two streams. <code>groupingBy</code> builds a map of lists, or a map of counts with <code>counting</code>. <code>partitioningBy</code> always has <code>true</code> and <code>false</code>.</li>
+<li><code>parallel()</code> and <code>parallelStream()</code> do not change an associative sum. <code>forEach</code> on a parallel stream has no encounter order. <code>forEachOrdered</code> keeps it.</li>
+<li><code>IntStream.average</code> returns <code>OptionalDouble</code>. <code>range</code> excludes the end. <code>rangeClosed</code> includes it.</li>
+</ul>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-06-glossary.html"><small>上一篇</small>第 6 週 · 詞彙</a>
+<a class="next" href="Week-07-glossary.html"><small>下一篇</small>第 7 週 · 詞彙</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

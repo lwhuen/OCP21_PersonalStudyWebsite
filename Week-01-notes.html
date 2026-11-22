@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 1 notes — types, operators, and flow · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html" aria-current="page">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 1 週 · 筆記</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li class="chapter"><a href="#chapter-1-building-blocks">Chapter 1 — Building blocks</a><ul><li><a href="#what-you-must-know">What you must know</a></li><li><a href="#chapter-1-questions">Chapter 1 questions</a></li></ul></li><li class="chapter"><a href="#chapter-2-operators">Chapter 2 — Operators</a><ul><li><a href="#what-you-must-know_1">What you must know</a></li><li><a href="#chapter-2-questions">Chapter 2 questions</a></li></ul></li><li class="chapter"><a href="#chapter-3-making-decisions">Chapter 3 — Making decisions</a><ul><li><a href="#what-you-must-know_2">What you must know</a></li><li><a href="#chapter-3-questions">Chapter 3 questions</a></li></ul></li><li class="chapter"><a href="#sunday-mixed-set">Sunday mixed set</a><ul></ul></li><li class="chapter"><a href="#rules-to-copy-onto-one-card">Rules to copy onto one card</a><ul></ul></li></ul></details>
+<article>
+<h1 id="week-1-notes-types-operators-and-flow">Week 1 notes — types, operators, and flow</h1>
+<p><strong>23–29 Nov 2026. 21 hours.</strong> This file follows Week 1 of the study plan. The gate is the building-blocks, operators, and decisions questions at <strong>70%</strong> (24 of the 34 questions in this file).</p>
+<p>參考書係 Boyarsky 同 Selikoff 嘅 <em>OCP Oracle Certified Professional Java SE 21 Developer Study Guide</em>。每章下面嘅頁碼係紙本書。<strong>必睇</strong>先至翻開。<strong>略讀</strong>只核對標題同筆記未寫過嘅一句。<strong>唔使睇</strong>留到標明嗰一週，或者唔使做。每章末嘅 Review Questions 都唔使做，計分用呢份筆記嘅題。書前面嘅 Assessment Test 同網上題庫留到 1 月 18 日。勘誤在 <a href="https://www.selikoff.net/ocp21/">selikoff.net/ocp21</a>。</p>
+<p>Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 6 hours each. Monday has nothing to review yet, so those 20 minutes are the JDK check.</p>
+<p>These are the two exam objectives the plan puts in this week:</p>
+<ul>
+<li>Numeric types and boolean logic: primitives, wrapper classes, precedence, promotion, casts, and <code>Math</code>.</li>
+<li>Program flow: <code>if</code> / <code>else</code>, <code>switch</code> statements and expressions, loops, <code>break</code>, and <code>continue</code>.</li>
+</ul>
+<p>String methods, arrays, and methods you write yourself are Week 2. Leave them until 30 Nov.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>What the plan says</th>
+<th>Where it is in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td>Install JDK 21 and IntelliJ. Print one line from <code>main</code>.</td>
+<td>Monday lab, then Chapter 1 question Q7</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>Eight primitives, literals, and <code>var</code>.</td>
+<td>Primitives through wrappers, then the rest of the Chapter 1 questions</td>
+</tr>
+<tr>
+<td>Fri</td>
+<td>Operators, precedence, and casts. Write the answer before you run it.</td>
+<td>Chapter 2 through the operator traps, then the fifteen expressions, then Chapter 2 questions Q1–Q6, Q9, and Q10</td>
+</tr>
+<tr>
+<td>Sat</td>
+<td><code>Math</code>, <code>if</code> / <code>else</code>, and both kinds of <code>switch</code>.</td>
+<td><code>Math</code> lab, Chapter 2 questions Q7 and Q8, then <code>if</code> and both switches</td>
+</tr>
+<tr>
+<td>Sun</td>
+<td>Loops, <code>break</code>, <code>continue</code>, then the review questions.</td>
+<td>Loops, the one program, Chapter 3 loop questions, the mixed set, then score all 34</td>
+</tr>
+</tbody>
+</table></div>
+<p>Same checklist as the study plan:</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Install JDK 21 and IntelliJ IDEA Community. <code>java -version</code> prints 21. A class with <code>main</code> prints your name.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Write the eight primitives, their sizes, and their default values from memory.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Fifteen expressions on precedence, promotion, and casts. Write the answer first, then run. Keep the misses.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> One program that uses <code>if</code> / <code>else</code>, a <code>switch</code> expression, <code>for</code>, <code>while</code>, <code>break</code>, and <code>continue</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Call <code>Math.abs</code>, <code>min</code>, <code>max</code>, <code>round</code>, <code>ceil</code>, <code>floor</code>, and <code>pow</code>. <code>Math.round</code> on a double returns a <code>long</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Building-blocks, operators, and decisions review questions at 70%. Each miss: one rule and a five-line program in the notebook.</li>
+</ul>
+<p>JDK 21 is already installed on this PC at <code>C:\Program Files\Java\jdk-21</code> (version 21.0.9). <code>JAVA_HOME</code> points there. Monday still confirms <code>java -version</code>, then IntelliJ.</p>
+<p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
+<hr>
+<h1 id="chapter-1-building-blocks">Chapter 1 — Building blocks</h1>
+<blockquote>
+<p><strong>必睇</strong>　參考書第 1 章 Building Blocks，pp. 2–30 同 pp. 34–52：由 “Learning About the Environment” 到 “Managing Variable Scope”，再加 Summary 同 Exam Essentials。</p>
+<p><strong>唔使睇</strong>　“Defining Text Blocks”（pp. 31–33，第 2 週）、“Destroying Objects”（第 3 週，就在本章 Summary 前面）、Review Questions（p. 53 起）。</p>
+</blockquote>
+<h2 id="what-you-must-know">What you must know</h2>
+<p>A Java file holds one or more classes. The file name matches the <code>public</code> class. <code>javac Hello.java</code> compiles it to <code>Hello.class</code>. <code>java Hello</code> runs it. The exam uses snippets, so you have to imagine that wrapping class yourself.</p>
+<h3 id="a-valid-main">A valid <code>main</code></h3>
+<p>The program starts at:</p>
+<pre><code class="language-java">public static void main(String[] args) {}
+</code></pre>
+<p>These also work:</p>
+<pre><code class="language-java">static public void main(String[] args) {}
+public static void main(String... args) {}
+public static void main(String args[]) {}
+</code></pre>
+<p><code>public</code> and <code>static</code> may be swapped. The parameter may be a <code>String</code> array or <code>String</code> varargs. The name is <code>main</code>, the return type is <code>void</code>. Anything else (<code>Main</code>, a return of <code>int</code>, a parameter of <code>int[]</code>) compiles as an ordinary method and is not the entry point. On Java 21 the exam still uses this classic <code>main</code>.</p>
+<h3 id="monday-lab-jdk-intellij-one-line-from-main">Monday lab — JDK, IntelliJ, one line from <code>main</code></h3>
+<ol>
+<li>Open a new terminal and run <code>java -version</code>. The first line should contain <code>21</code>. PowerShell often shows that line in red because Java writes it to the error stream. The version text is the result.</li>
+<li>Install IntelliJ IDEA Community if it is not installed yet. In the new project dialog, set the JDK to <strong>21</strong> and the folder <code>C:\Program Files\Java\jdk-21</code>.</li>
+<li>Type this class. The printed line is your name.</li>
+</ol>
+<pre><code class="language-java">public class Hello {
+    public static void main(String[] args) {
+        System.out.println(&quot;Your Name&quot;);
+    }
+}
+</code></pre>
+<ol start="4">
+<li>Run it from IntelliJ. Then answer Chapter 1 question Q7. That is Monday’s question time.</li>
+</ol>
+<h3 id="wednesday-eight-primitives-literals-and-var">Wednesday — eight primitives, literals, and <code>var</code></h3>
+<p>Close this file and write the eight primitives, their sizes, and their default field values from memory. Then check the table. After the table, read literals and <code>var</code>, and type every listing. Wrappers are the same day’s reading: the week’s exam topic is numeric types, and the Chapter 1 questions use them. End Wednesday with Chapter 1 questions Q1–Q6 and Q8 (40 minutes). Each miss goes in the notebook.</p>
+<h3 id="the-eight-primitives">The eight primitives</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Size</th>
+<th>Default on a field</th>
+<th>Range to remember</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>byte</code></td>
+<td>8-bit</td>
+<td><code>0</code></td>
+<td>-128 to 127</td>
+</tr>
+<tr>
+<td><code>short</code></td>
+<td>16-bit</td>
+<td><code>0</code></td>
+<td>-32,768 to 32,767</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td>32-bit</td>
+<td><code>0</code></td>
+<td>about ±2.1 billion</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td>64-bit</td>
+<td><code>0</code></td>
+<td>needs an <code>L</code> suffix on big literals</td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>32-bit</td>
+<td><code>0.0f</code></td>
+<td>literal needs <code>f</code></td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>64-bit</td>
+<td><code>0.0</code></td>
+<td>default for <code>1.0</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>16-bit unsigned</td>
+<td><code>'\u0000'</code></td>
+<td>0 to 65,535</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td>—</td>
+<td><code>false</code></td>
+<td>only <code>true</code> or <code>false</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Fields (instance or <code>static</code>) get those defaults. <strong>Local variables do not.</strong> Reading a local variable before it has been assigned is a compile error.</p>
+<pre><code class="language-java">public class Defaults {
+    static int count;          // 0
+    static boolean ready;      // false
+    static String name;        // null, a reference, not a primitive
+
+    public static void main(String[] args) {
+        int local;
+        // System.out.println(local); // does not compile
+        local = 1;
+        System.out.println(local);    // 1
+    }
+}
+</code></pre>
+<p><code>String</code> is a class. Its default on a field is <code>null</code>. A local <code>String</code> still must be assigned before you read it.</p>
+<h3 id="literals">Literals</h3>
+<pre><code class="language-java">int n = 1_000_000;     // underscores sit between digits
+long big = 3_000_000_000L;
+float f = 1.0f;
+double d = 1.0;        // 1.0 is a double
+char c = 'A';
+char c2 = 65;          // 65 fits in a char, so this compiles
+boolean b = true;
+int hex = 0x1F;        // 31
+int bin = 0b1010;      // 10
+int oct = 011;         // octal: 9, not 11
+</code></pre>
+<p>Rules the exam uses:</p>
+<ul>
+<li><code>1.0</code> is a <code>double</code>. <code>float f = 1.0;</code> does not compile. <code>float f = 1;</code> does, because an <code>int</code> widens to <code>float</code>.</li>
+<li>A whole number is an <code>int</code>. <code>long x = 3000000000;</code> does not compile. Write <code>3000000000L</code>.</li>
+<li><code>byte b = 128;</code> does not compile. 128 does not fit. <code>byte b = 127;</code> does.</li>
+<li><code>char c = -1;</code> does not compile. A <code>char</code> cannot be negative. <code>char c = (char) -1;</code> compiles.</li>
+<li>A leading zero means octal. <code>011</code> is 9. <code>018</code> does not compile, because 8 is not an octal digit.</li>
+<li>Underscores must sit between digits. <code>_1</code>, <code>1_</code>, <code>1_.0</code>, and <code>1_L</code> do not compile. <code>1_000</code> and <code>1__000</code> do.</li>
+</ul>
+<h3 id="var-is-for-local-variables-only"><code>var</code> is for local variables only</h3>
+<pre><code class="language-java">var count = 1;                 // int
+var price = 1.0;               // double
+var name = &quot;ocp&quot;;              // String
+var nums = new int[] {1, 2};   // int[]
+</code></pre>
+<p>These do not compile:</p>
+<pre><code class="language-java">var x;                  // no initializer, so no type to infer
+var y = null;           // null has no type
+var z = {1, 2};         // an array initializer needs a type on the left, or new
+var a = 1, b = 2;       // only one variable
+</code></pre>
+<p><code>var</code> cannot be a field, a parameter, or a return type. <code>var</code> is a type name, so <code>int var = 1;</code> is legal. <code>var n = (String) null;</code> compiles, because the cast tells the compiler the type.</p>
+<h3 id="scope">Scope</h3>
+<p>A local variable lives from its declaration to the end of the block. A nested block cannot declare the same name again.</p>
+<pre><code class="language-java">public static void main(String[] args) {
+    int x = 1;
+    {
+        // int x = 2;   // does not compile: x is already in scope
+        int y = 2;
+    }
+    // y is gone here
+    int y = 3;          // legal, the previous y is out of scope
+}
+</code></pre>
+<h3 id="wrapper-classes">Wrapper classes</h3>
+<p>Each primitive has a class: <code>Byte</code>, <code>Short</code>, <code>Integer</code>, <code>Long</code>, <code>Float</code>, <code>Double</code>, <code>Character</code>, <code>Boolean</code>.</p>
+<p>Assigning a primitive to a wrapper is <strong>boxing</strong>. The other direction is <strong>unboxing</strong>.</p>
+<pre><code class="language-java">Integer count = 10;     // boxing
+int n = count;          // unboxing
+</code></pre>
+<p>On Java 21 the constructors are gone. <code>new Integer(1)</code> does not compile. Use assignment or <code>Integer.valueOf(1)</code>.</p>
+<p><code>Integer.parseInt("10")</code> returns an <code>int</code> and throws <code>NumberFormatException</code> on <code>"ten"</code>. <code>Integer.valueOf("10")</code> returns an <code>Integer</code>.</p>
+<p>Unboxing <code>null</code> throws <code>NullPointerException</code>:</p>
+<pre><code class="language-java">Integer empty = null;
+int n = empty;          // NullPointerException
+</code></pre>
+<p><code>Integer.valueOf</code> caches <strong>-128 to 127</strong>. <code>==</code> on two wrappers compares references. Inside the cache they are often the same object. Outside it, two equal values can be different objects. Use <code>equals</code> to compare values.</p>
+<pre><code class="language-java">Integer a = 127;
+Integer b = 127;
+System.out.println(a == b);       // true, cached
+
+Integer c = 128;
+Integer d = 128;
+System.out.println(c == d);       // false, different objects
+System.out.println(c.equals(d));  // true
+
+Integer e = 1000;
+int f = 1000;
+System.out.println(e == f);       // true, the wrapper is unboxed
+</code></pre>
+<p><code>Byte</code>, <code>Short</code>, and <code>Long</code> use the same -128 to 127 cache. <code>Character</code> caches 0 to 127. <code>Float</code> and <code>Double</code> do not cache, so <code>==</code> on two <code>Float</code> objects is a reference check even for small values.</p>
+<h2 id="chapter-1-questions">Chapter 1 questions</h2>
+<section class="q" id="chapter-1-questions-Q1" data-qid="chapter-1-questions-Q1" data-multi="0" data-key="A"><p><strong>Q1.</strong> What is the output?</p><pre><code class="language-java">public class Q1 {
+    static int count;
+    static boolean ready;
+    public static void main(String[] args) {
+        System.out.print(count);
+        System.out.print(ready);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0false</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0true</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> A missing <code>int</code> field is <code>0</code>. A missing <code>boolean</code> field is <code>false</code>. Printing them produces <code>0false</code> with no space.</p></div></section>
+<section class="q" id="chapter-1-questions-Q2" data-qid="chapter-1-questions-Q2" data-multi="1" data-key="A,D,F,H"><p><strong>Q2.</strong> Which of the following compile? (Choose all that apply.)</p><pre><code class="language-java">byte a = 127;
+byte b = 128;
+long c = 3_000_000_000;
+long d = 3_000_000_000L;
+float e = 1.0;
+char f = 65;
+int g = 018;
+int h = 011;
+</code></pre><div class="choices" role="group" aria-label="可選多項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>b</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>c</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>d</code></span></button><button type="button" class="choice" data-letter="E" aria-pressed="false"><span class="letter">E</span><span class="choice-body"><code>e</code></span></button><button type="button" class="choice" data-letter="F" aria-pressed="false"><span class="letter">F</span><span class="choice-body"><code>f</code></span></button><button type="button" class="choice" data-letter="G" aria-pressed="false"><span class="letter">G</span><span class="choice-body"><code>g</code></span></button><button type="button" class="choice" data-letter="H" aria-pressed="false"><span class="letter">H</span><span class="choice-body"><code>h</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A、D、F、H。</strong> <code>127</code> fits in a <code>byte</code>. <code>128</code> does not. <code>3_000_000_000</code> is an <code>int</code> literal that is too big; the <code>L</code> makes it a <code>long</code>. <code>1.0</code> is a <code>double</code> and does not fit in a <code>float</code> variable without a cast or an <code>f</code>. <code>65</code> fits in a <code>char</code>. <code>018</code> is illegal octal. <code>011</code> is octal for 9, and it compiles.</p></div></section>
+<section class="q" id="chapter-1-questions-Q3" data-qid="chapter-1-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What is the result?</p><pre><code class="language-java">public class Q3 {
+    public static void main(String[] args) {
+        int local;
+        System.out.println(local);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>local</code> is a local variable. Locals have no default. Reading it before assignment does not compile. The same name as a field would have printed <code>0</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q4" data-qid="chapter-1-questions-Q4" data-multi="1" data-key="A,C,E"><p><strong>Q4.</strong> Which lines compile? (Choose all that apply.)</p><pre><code class="language-java">var a = 10;
+var b = null;
+var c = (String) null;
+var d = {1, 2};
+var e = new int[] {1, 2};
+var f = 1, g = 2;
+</code></pre><div class="choices" role="group" aria-label="可選多項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The line with <code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The line with <code>b</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The line with <code>c</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The line with <code>d</code></span></button><button type="button" class="choice" data-letter="E" aria-pressed="false"><span class="letter">E</span><span class="choice-body">The line with <code>e</code></span></button><button type="button" class="choice" data-letter="F" aria-pressed="false"><span class="letter">F</span><span class="choice-body">The line with <code>f</code> and <code>g</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A、C、E。</strong> <code>var</code> needs an initializer with a clear type. <code>null</code> alone has no type. A cast supplies one. <code>{1, 2}</code> is not a standalone expression. <code>new int[] {1, 2}</code> is. <code>var</code> declares one variable, so the comma form does not compile.</p></div></section>
+<section class="q" id="chapter-1-questions-Q5" data-qid="chapter-1-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> What is the output?</p><pre><code class="language-java">public class Q5 {
+    public static void main(String[] args) {
+        Integer a = 128;
+        Integer b = 128;
+        Integer c = 100;
+        Integer d = 100;
+        System.out.print(a == b);
+        System.out.print(&quot; &quot;);
+        System.out.print(c == d);
+        System.out.print(&quot; &quot;);
+        System.out.print(a.equals(b));
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>true true true</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>false true true</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>false false true</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>true false true</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>128</code> is outside the <code>Integer</code> cache, so <code>a == b</code> is <code>false</code>. <code>100</code> is inside -128 to 127, so <code>c == d</code> is <code>true</code>. <code>equals</code> compares the numeric value, so the last print is <code>true</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q6" data-qid="chapter-1-questions-Q6" data-multi="0" data-key="D"><p><strong>Q6.</strong> What is the result?</p><pre><code class="language-java">public class Q6 {
+    public static void main(String[] args) {
+        Integer n = null;
+        int value = n;
+        System.out.println(value);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：D。</strong> The assignment unboxes <code>n</code>. Unboxing <code>null</code> throws <code>NullPointerException</code>. The code does compile.</p></div></section>
+<section class="q" id="chapter-1-questions-Q7" data-qid="chapter-1-questions-Q7" data-multi="0" data-key="A"><p><strong>Q7.</strong> What is the output of this legal entry-point class? If it does not run, choose the reason.</p><pre><code class="language-java">public class Q7 {
+    static public void main(String args[]) {
+        System.out.println(&quot;go&quot;);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>go</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It compiles, but there is no valid <code>main</code>, so it does not start</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>static</code> and <code>public</code> may appear in either order. <code>String args[]</code> is a <code>String</code> array. This is a valid <code>main</code>, and it prints <code>go</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q8" data-qid="chapter-1-questions-Q8" data-multi="0" data-key="A"><p><strong>Q8.</strong> Which snippet compiles?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code class="snippet">{
+    int x = 1;
+}
+int x = 2;
+</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code class="snippet">int x = 1;
+{
+    int x = 2;
+}
+</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code class="snippet">int value = 1_000_;
+</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code class="snippet">Integer n = new Integer(5);
+</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> After the inner block ends, <code>x</code> can be declared again. A nested block cannot reuse a name that is already in scope, so B fails. An underscore cannot be the last character of a literal, so C fails. <code>new Integer(5)</code> does not compile on Java 21, so D fails.</p><hr></div></section>
+<h1 id="chapter-2-operators">Chapter 2 — Operators</h1>
+<blockquote>
+<p><strong>必睇</strong>　參考書第 2 章 Operators，pp. 64–92：由 “Understanding Java Operators” 到 Exam Essentials。同第 4 章 “Calculating with Math APIs” pp. 202–203（<code>min</code>、<code>max</code>、<code>round</code>、<code>ceil</code>、<code>floor</code>、<code>pow</code>）。</p>
+<p><strong>唔使睇</strong>　bitwise operators（p. 86。筆記 “Shifts” 一段就夠）、<code>BigInteger</code>（p. 204）、第 4 章其餘部分、Review Questions（p. 93 起）。</p>
+</blockquote>
+<p><strong>Friday</strong> is this chapter through the operator traps, then the fifteen expressions. Skip <code>Math</code> until Saturday. The shift section is part of Friday only after the fifteen expressions are done; Chapter 2 question Q10 uses one shift.</p>
+<p><strong>Saturday part 1</strong> is the <code>Math</code> section, the <code>Math</code> lab, and Chapter 2 questions Q7 and Q8.</p>
+<h2 id="what-you-must-know_1">What you must know</h2>
+<p>The exam asks you to evaluate an expression by hand. Precedence decides what happens first. When two operators share a precedence, most of them associate left to right. Assignment and the ternary operator associate right to left.</p>
+<h3 id="precedence-highest-first">Precedence, highest first</h3>
+<ol>
+<li>Postfix <code>x++</code> <code>x--</code></li>
+<li>Prefix <code>++x</code> <code>--x</code> <code>+</code> <code>-</code> <code>!</code></li>
+<li>Cast <code>(int)</code></li>
+<li><code>*</code> <code>/</code> <code>%</code></li>
+<li><code>+</code> <code>-</code> (and string concatenation, which is the same <code>+</code>)</li>
+<li>Shifts <code>&lt;&lt;</code> <code>&gt;&gt;</code> <code>&gt;&gt;&gt;</code></li>
+<li>Relational <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code> <code>instanceof</code></li>
+<li>Equality <code>==</code> <code>!=</code></li>
+<li><code>&amp;</code></li>
+<li><code>^</code></li>
+<li><code>|</code></li>
+<li><code>&amp;&amp;</code></li>
+<li><code>||</code></li>
+<li>Ternary <code>?:</code></li>
+<li>Assignment <code>=</code> <code>+=</code> <code>-=</code> <code>*=</code> and the rest</li>
+</ol>
+<p><code>instanceof</code> returns in week 4 with classes. For this week, remember that it sits with the relational operators.</p>
+<h3 id="numeric-promotion">Numeric promotion</h3>
+<p>Smaller integer types are promoted to <code>int</code> before arithmetic. <code>byte</code>, <code>short</code>, and <code>char</code> arithmetic produces an <code>int</code>.</p>
+<pre><code class="language-java">byte a = 1;
+byte b = 2;
+byte c = a + b;     // does not compile: a + b is an int
+byte d = 1 + 2;     // compiles: 1 + 2 is a constant that fits in a byte
+</code></pre>
+<p>Binary promotion for an operator with two numbers:</p>
+<ul>
+<li>if either side is <code>double</code>, the other becomes <code>double</code></li>
+<li>else if either is <code>float</code>, the other becomes <code>float</code></li>
+<li>else if either is <code>long</code>, the other becomes <code>long</code></li>
+<li>else both become <code>int</code></li>
+</ul>
+<p>A widening assignment is free: <code>int</code> to <code>long</code>, <code>float</code> to <code>double</code>. A narrowing assignment needs a cast: <code>long</code> to <code>int</code>, <code>double</code> to <code>int</code>. The cast truncates toward zero. <code>(int) 9.9</code> is <code>9</code>. <code>(int) -9.9</code> is <code>-9</code>.</p>
+<p>A <code>boolean</code> cannot be cast to a number, and a number cannot be cast to a <code>boolean</code>.</p>
+<h3 id="the-operators-that-generate-traps">The operators that generate traps</h3>
+<p>Integer division truncates toward zero. <code>5 / 2</code> is <code>2</code>. <code>5 % 2</code> is <code>1</code>. The sign of <code>%</code> follows the dividend: <code>-5 % 2</code> is <code>-1</code>.</p>
+<p>Dividing an integer by zero throws <code>ArithmeticException</code>. Dividing a floating-point value by zero does not: <code>1.0 / 0.0</code> is <code>Infinity</code>, and <code>0.0 / 0.0</code> is <code>NaN</code>.</p>
+<p><code>+</code> is left to right. Once a <code>String</code> appears, the rest is concatenation.</p>
+<pre><code class="language-java">System.out.println(1 + 2 + &quot;3&quot; + 4 + 5);   // 3345
+System.out.println(&quot;3&quot; + 1 + 2);           // 312
+</code></pre>
+<p><code>&amp;&amp;</code> and <code>||</code> stop early. <code>&amp;</code> and <code>|</code> on booleans always evaluate both sides. On numbers, <code>&amp;</code> <code>|</code> <code>^</code> are bitwise.</p>
+<pre><code class="language-java">int x = 0;
+boolean left = false &amp;&amp; ++x &gt; 0;   // x stays 0
+boolean both = false &amp; ++x &gt; 0;    // x becomes 1
+</code></pre>
+<p><code>^</code> on booleans is exclusive or: <code>true ^ false</code> is <code>true</code>, <code>true ^ true</code> is <code>false</code>.</p>
+<p>A compound assignment includes a hidden cast, and the right-hand side is evaluated as a whole:</p>
+<pre><code class="language-java">byte b = 1;
+b += 1;            // compiles: b = (byte) (b + 1)
+b = b + 1;         // does not compile
+
+int n = 5;
+n *= 2 + 3;        // n = 5 * (2 + 3) = 25
+</code></pre>
+<p><code>x++</code> returns the old value, then adds one. <code>++x</code> adds one, then returns the new value.</p>
+<pre><code class="language-java">int x = 1;
+int y = x++ + ++x;   // 1 + 3, and x is now 3
+</code></pre>
+<p>The ternary operator associates to the right. Both branches must end up as one type. <code>flag ? 1 : 2.0</code> has type <code>double</code>. Assigning that to an <code>int</code> does not compile.</p>
+<p>An assignment is an expression. <code>if (ready = true)</code> assigns <code>true</code> and then tests it, when <code>ready</code> is a <code>boolean</code>. <code>if (n = 5)</code> does not compile when <code>n</code> is an <code>int</code>, because the value of the assignment is an <code>int</code>, and <code>if</code> requires a <code>boolean</code>.</p>
+<h3 id="shifts">Shifts</h3>
+<p>Read this on Friday after the fifteen expressions. <code>&lt;&lt;</code> shifts left. <code>&gt;&gt;</code> shifts right and keeps the sign. <code>&gt;&gt;&gt;</code> shifts right and fills with zeros. For an <code>int</code>, the distance is taken mod 32. <code>1 &lt;&lt; 32</code> is <code>1</code>, because the distance is 0. <code>1 &lt;&lt; 31</code> is <code>Integer.MIN_VALUE</code>.</p>
+<h3 id="friday-task-fifteen-expressions">Friday task — fifteen expressions</h3>
+<p>Write the value, and the type when it matters, before you compile anything. Then type each line into <code>main</code> and run it. Keep every miss.</p>
+<ol>
+<li><code>1 + 2 * 3</code></li>
+<li><code>(1 + 2) * 3</code></li>
+<li><code>5 / 2</code></li>
+<li><code>5 / 2.0</code></li>
+<li><code>(int) (5 / 2.0)</code></li>
+<li><code>(int) 5 / 2.0</code></li>
+<li><code>(double) (5 / 2)</code></li>
+<li><code>(double) 5 / 2</code></li>
+<li><code>10 % 3</code></li>
+<li><code>-5 % 2</code></li>
+<li><code>(int) 9.9</code></li>
+<li><code>(int) -9.9</code></li>
+<li><code>1 + 2 + "3" + 4</code></li>
+<li><code>true || false &amp;&amp; false</code></li>
+<li><code>(byte) 200</code></li>
+</ol>
+<p>The answer key is after the Chapter 2 answers. Do not scroll to it yet.</p>
+<p>Friday’s question time, after the expressions: Chapter 2 questions Q1–Q6, Q9, and Q10.</p>
+<h3 id="saturday-part-1-math">Saturday part 1 — <code>Math</code></h3>
+<p>Call each method below by typing the lab. <code>Math.round</code> on a double returns a <code>long</code>. That is the checklist item.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Returns</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Math.abs</code></td>
+<td>same type as the argument</td>
+<td><code>Math.abs(Integer.MIN_VALUE)</code> stays negative, because the positive value does not fit in an <code>int</code></td>
+</tr>
+<tr>
+<td><code>Math.min</code> / <code>Math.max</code></td>
+<td>the type of the overload you called</td>
+<td></td>
+</tr>
+<tr>
+<td><code>Math.round(double)</code></td>
+<td><code>long</code></td>
+<td>ties go toward positive infinity</td>
+</tr>
+<tr>
+<td><code>Math.round(float)</code></td>
+<td><code>int</code></td>
+<td>same tie rule</td>
+</tr>
+<tr>
+<td><code>Math.ceil</code></td>
+<td><code>double</code></td>
+<td>toward positive infinity</td>
+</tr>
+<tr>
+<td><code>Math.floor</code></td>
+<td><code>double</code></td>
+<td>toward negative infinity</td>
+</tr>
+<tr>
+<td><code>Math.pow</code></td>
+<td><code>double</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Math.random</code></td>
+<td><code>double</code></td>
+<td>from 0.0 inclusive to 1.0 exclusive</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>Math.round(2.5)</code> is <code>3</code>. <code>Math.round(-1.5)</code> is <code>-1</code>, because the tie rounds toward positive infinity. <code>Math.ceil(-1.1)</code> is <code>-1.0</code>. <code>Math.floor(-1.1)</code> is <code>-2.0</code>.</p>
+<p><code>int i = Math.round(2.5);</code> does not compile, because that overload returns a <code>long</code>. <code>int i = Math.round(2.5f);</code> compiles.</p>
+<p>Type this class and run it. Leave the commented line commented, then uncomment it once and confirm the compile error.</p>
+<pre><code class="language-java">public class MathCalls {
+    public static void main(String[] args) {
+        System.out.println(Math.abs(-7));
+        System.out.println(Math.min(3, 8));
+        System.out.println(Math.max(3, 8));
+        long rounded = Math.round(2.5);
+        System.out.println(rounded);
+        System.out.println(Math.ceil(1.2));
+        System.out.println(Math.floor(1.2));
+        System.out.println(Math.pow(2, 3));
+        // int bad = Math.round(2.5);
+    }
+}
+</code></pre>
+<p>Saturday’s question time for this half: Chapter 2 questions Q7 and Q8. Then go to Chapter 3 for <code>if</code> / <code>else</code> and both kinds of <code>switch</code>.</p>
+<h2 id="chapter-2-questions">Chapter 2 questions</h2>
+<p>Q1–Q6, Q9, and Q10 are Friday. Q7 and Q8 are Saturday.</p>
+<section class="q" id="chapter-2-questions-Q1" data-qid="chapter-2-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What is the output?</p><pre><code class="language-java">public class Q1 {
+    public static void main(String[] args) {
+        System.out.println(1 + 2 + &quot;3&quot; + 4 + 5);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>15</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>3345</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>12345</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>1 + 2</code> happens first and is <code>3</code>. Then <code>"3"</code> turns the expression into a <code>String</code>, so <code>4</code> and <code>5</code> are concatenated. The print is <code>3345</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q2" data-qid="chapter-2-questions-Q2" data-multi="1" data-key="A,C,D,E"><p><strong>Q2.</strong> Which lines compile? (Choose all that apply.)</p><pre><code class="language-java">byte a = 1;
+byte b = 2;
+byte c = a + b;
+byte d = 1 + 2;
+byte e = (byte) (a + b);
+int f = a + b;
+</code></pre><div class="choices" role="group" aria-label="可選多項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The declaration of <code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The declaration of <code>c</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The declaration of <code>d</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The declaration of <code>e</code></span></button><button type="button" class="choice" data-letter="E" aria-pressed="false"><span class="letter">E</span><span class="choice-body">The declaration of <code>f</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A、C、D、E。</strong> <code>a</code> is a constant that fits. <code>a + b</code> has type <code>int</code>, so storing it in a <code>byte</code> needs a cast. <code>1 + 2</code> is a constant expression whose result fits in a <code>byte</code>. The explicit cast compiles. Assigning the <code>int</code> sum to an <code>int</code> compiles.</p></div></section>
+<section class="q" id="chapter-2-questions-Q3" data-qid="chapter-2-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What is the output?</p><pre><code class="language-java">public class Q3 {
+    public static void main(String[] args) {
+        int x = 1;
+        int y = x++ + ++x;
+        System.out.print(x);
+        System.out.print(y);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>23</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>33</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>34</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>24</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>x</code> starts at 1. <code>x++</code> contributes 1 and leaves <code>x</code> at 2. <code>++x</code> raises <code>x</code> to 3 and contributes 3. <code>y</code> is 4. The print is <code>x</code> then <code>y</code>: <code>34</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q4" data-qid="chapter-2-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> What is the output?</p><pre><code class="language-java">public class Q4 {
+    public static void main(String[] args) {
+        int x = 0;
+        if (false &amp;&amp; ++x == 1) {}
+        System.out.print(x);
+        if (false &amp; ++x == 1) {}
+        System.out.print(x);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>00</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>01</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>11</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An <code>ArithmeticException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>&amp;&amp;</code> does not evaluate <code>++x</code>, so the first print is <code>0</code>. <code>&amp;</code> on a <code>boolean</code> evaluates both sides, so <code>x</code> becomes 1 and the second print is <code>1</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q5" data-qid="chapter-2-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> What is the result?</p><pre><code class="language-java">public class Q5 {
+    public static void main(String[] args) {
+        byte b = 1;
+        b += 1;
+        System.out.println(b);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>b += 1</code> is <code>b = (byte) (b + 1)</code>. It compiles and prints <code>2</code>. The line <code>b = b + 1</code> would not compile. That line is not in this question.</p></div></section>
+<section class="q" id="chapter-2-questions-Q6" data-qid="chapter-2-questions-Q6" data-multi="0" data-key="B"><p><strong>Q6.</strong> What is the output?</p><pre><code class="language-java">public class Q6 {
+    public static void main(String[] args) {
+        int n = 5;
+        n *= 2 + 3;
+        System.out.println(n);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>13</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>25</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>10</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>n *= 2 + 3</code> is <code>n = n * (2 + 3)</code>. <code>5 * 5</code> is <code>25</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q7" data-qid="chapter-2-questions-Q7" data-multi="0" data-key="B"><p><strong>Q7.</strong> What is the output?</p><pre><code class="language-java">public class Q7 {
+    public static void main(String[] args) {
+        System.out.print(Math.round(2.5));
+        System.out.print(&quot; &quot;);
+        System.out.print(Math.round(-1.5));
+        System.out.print(&quot; &quot;);
+        System.out.print(Math.floor(-1.1));
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2 -1 -1.0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>3 -1 -2.0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>3 -2 -1.0</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>2 -2 -2.0</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> A tie rounds toward positive infinity, so <code>2.5</code> rounds to <code>3</code> and <code>-1.5</code> rounds to <code>-1</code>. <code>floor</code> goes toward negative infinity, so <code>-1.1</code> becomes <code>-2.0</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q8" data-qid="chapter-2-questions-Q8" data-multi="1" data-key="B,C,D,E"><p><strong>Q8.</strong> Which of the following compile? (Choose all that apply.)</p><pre><code class="language-java">int a = Math.round(2.5);
+int b = Math.round(2.5f);
+long c = Math.round(2.5);
+int d = (int) Math.ceil(1.2);
+int e = Math.abs(Integer.MIN_VALUE);
+boolean f = (boolean) 1;
+</code></pre><div class="choices" role="group" aria-label="可選多項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>b</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>c</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>d</code></span></button><button type="button" class="choice" data-letter="E" aria-pressed="false"><span class="letter">E</span><span class="choice-body">The line that calls <code>Math.abs</code> compiles, and the value is negative</span></button><button type="button" class="choice" data-letter="F" aria-pressed="false"><span class="letter">F</span><span class="choice-body"><code>f</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B、C、D、E。</strong> <code>Math.round(double)</code> returns a <code>long</code>, so A does not compile and C does. <code>Math.round(float)</code> returns an <code>int</code>. <code>ceil</code> returns a <code>double</code>; the cast makes an <code>int</code> of <code>2</code>. <code>Math.abs(Integer.MIN_VALUE)</code> compiles and returns <code>Integer.MIN_VALUE</code>, which is negative. A <code>boolean</code> cast of <code>1</code> does not compile.</p></div></section>
+<section class="q" id="chapter-2-questions-Q9" data-qid="chapter-2-questions-Q9" data-multi="0" data-key="A"><p><strong>Q9.</strong> What is the output?</p><pre><code class="language-java">public class Q9 {
+    public static void main(String[] args) {
+        int x = 10;
+        int y = 20;
+        System.out.println(x &gt; 5 ? y &gt; 15 ? 1 : 2 : 3);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>3</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>?:</code> associates to the right, so this is <code>x &gt; 5 ? (y &gt; 15 ? 1 : 2) : 3</code>. <code>x &gt; 5</code> is true and <code>y &gt; 15</code> is true, so the result is <code>1</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q10" data-qid="chapter-2-questions-Q10" data-multi="0" data-key="B"><p><strong>Q10.</strong> What is the result?</p><pre><code class="language-java">public class Q10 {
+    public static void main(String[] args) {
+        System.out.println(1 &lt;&lt; 32);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>32</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> An <code>int</code> shift distance is taken mod 32. <code>32 % 32</code> is <code>0</code>, so this is <code>1 &lt;&lt; 0</code>, which is <code>1</code>.</p></div></section>
+<h3 id="friday-expression-answers">Friday expression answers</h3><div class="kept" data-qid="friday-expression-answers"><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><ol>
+<li><code>7</code>. Multiplication happens before addition.</li>
+<li><code>9</code>. The parentheses run first.</li>
+<li><code>2</code>. Integer division truncates toward zero.</li>
+<li><code>2.5</code>. The <code>double</code> promotes the division.</li>
+<li><code>2</code>. The division is a <code>double</code>, then the cast truncates.</li>
+<li><code>2.5</code>. The cast applies only to <code>5</code>, then <code>5 / 2.0</code> is a <code>double</code> division.</li>
+<li><code>2.0</code>. <code>5 / 2</code> is already <code>2</code> before the cast widens it.</li>
+<li><code>2.5</code>. The cast makes <code>5</code> a <code>double</code> before the division.</li>
+<li><code>1</code>.</li>
+<li><code>-1</code>. The sign of <code>%</code> follows the dividend.</li>
+<li><code>9</code>. A cast toward zero drops the fraction.</li>
+<li><code>-9</code>. Same rule for a negative value.</li>
+<li><code>"334"</code>. <code>1 + 2</code> is <code>3</code>, then the <code>String</code> turns the rest into concatenation.</li>
+<li><code>true</code>. <code>&amp;&amp;</code> runs before <code>||</code>, so this is <code>true || (false &amp;&amp; false)</code>.</li>
+<li><code>-56</code>. <code>200</code> does not fit in a <code>byte</code>. The low 8 bits are kept.</li>
+</ol><hr></div></div>
+<h1 id="chapter-3-making-decisions">Chapter 3 — Making decisions</h1>
+<blockquote>
+<p><strong>必睇</strong>　參考書第 3 章 Making Decisions：pp. 102–105（<code>if</code> / <code>else</code>）、pp. 111–123（<code>switch</code> 語句同表達式）、pp. 130–149（迴圈、<code>break</code>、<code>continue</code>、Summary、Exam Essentials）。</p>
+<p><strong>唔使睇</strong>　“Shortening Code with Pattern Matching”（pp. 106–110）同 “Using Pattern Matching with switch”（pp. 124–129）。呢兩節係第 4 週。Review Questions（p. 150 起）唔使做。</p>
+</blockquote>
+<p><strong>Saturday part 2</strong> is <code>if</code> / <code>else</code>, the <code>switch</code> statement, and the <code>switch</code> expression. Stop before “Loops”.</p>
+<p><strong>Sunday</strong> is loops, <code>break</code>, <code>continue</code>, the one program, and then every review question in this file.</p>
+<h2 id="what-you-must-know_2">What you must know</h2>
+<p><code>if</code> requires a <code>boolean</code>. An <code>int</code> is not a condition. Braces are optional around one statement, and a declaration cannot be that one statement.</p>
+<pre><code class="language-java">if (true)
+    int x = 1;     // does not compile
+</code></pre>
+<p><code>else</code> binds to the nearest <code>if</code>.</p>
+<h3 id="switch-statement"><code>switch</code> statement</h3>
+<p>A classic <code>switch</code> accepts <code>byte</code>, <code>short</code>, <code>char</code>, <code>int</code>, the matching wrappers, <code>String</code>, and (from week 4) an enum. It does not accept <code>long</code>, <code>float</code>, <code>double</code>, or <code>boolean</code>.</p>
+<p>A <code>case</code> label is a compile-time constant. Duplicate labels do not compile. Without <code>break</code>, execution falls into the next case. <code>default</code> may sit anywhere. A <code>switch</code> statement with no matching case and no <code>default</code> does nothing.</p>
+<pre><code class="language-java">int n = 1;
+switch (n) {
+    case 1:
+        System.out.print(&quot;A&quot;);
+    case 2:
+        System.out.print(&quot;B&quot;);
+        break;
+    default:
+        System.out.print(&quot;C&quot;);
+}
+// AB
+</code></pre>
+<p>Arrow form is also a statement. Arrows do not fall through, so <code>break</code> is not used:</p>
+<pre><code class="language-java">switch (n) {
+    case 1 -&gt; System.out.print(&quot;A&quot;);
+    case 2, 3 -&gt; System.out.print(&quot;B&quot;);
+    default -&gt; System.out.print(&quot;C&quot;);
+}
+</code></pre>
+<p>You cannot mix <code>-&gt;</code> and <code>:</code> in one <code>switch</code>. A <code>null</code> selector throws <code>NullPointerException</code> before any case runs.</p>
+<h3 id="switch-expression"><code>switch</code> expression</h3>
+<p>A <code>switch</code> expression produces a value. It must be exhaustive, so an <code>int</code> or a <code>String</code> needs a <code>default</code> (or enough cases for the compiler to see that every value is covered). It ends with a semicolon when you assign it.</p>
+<pre><code class="language-java">int result = switch (n) {
+    case 1 -&gt; 10;
+    case 2 -&gt; 20;
+    default -&gt; 0;
+};
+</code></pre>
+<p>A block on the right of <code>-&gt;</code> uses <code>yield</code> to produce the value:</p>
+<pre><code class="language-java">int result = switch (n) {
+    case 1 -&gt; {
+        System.out.print(&quot;A&quot;);
+        yield 10;
+    }
+    default -&gt; 0;
+};
+</code></pre>
+<p>Colon form inside an expression uses <code>yield</code> as well. Falling out of a case without <code>yield</code> does not compile. <code>yield</code> belongs to a <code>switch</code> expression. <code>break 10;</code> is not Java.</p>
+<p>When every constant of an enum is listed, a <code>switch</code> expression on that enum can omit <code>default</code>. Enums are week 4. Pattern matching in <code>switch</code> is week 4 as well.</p>
+<h3 id="sunday-loops-break-continue-then-the-review">Sunday — loops, <code>break</code>, <code>continue</code>, then the review</h3>
+<p><code>while</code> tests first. The body can be skipped. <code>do</code> / <code>while</code> runs the body once, then tests. The semicolon after <code>while (...)</code> is required.</p>
+<pre><code class="language-java">int i = 0;
+do {
+    System.out.print(i);
+} while (i++ &lt; 2);     // prints 012
+</code></pre>
+<p><code>for</code> has init, condition, and update. The init variable’s scope is the loop. All three parts are optional. <code>for (;;)</code> is an infinite loop.</p>
+<p>The enhanced <code>for</code> walks an array or an <code>Iterable</code>. The loop variable is a new variable each time. Assigning to it does not change the array. A <code>null</code> array throws <code>NullPointerException</code>.</p>
+<pre><code class="language-java">int[] nums = {1, 2, 3};
+for (int n : nums) {
+    n = 0;             // changes the copy, not the array
+}
+</code></pre>
+<p>A declaration cannot be the single statement of a loop:</p>
+<pre><code class="language-java">for (int i = 0; i &lt; 3; i++)
+    int x = i;         // does not compile
+</code></pre>
+<h3 id="unreachable-code">Unreachable code</h3>
+<p><code>while (false)</code> does not compile. <code>if (false) { ... }</code> does compile, and the lines after the <code>if</code> still run. This special case is only for <code>if</code>. An infinite <code>while (true)</code> makes the lines after the loop unreachable, unless a <code>break</code> makes them reachable.</p>
+<h3 id="break-and-continue"><code>break</code> and <code>continue</code></h3>
+<p><code>break</code> leaves the nearest loop or <code>switch</code>. <code>continue</code> starts the next iteration of the nearest loop. A label sits in front of a statement:</p>
+<pre><code class="language-java">outer:
+for (int i = 0; i &lt; 3; i++) {
+    for (int j = 0; j &lt; 3; j++) {
+        if (j == 1) break outer;
+    }
+}
+</code></pre>
+<p><code>break</code> with a label must be inside that labeled loop or <code>switch</code>. <code>continue</code> with a label must be inside that labeled loop. The label name is an identifier, not a <code>String</code>.</p>
+<h3 id="sunday-task-the-one-program">Sunday task — the one program</h3>
+<p>Type this after the loop section. It is the checklist program: <code>if</code> / <code>else</code>, a <code>switch</code> expression, <code>for</code>, <code>while</code>, <code>break</code>, and <code>continue</code>. Write the output on paper, then run it.</p>
+<pre><code class="language-java">public class Week1Flow {
+    public static void main(String[] args) {
+        int n = 2;
+        if (n &gt; 0) {
+            System.out.println(&quot;positive&quot;);
+        } else {
+            System.out.println(&quot;not positive&quot;);
+        }
+
+        String label = switch (n) {
+            case 1 -&gt; &quot;one&quot;;
+            case 2 -&gt; &quot;two&quot;;
+            default -&gt; &quot;other&quot;;
+        };
+        System.out.println(label);
+
+        for (int i = 0; i &lt; 3; i++) {
+            if (i == 1) {
+                continue;
+            }
+            System.out.println(&quot;for &quot; + i);
+        }
+
+        int j = 0;
+        while (j &lt; 3) {
+            if (j == 2) {
+                break;
+            }
+            System.out.println(&quot;while &quot; + j);
+            j++;
+        }
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">positive
+two
+for 0
+for 2
+while 0
+while 1
+</code></pre>
+<p>Sunday’s question time is Chapter 3 questions Q6–Q10, then the mixed set. Q1–Q5 are the Saturday <code>if</code> and <code>switch</code> questions; do them on Saturday if you have not already. After that, score all 34 questions. <strong>24 or more</strong> meets the gate. Every miss becomes one rule and a five-line program before Monday of Week 2.</p>
+<h2 id="chapter-3-questions">Chapter 3 questions</h2>
+<p>Q1–Q5 are Saturday. Q6–Q10 are Sunday.</p>
+<section class="q" id="chapter-3-questions-Q1" data-qid="chapter-3-questions-Q1" data-multi="0" data-key="C"><p><strong>Q1.</strong> What is the output?</p><pre><code class="language-java">public class Q1 {
+    public static void main(String[] args) {
+        if (false)
+            if (true)
+                System.out.print(&quot;A&quot;);
+            else
+                System.out.print(&quot;B&quot;);
+        System.out.print(&quot;C&quot;);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>AC</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>BC</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>C</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> The <code>else</code> belongs to the inner <code>if</code>. The outer condition is <code>false</code>, so the inner <code>if</code> never runs and neither branch prints. The statement after the whole <code>if</code> prints <code>C</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q2" data-qid="chapter-3-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> What is the output?</p><pre><code class="language-java">public class Q2 {
+    public static void main(String[] args) {
+        int n = 1;
+        switch (n) {
+            case 1:
+                System.out.print(&quot;A&quot;);
+            case 2:
+                System.out.print(&quot;B&quot;);
+                break;
+            default:
+                System.out.print(&quot;C&quot;);
+        }
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>A</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>AB</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>ABC</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>AC</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> Case <code>1</code> has no <code>break</code>, so execution falls into case <code>2</code>, prints <code>B</code>, and then <code>break</code> leaves the <code>switch</code>. <code>default</code> does not run. The output is <code>AB</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q3" data-qid="chapter-3-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What is the result?</p><pre><code class="language-java">public class Q3 {
+    public static void main(String[] args) {
+        int n = 2;
+        int result = switch (n) {
+            case 1 -&gt; 10;
+            case 2 -&gt; 20;
+        };
+        System.out.println(result);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>20</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> A <code>switch</code> expression on an <code>int</code> must cover every remaining value. There is no <code>default</code>, so the code does not compile. The same cases in a <code>switch</code> statement would compile and do nothing for an unmatched value.</p></div></section>
+<section class="q" id="chapter-3-questions-Q4" data-qid="chapter-3-questions-Q4" data-multi="0" data-key="A"><p><strong>Q4.</strong> What is the output?</p><pre><code class="language-java">public class Q4 {
+    public static void main(String[] args) {
+        int n = 1;
+        int result = switch (n) {
+            case 1 -&gt; {
+                System.out.print(&quot;A&quot;);
+                yield 10;
+            }
+            case 2 -&gt; 20;
+            default -&gt; 0;
+        };
+        System.out.print(result);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>A10</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>10</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>A</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The arrow block runs, prints <code>A</code>, and <code>yield 10</code> becomes the value of the expression. The following print adds <code>10</code>. Output is <code>A10</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q5" data-qid="chapter-3-questions-Q5" data-multi="0" data-key="D"><p><strong>Q5.</strong> What is the output?</p><pre><code class="language-java">public class Q5 {
+    public static void main(String[] args) {
+        String s = null;
+        switch (s) {
+            default -&gt; System.out.print(&quot;X&quot;);
+        }
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>X</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">No output</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：D。</strong> The selector is evaluated first. A <code>null</code> <code>String</code> throws <code>NullPointerException</code>. <code>default</code> does not get a chance to run.</p></div></section>
+<section class="q" id="chapter-3-questions-Q6" data-qid="chapter-3-questions-Q6" data-multi="0" data-key="B"><p><strong>Q6.</strong> What is the output?</p><pre><code class="language-java">public class Q6 {
+    public static void main(String[] args) {
+        int i = 0;
+        do {
+            System.out.print(i);
+        } while (i++ &lt; 2);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>01</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>012</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>0123</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The body prints, then the condition uses the current <code>i</code> and increments it. Prints happen at <code>i</code> equal to 0, 1, and 2. When <code>i</code> is 2 the test <code>2 &lt; 2</code> fails after that print. Output is <code>012</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q7" data-qid="chapter-3-questions-Q7" data-multi="0" data-key="B"><p><strong>Q7.</strong> What is the output?</p><pre><code class="language-java">public class Q7 {
+    public static void main(String[] args) {
+        int count = 0;
+        outer:
+        for (int i = 0; i &lt; 3; i++) {
+            for (int j = 0; j &lt; 3; j++) {
+                count++;
+                if (i == 1) break outer;
+            }
+        }
+        System.out.println(count);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>3</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>4</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>6</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>9</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>i</code> is 0 for a full inner loop: <code>count</code> becomes 3. <code>i</code> becomes 1, the inner loop increments <code>count</code> to 4, and <code>break outer</code> leaves both loops. The print is <code>4</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q8" data-qid="chapter-3-questions-Q8" data-multi="1" data-key="B"><p><strong>Q8.</strong> Which snippets compile? (Choose all that apply.)</p><div class="choices" role="group" aria-label="可選多項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code class="snippet">while (false) {
+    System.out.print(&quot;A&quot;);
+}
+</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code class="snippet">if (false) {
+    System.out.print(&quot;A&quot;);
+}
+System.out.print(&quot;B&quot;);
+</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code class="snippet">for (int i = 0; i &lt; 2; i++)
+    int x = i;
+</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code class="snippet">int n = 1;
+switch (n) {
+    case 1 -&gt; System.out.print(&quot;A&quot;);
+    case 1 -&gt; System.out.print(&quot;B&quot;);
+}
+</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>while (false)</code> is unreachable code and does not compile. <code>if (false)</code> is allowed, and the print of <code>B</code> is reachable. A local-variable declaration cannot be the single statement of a <code>for</code>. Duplicate case labels do not compile.</p></div></section>
+<section class="q" id="chapter-3-questions-Q9" data-qid="chapter-3-questions-Q9" data-multi="0" data-key="B"><p><strong>Q9.</strong> What is the output?</p><pre><code class="language-java">public class Q9 {
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3};
+        for (int n : nums) {
+            n = 9;
+        }
+        System.out.print(nums[0]);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>9</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>123</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The enhanced-for variable is a separate <code>int</code>. Assigning <code>9</code> to it does not write into the array. <code>nums[0]</code> is still <code>1</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q10" data-qid="chapter-3-questions-Q10" data-multi="0" data-key="A"><p><strong>Q10.</strong> What is the result?</p><pre><code class="language-java">public class Q10 {
+    public static void main(String[] args) {
+        boolean ready = false;
+        if (ready = true)
+            System.out.print(&quot;yes&quot;);
+        else
+            System.out.print(&quot;no&quot;);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>yes</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>no</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No output</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>ready = true</code> assigns <code>true</code> and the assignment’s value is <code>true</code>, so the <code>if</code> body runs and prints <code>yes</code>. The same pattern with an <code>int</code> would not compile.</p><hr></div></section>
+<h1 id="sunday-mixed-set">Sunday mixed set</h1>
+<blockquote>
+<p><strong>唔使睇</strong>　呢個混合題用筆記計分。唔好翻第 3 章嘅 Review Questions。</p>
+</blockquote>
+<p>Do this set after <code>Week1Flow</code> and Chapter 3 questions Q6–Q10. Then score Chapter 1 (8), Chapter 2 (10), Chapter 3 (10), and this set (6) together. There are 34 questions. <strong>24 or more</strong> is the Week 1 gate from the study plan. Redo every miss before Monday of Week 2.</p>
+<section class="q" id="sunday-mixed-set-M1" data-qid="sunday-mixed-set-M1" data-multi="0" data-key="B"><p><strong>M1.</strong> What is the output?</p><pre><code class="language-java">public class M1 {
+    static char letter;
+    public static void main(String[] args) {
+        System.out.println((int) letter);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">A blank line</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> A <code>char</code> field defaults to <code>'\u0000'</code>, whose numeric value is 0. The cast prints <code>0</code>.</p></div></section>
+<section class="q" id="sunday-mixed-set-M2" data-qid="sunday-mixed-set-M2" data-multi="0" data-key="B"><p><strong>M2.</strong> What is the output?</p><pre><code class="language-java">public class M2 {
+    public static void main(String[] args) {
+        System.out.print(5 / 2);
+        System.out.print(&quot; &quot;);
+        System.out.print(-5 % 2);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2.5 -1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2 -1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>2 1</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An <code>ArithmeticException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> Integer division truncates toward zero, so <code>5 / 2</code> is <code>2</code>. The remainder keeps the sign of the dividend, so <code>-5 % 2</code> is <code>-1</code>.</p></div></section>
+<section class="q" id="sunday-mixed-set-M3" data-qid="sunday-mixed-set-M3" data-multi="0" data-key="B"><p><strong>M3.</strong> What is the result?</p><pre><code class="language-java">public class M3 {
+    public static void main(String[] args) {
+        int n = 0;
+        switch (n) {
+            case 1 -&gt; System.out.print(&quot;A&quot;);
+            default -&gt; System.out.print(&quot;B&quot;);
+        }
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>A</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>B</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>AB</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> This is a <code>switch</code> statement in arrow form. <code>n</code> is <code>0</code>, so only <code>default</code> runs. Arrows do not fall through.</p></div></section>
+<section class="q" id="sunday-mixed-set-M4" data-qid="sunday-mixed-set-M4" data-multi="0" data-key="B"><p><strong>M4.</strong> What is the output?</p><pre><code class="language-java">public class M4 {
+    public static void main(String[] args) {
+        int x = 0;
+        for (int i = 0; i &lt; 3; i++) {
+            if (i == 1) continue;
+            x++;
+        }
+        System.out.println(x);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>3</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>continue</code> skips the rest of the body when <code>i</code> is 1. <code>x</code> is incremented for <code>i</code> equal to 0 and <code>i</code> equal to 2. The print is <code>2</code>.</p></div></section>
+<section class="q" id="sunday-mixed-set-M5" data-qid="sunday-mixed-set-M5" data-multi="0" data-key="F"><p><strong>M5.</strong> Which line does not compile?</p><pre><code class="language-java">int a = 1_000;
+double b = 1_000.00;
+float c = 10.0_0F;
+long d = 10_L;
+int e = 0x_11;
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>b</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>c</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>d</code></span></button><button type="button" class="choice" data-letter="E" aria-pressed="false"><span class="letter">E</span><span class="choice-body"><code>e</code></span></button><button type="button" class="choice" data-letter="F" aria-pressed="false"><span class="letter">F</span><span class="choice-body">More than one of these</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：F。</strong> <code>10_L</code> puts an underscore next to the suffix, and <code>0x_11</code> puts an underscore at the start of the digits. Both fail. The other three are legal.</p></div></section>
+<section class="q" id="sunday-mixed-set-M6" data-qid="sunday-mixed-set-M6" data-multi="0" data-key="A"><p><strong>M6.</strong> What is the output?</p><pre><code class="language-java">public class M6 {
+    public static void main(String[] args) {
+        Integer a = 200;
+        int b = 200;
+        System.out.print(a == b);
+        System.out.print(Math.ceil(1.0));
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>true1.0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>false1.0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>true2.0</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> Comparing a wrapper to a primitive unboxes the wrapper, so <code>200 == 200</code> is <code>true</code> even though 200 is outside the cache. <code>ceil(1.0)</code> is already an integer value, so it stays <code>1.0</code>.</p><hr></div></section>
+<h1 id="rules-to-copy-onto-one-card">Rules to copy onto one card</h1>
+<ul>
+<li>Fields get defaults. Local variables must be assigned before they are read.</li>
+<li><code>byte</code>, <code>short</code>, and <code>char</code> arithmetic produces an <code>int</code>. A constant that fits may still be assigned.</li>
+<li><code>+=</code> casts back to the left-hand type. <code>b = b + 1</code> does not.</li>
+<li><code>&amp;&amp;</code> and <code>||</code> can skip the right side. <code>&amp;</code> and <code>|</code> do not.</li>
+<li><code>Integer</code> <code>==</code> is a reference compare, except when one side is a primitive and gets unboxed. The cache is -128 to 127. <code>equals</code> compares values.</li>
+<li><code>Math.round(double)</code> returns a <code>long</code>. Ties go toward positive infinity, so <code>round(-1.5)</code> is <code>-1</code>.</li>
+<li>A <code>switch</code> statement can fall through when it uses colons. A <code>switch</code> expression must cover every value and uses <code>yield</code> inside a block.</li>
+<li><code>else</code> binds to the nearest <code>if</code>. <code>while (false)</code> does not compile. <code>if (false)</code> does.</li>
+<li><code>break</code> leaves a loop or a <code>switch</code>. <code>continue</code> goes to the next iteration. A label is how you name the outer one.</li>
+</ul>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="study-plan.html"><small>上一篇</small>開始 · 15 週計劃</a>
+<a class="next" href="Week-01-glossary.html"><small>下一篇</small>第 1 週 · 詞彙</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>
