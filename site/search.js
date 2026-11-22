@@ -226,16 +226,11 @@ function targetSnippet(el) {
 }
 
 function placeItemHtml(item) {
-  const path = item.path ? `<small class="place-path">${esc(item.path)}</small>` : "";
-  const snippet = item.snippet ? `<small class="place-snippet">${esc(item.snippet)}</small>` : "";
   return `<li class="place-item" data-href="${esc(item.href)}">
-    <a href="${esc(item.href)}">${esc(item.heading)}</a>
+    <a href="${esc(item.href)}" title="${esc(item.heading)}">${esc(item.heading)}</a>
     <button type="button" class="place-item-clear" aria-label="移除收藏" title="移除">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
-    ${path}
-    ${snippet}
-    <small class="place-where">${esc(item.where || "")}</small>
   </li>`;
 }
 
@@ -249,8 +244,11 @@ function paintPlace() {
       return;
     }
     box.hidden = false;
-    box.innerHTML = `<div class="place-head"><p>收藏 ${list.length}</p><button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><ul class="place-list">${list.map(placeItemHtml).join("")}</ul>`;
-    box.querySelector(".place-clear").addEventListener("click", () => {
+    const clearAll = list.length > 1
+      ? `<button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`
+      : "";
+    box.innerHTML = `<div class="place-head"><p>收藏 ${list.length}</p>${clearAll}</div><ul class="place-list">${list.map(placeItemHtml).join("")}</ul>`;
+    box.querySelector(".place-clear")?.addEventListener("click", () => {
       writePlaces([]);
       paintPlace();
     });

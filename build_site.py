@@ -701,12 +701,22 @@ article { max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .place-home { margin: 1rem 0 0; max-width: 36rem; }
 .place-head { display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; }
 .place p, .place-home p { margin: 0; color: var(--accent); font-weight: 650; font-size: 0.75rem; }
-.place-list { list-style: none; margin: 0.35rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; max-height: 14rem; overflow: auto; }
-.place-item { display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 0.35rem; align-items: start; }
-.place-item a { display: block; font-weight: 650; text-decoration: none; color: var(--ink); line-height: 1.35; }
+.place-list { list-style: none; margin: 0.25rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.2rem; max-height: 11rem; overflow: auto; }
+.place-item { display: flex; align-items: center; gap: 0.25rem; }
+.place-item a {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  font-weight: 650;
+  text-decoration: none;
+  color: var(--ink);
+  line-height: 1.35;
+  font-size: 0.84rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .place-item a:hover, .place-item a:focus { color: var(--accent); }
-.place-item .place-path { grid-column: 1 / -1; display: block; color: var(--ink); font-weight: 650; margin: 0; line-height: 1.35; font-size: 0.78rem; }
-.place-item .place-where { grid-column: 1 / -1; display: block; color: var(--muted); margin: 0; font-size: 0.72rem; line-height: 1.3; }
 .place-clear, .place-item-clear {
   flex: none;
   width: 1.55rem;
@@ -800,14 +810,6 @@ article > blockquote.reached {
   outline: 1px solid #c5d9d5;
   background: #f7faf9;
   border-radius: 10px;
-}
-.place-item .place-snippet {
-  grid-column: 1 / -1;
-  display: block;
-  color: var(--muted);
-  margin: 0;
-  font-size: 0.72rem;
-  line-height: 1.35;
 }
 .hero h1, article h1 { font-size: 1.85rem; line-height: 1.25; margin: 0 0 0.7rem; font-weight: 700; }
 .kicker { margin: 0 0 0.35rem; color: var(--accent); font-weight: 650; font-size: 0.92rem; }
@@ -1432,16 +1434,11 @@ function targetSnippet(el) {
 }
 
 function placeItemHtml(item) {
-  const path = item.path ? `<small class="place-path">${esc(item.path)}</small>` : "";
-  const snippet = item.snippet ? `<small class="place-snippet">${esc(item.snippet)}</small>` : "";
   return `<li class="place-item" data-href="${esc(item.href)}">
-    <a href="${esc(item.href)}">${esc(item.heading)}</a>
+    <a href="${esc(item.href)}" title="${esc(item.heading)}">${esc(item.heading)}</a>
     <button type="button" class="place-item-clear" aria-label="移除收藏" title="移除">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
-    ${path}
-    ${snippet}
-    <small class="place-where">${esc(item.where || "")}</small>
   </li>`;
 }
 
@@ -1455,8 +1452,11 @@ function paintPlace() {
       return;
     }
     box.hidden = false;
-    box.innerHTML = `<div class="place-head"><p>收藏 ${list.length}</p><button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><ul class="place-list">${list.map(placeItemHtml).join("")}</ul>`;
-    box.querySelector(".place-clear").addEventListener("click", () => {
+    const clearAll = list.length > 1
+      ? `<button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`
+      : "";
+    box.innerHTML = `<div class="place-head"><p>收藏 ${list.length}</p>${clearAll}</div><ul class="place-list">${list.map(placeItemHtml).join("")}</ul>`;
+    box.querySelector(".place-clear")?.addEventListener("click", () => {
       writePlaces([]);
       paintPlace();
     });
