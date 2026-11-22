@@ -955,18 +955,18 @@ article { max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .place-item-clear:hover, .place-item-clear:focus { background: white; color: var(--ink); }
 .place-clear svg, .place-item-clear svg { width: 0.95rem; height: 0.95rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; }
 .week-progress {
-  margin: 0.75rem 0.1rem 0.2rem;
-  padding: 0.65rem 0.7rem 0.7rem;
+  margin: 0.55rem 0.1rem 0.15rem;
+  padding: 0.42rem 0.55rem 0.48rem;
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 10px;
   box-shadow: var(--shadow);
 }
-.week-progress p { display: flex; justify-content: space-between; gap: 0.5rem; margin: 0; font-size: 0.78rem; font-weight: 700; }
+.week-progress p { display: flex; justify-content: space-between; gap: 0.4rem; margin: 0; font-size: 0.7rem; font-weight: 700; }
 .week-progress .pct { color: var(--accent); font-variant-numeric: tabular-nums; }
-.track { margin-top: 0.45rem; height: 0.38rem; background: #efe8dc; border-radius: 999px; overflow: hidden; }
+.track { margin-top: 0.28rem; height: 0.22rem; background: #efe8dc; border-radius: 999px; overflow: hidden; }
 .track span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #0d4845, #1a6b66); border-radius: inherit; }
-.week-progress small { display: block; margin-top: 0.38rem; color: var(--muted); font-size: 0.75rem; line-height: 1.35; }
+.week-progress small { display: block; margin-top: 0.22rem; color: var(--muted); font-size: 0.66rem; line-height: 1.3; }
 .week-progress .where { display: block; color: var(--ink); font-weight: 650; }
 html.nav-collapsed .place, html.nav-collapsed .week-progress { display: none; }
 .mark {
@@ -1559,14 +1559,15 @@ article ul:has(> .task) {
   .pair .links { padding: 0 0.15rem 0.1rem; }
 }
 @media (max-width: 860px) {
+  html { scroll-padding-top: 5.5rem; }
   html.nav-collapsed .place:not([hidden]),
   html.nav-collapsed .week-progress:not([hidden]) { display: block; }
-  body { overflow-x: hidden; }
+  body { overflow-x: clip; }
   .layout {
     display: block;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
   .side {
     position: sticky;
@@ -1575,24 +1576,55 @@ article ul:has(> .task) {
     max-width: 100%;
     height: auto;
     max-height: none;
-    z-index: 20;
+    z-index: 40;
     border-right: 0;
     border-bottom: 1px solid var(--line);
-    padding: 0.7rem max(0.75rem, env(safe-area-inset-right)) 0.7rem max(0.75rem, env(safe-area-inset-left));
+    padding: 0.55rem max(0.75rem, env(safe-area-inset-right)) 0.55rem max(0.75rem, env(safe-area-inset-left));
+    padding-top: max(0.55rem, env(safe-area-inset-top));
     overflow: visible;
     box-sizing: border-box;
+    background: rgba(248, 245, 239, 0.97);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
   html.nav-collapsed .side {
     width: 100%;
     max-width: 100%;
     height: auto;
-    padding: 0.7rem max(0.75rem, env(safe-area-inset-right)) 0.7rem max(0.75rem, env(safe-area-inset-left));
+    padding: 0.55rem max(0.75rem, env(safe-area-inset-right)) 0.55rem max(0.75rem, env(safe-area-inset-left));
+    padding-top: max(0.55rem, env(safe-area-inset-top));
     overflow: visible;
     display: block;
   }
   html.nav-collapsed .brand { display: inline-flex; }
   html.nav-collapsed .fold { background: white; color: var(--ink); border-color: var(--line); }
   html.nav-collapsed #nav { display: none; }
+  .week-progress:not([hidden]) {
+    margin: 0.35rem 0 0;
+    padding: 0.32rem 0.5rem 0.36rem;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+  .week-progress p { font-size: 0.65rem; }
+  .track { margin-top: 0.2rem; height: 0.16rem; }
+  .week-progress small {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    margin-top: 0.14rem;
+    font-size: 0.6rem;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .week-progress .where {
+    display: inline;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .week-progress .where::after { content: "·"; margin-left: 0.3rem; color: var(--muted); font-weight: 500; }
   .fold { width: 2.5rem; height: 2.5rem; }
   #nav {
     display: none;
