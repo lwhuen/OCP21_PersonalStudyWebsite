@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 4 glossary — inheritance through pattern matching · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html" aria-current="page">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 4 週 · 詞彙</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#monday-overriding">Monday — overriding</a></li><li><a href="#wednesday-reference-type-and-object-type">Wednesday — reference type and object type</a></li><li><a href="#friday-equals-interfaces-enums">Friday — equals , interfaces, enums</a></li><li><a href="#saturday-records-sealed-types-patterns">Saturday — records, sealed types, patterns</a></li><li><a href="#sunday-nested-classes">Sunday — nested classes</a></li></ul></details>
+<article>
+<h1 id="week-4-glossary-inheritance-through-pattern-matching">Week 4 glossary — inheritance through pattern matching</h1>
+<p>Terms from <a href="Week-04-notes.html">Week-04-notes.md</a>. The exam words are English.</p>
+<h2 id="monday-overriding">Monday — overriding</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>extends</code></td>
+<td>A class has one superclass. The child constructor calls a parent constructor first.</td>
+</tr>
+<tr>
+<td>Override</td>
+<td>An instance method in the subclass replaces the parent method for objects of the subclass.</td>
+</tr>
+<tr>
+<td>Covariant return</td>
+<td>An override may return the parent’s return type or a subtype of it. <code>Dog create()</code> can override <code>Animal create()</code>.</td>
+</tr>
+<tr>
+<td>Override access</td>
+<td>The same access or wider. <code>public</code> cannot become package-private.</td>
+</tr>
+<tr>
+<td>Override exceptions</td>
+<td>A checked exception stays the same, becomes a subtype, or disappears. The child cannot throw a broader checked exception.</td>
+</tr>
+<tr>
+<td><code>@Override</code></td>
+<td>Asks the compiler to check that a real override exists. A different parameter list is an overload, so <code>@Override</code> on that method does not compile.</td>
+</tr>
+<tr>
+<td>Hidden static method</td>
+<td>A <code>static</code> method with the same signature in the subclass hides the parent method. The reference type selects it. It is not an override.</td>
+</tr>
+<tr>
+<td><code>private</code> method</td>
+<td>Not visible to the subclass, so a child method of the same name is a new method. A parent method that calls the private one does not dispatch to the child.</td>
+</tr>
+<tr>
+<td><code>final</code> method</td>
+<td>Cannot be redeclared in a subclass.</td>
+</tr>
+<tr>
+<td><code>abstract</code> class</td>
+<td>Cannot be constructed with <code>new</code>. It may have fields, constructors, and ordinary methods. A concrete subclass implements every abstract method.</td>
+</tr>
+<tr>
+<td><code>super.speak()</code></td>
+<td>Calls the parent version from inside the child.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wednesday-reference-type-and-object-type">Wednesday — reference type and object type</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reference type</td>
+<td>The type written on the variable. It decides which names compile and which field is read.</td>
+</tr>
+<tr>
+<td>Object type</td>
+<td>The class after <code>new</code>. It decides which override runs.</td>
+</tr>
+<tr>
+<td>Field hiding</td>
+<td>A field in the subclass hides the parent field. It is not overridden. <code>((Dog) a).kind</code> reads <code>Dog</code>’s field.</td>
+</tr>
+<tr>
+<td><code>instanceof</code></td>
+<td>Tests the object type. <code>null instanceof Dog</code> is <code>false</code> and does not throw.</td>
+</tr>
+<tr>
+<td>Pattern <code>instanceof</code></td>
+<td><code>if (a instanceof Dog d)</code> both tests and assigns. Inside the block, <code>d</code> has type <code>Dog</code>.</td>
+</tr>
+<tr>
+<td><code>ClassCastException</code></td>
+<td>Thrown when a cast’s type is in the hierarchy but the object is not that type. <code>(Dog) new Animal()</code> throws it.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="friday-equals-interfaces-enums">Friday — <code>equals</code>, interfaces, enums</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>equals</code> contract</td>
+<td>Reflexive, symmetric, transitive, and consistent. <code>x.equals(null)</code> is <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>hashCode</code> contract</td>
+<td>If <code>a.equals(b)</code> is true, the hash codes match. Matching hash codes do not imply <code>equals</code>.</td>
+</tr>
+<tr>
+<td>Broken <code>equals</code></td>
+<td>An <code>equals</code> that compares values while <code>hashCode</code> stays the identity hash from <code>Object</code>. A <code>HashSet</code> can then hold two objects that say they are equal.</td>
+</tr>
+<tr>
+<td>Default method</td>
+<td>An instance method in an interface with a body. Implementing classes inherit it and may override it.</td>
+</tr>
+<tr>
+<td>Interface static method</td>
+<td>Called on the interface name, as in <code>Pet.home()</code>. It is not inherited. <code>DogPet.home()</code> does not compile.</td>
+</tr>
+<tr>
+<td>Conflicting defaults</td>
+<td>Two interfaces with the same default signature. The class must override that method.</td>
+</tr>
+<tr>
+<td>Private interface method</td>
+<td>Has a body and is visible only inside that interface. Implementers do not inherit it. A static interface method cannot call a private instance method.</td>
+</tr>
+<tr>
+<td>Enum</td>
+<td>A fixed set of constants. The constructor is private. <code>new Season(...)</code> from outside does not compile. <code>ordinal</code> starts at 0.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="saturday-records-sealed-types-patterns">Saturday — records, sealed types, patterns</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Record</td>
+<td>A <code>final</code> class with one field per component, a canonical constructor, accessors named after the components, and generated <code>equals</code>, <code>hashCode</code>, and <code>toString</code>.</td>
+</tr>
+<tr>
+<td>Record accessor</td>
+<td>The component name. <code>cents()</code>, not <code>getCents()</code>.</td>
+</tr>
+<tr>
+<td>Compact constructor</td>
+<td><code>public Coin { ... }</code> with no parameter list. You assign the component parameters. The fields are stored after that.</td>
+</tr>
+<tr>
+<td>Sealed type</td>
+<td>Lists its permitted subtypes with <code>permits</code>. Each direct subtype is <code>final</code>, <code>sealed</code>, or <code>non-sealed</code>. A record that implements a sealed interface is implicitly <code>final</code>.</td>
+</tr>
+<tr>
+<td>Exhaustive switch</td>
+<td>A switch that covers every remaining value. On a sealed type, one case per permitted type is enough, so <code>default</code> is optional.</td>
+</tr>
+<tr>
+<td>Type pattern</td>
+<td><code>case String s</code>. It tests the type and assigns the variable.</td>
+</tr>
+<tr>
+<td>Record pattern</td>
+<td><code>case Point(int x, int y)</code>. It takes the components out of a matching record.</td>
+</tr>
+<tr>
+<td><code>when</code></td>
+<td>A boolean guard on a pattern. <code>case Point(int x, int y) when x &gt; 0</code>.</td>
+</tr>
+<tr>
+<td>Dominated pattern</td>
+<td>A later case that can never run because an earlier case already covers it. It does not compile. Put the more specific pattern first.</td>
+</tr>
+<tr>
+<td><code>case null</code></td>
+<td>Handles a null selector. Without it, a null selector throws <code>NullPointerException</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sunday-nested-classes">Sunday — nested classes</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Static nested class</td>
+<td>Declared with <code>static</code>. No hidden outer instance. It can use the outer class’s private static members. Created with <code>new Outer.Nested()</code>.</td>
+</tr>
+<tr>
+<td>Inner class</td>
+<td>A member class without <code>static</code>. Each object has a hidden outer object. It can read the outer class’s private instance members. <code>Outer.this</code> is that outer object.</td>
+</tr>
+<tr>
+<td>Local class</td>
+<td>Declared inside a method. No access modifier. It can use effectively final local variables and parameters.</td>
+</tr>
+<tr>
+<td>Anonymous class</td>
+<td>An expression with no name. It extends one class or implements one interface. No constructor of its own. It can use effectively final locals.</td>
+</tr>
+<tr>
+<td>Effectively final</td>
+<td>A local variable that is assigned once and never assigned again. Local and anonymous classes, and lambdas in Week 7, may use only these locals.</td>
+</tr>
+</tbody>
+</table></div>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-04-notes.html"><small>上一篇</small>第 4 週 · 筆記</a>
+<a class="next" href="Week-05-notes.html"><small>下一篇</small>第 5 週 · 筆記</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

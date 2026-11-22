@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>OCP Java SE 21 溫習策略 · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html" aria-current="page">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">開始 · 溫習策略</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#三個階段">三個階段</a></li><li><a href="#每天怎麼用這三小時">每天怎麼用這三小時</a></li><li><a href="#三份資料怎樣一起用">三份資料怎樣一起用</a></li><li><a href="#錯題本">錯題本</a></li><li><a href="#每週的門檻">每週的門檻</a></li><li><a href="#做題時關掉自動完成">做題時關掉自動完成</a></li><li><a href="#書和-mock">書和 mock</a></li><li><a href="#考試當天怎麼答">考試當天怎麼答</a></li></ul></details>
+<article>
+<h1 id="ocp-java-se-21-溫習策略">OCP Java SE 21 溫習策略</h1>
+<p>考試是 <strong>1Z0-830</strong>，<strong>2027 年 3 月 7 日（星期日）</strong>。50 題，120 分鐘，合格是 68%，即 <strong>34／50</strong>。</p>
+<p>你由零開始。時間表的形狀不要改：先用八個星期學完所有課題，再用一個月做 mock，最後三個星期只重複錯題，不要在二月中旬到達高峰之後停下來。詳細到每一天做什麼，看 <a href="study-plan.html">OCP-Java-SE-21-study-plan.md</a>。這一份只講怎樣溫。</p>
+<h2 id="三個階段">三個階段</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>階段</th>
+<th>日期</th>
+<th>時數</th>
+<th>做什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>學完整份 syllabus</td>
+<td>2026-11-23 至 2027-01-17</td>
+<td>168 小時</td>
+<td>每個課題學一次。1 月 17 日之後，書變成參考，不再逐章重讀</td>
+</tr>
+<tr>
+<td>Mock 月</td>
+<td>1 月 18 日至 2 月 14 日</td>
+<td>84 小時</td>
+<td>先按弱項練，再做計時 mock 1 至 5</td>
+</tr>
+<tr>
+<td>保住分數</td>
+<td>2 月 15 日至 3 月 6 日</td>
+<td>約 48 小時</td>
+<td>Mock 6、有需要才做 mock 7，加上錯題本</td>
+</tr>
+<tr>
+<td>考試</td>
+<td>3 月 7 日</td>
+<td>—</td>
+<td>50 題，120 分鐘</td>
+</tr>
+</tbody>
+</table></div>
+<p>平日是星期一、三、五，每天 3 小時。普通週末每天 6 小時。第 4、7、8 週的週末每天 8 小時。12 月 25 日和 1 月 1 日都是星期五，這兩週已經放假，各剩 15 小時：周一、周三各 3 小時，周六 6 小時，周日 3 小時。</p>
+<h2 id="每天怎麼用這三小時">每天怎麼用這三小時</h2>
+<ol>
+<li><strong>20 分鐘</strong>：只溫昨天錯過的東西。Anki 只翻已經學過、而且錯過的卡。</li>
+<li><strong>2 小時</strong>：把當天筆記裡的程式自己打一遍。先寫下你預測的結果，再執行。</li>
+<li><strong>40 分鐘</strong>：做當天的題。每一題錯了，就在錯題本寫一條規則，再寫一個五行的程式。</li>
+</ol>
+<p>週末多出來的時間用在做題和錯題本，不用來重讀已經懂的章。第 4、7、8 週的週末是 8 小時。新知識大約到第五、六個小時就開始進不去。如果連續三題都是新規則，就收工。如果只是在重做已經會的題，也收工。</p>
+<p>計時的是題目和錯題，不是「我坐了幾小時」。</p>
+<h2 id="三份資料怎樣一起用">三份資料怎樣一起用</h2>
+<p>每一週有三樣東西，分工不同。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>檔案</th>
+<th>什麼時候用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Week-0N-notes.md</code></td>
+<td>當天。打裡面的程式，做裡面的題</td>
+</tr>
+<tr>
+<td><code>Week-0N-glossary.md</code></td>
+<td>看到一個詞不記得意思時才查。只開本週那一份</td>
+</tr>
+<tr>
+<td><code>Week-0N-anki.apkg</code></td>
+<td>本週日學完、做完題之後才匯入或取消隱藏</td>
+</tr>
+</tbody>
+</table></div>
+<p>Anki 記住的是規則。考試給你的是一段程式，要判斷它不能編譯、執行時才錯，還是印出什麼。這個判斷來自你自己打過的程式，不是來自翻卡。</p>
+<p>未到那個星期，不要翻那個星期的卡，也不要讀那個星期的 glossary。還沒寫過 stream，就去背 <code>flatMap</code>，那些卡會變成噪音。</p>
+<h2 id="錯題本">錯題本</h2>
+<p>由第一週開始用，1 月 18 日之後它就是你的溫習內容。猜對的也算錯。沒有寫進錯題本的覆盤不算完成。</p>
+<pre><code class="language-text">日期：
+題目或片段：
+我選了什麼：
+規則（一句）：
+五行程式：
+</code></pre>
+<p>一章如果已經拿到 80%，八週之內不要整章重讀。它會在一月以錯題的形式回來。</p>
+<h2 id="每週的門檻">每週的門檻</h2>
+<p>門檻有兩個部分的，兩個都要過。題目的 70% 是向上取整，所以下面的分數就是筆記裡的合格線。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>週</th>
+<th>合格線</th>
+<th>另外要做到的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>34 題裡 24 題</td>
+<td>八種 primitive、15 條運算式、一個含 if／switch／迴圈的程式</td>
+</tr>
+<tr>
+<td>2</td>
+<td>30 題裡 21 題</td>
+<td>另外一個小時關掉自動完成</td>
+</tr>
+<tr>
+<td>3</td>
+<td>32 題裡 23 題</td>
+<td>能在紙上追出父類再子類的初始化順序。M4 要講得出哪一個物件可以被回收</td>
+</tr>
+<tr>
+<td>4</td>
+<td>30 題裡 21 題</td>
+<td>覆寫規則抄成一張卡。巢狀類別各能看見什麼，寫一頁筆記</td>
+</tr>
+<tr>
+<td>5</td>
+<td>20 題裡 14 題</td>
+<td>星期五放假。15 個日期格式先預測再執行</td>
+</tr>
+<tr>
+<td>6</td>
+<td>20 題裡 14 題</td>
+<td>星期五放假</td>
+</tr>
+<tr>
+<td>7</td>
+<td>30 題裡 21 題</td>
+<td>低於 18 題：mock 月的頭幾天只做 stream，先寫程式，再碰其他課題</td>
+</tr>
+<tr>
+<td>8</td>
+<td>20 題裡 13 題</td>
+<td>65%。在錯題本最上面寫下最弱的三個課題。syllabus 在 1 月 17 日結束</td>
+</tr>
+</tbody>
+</table></div>
+<p>第 1 週未到 24／34，不要硬進第 2 週。後面的繼承、stream、module 都建在頭兩個星期上。用 <a href="https://java-programming.mooc.fi/">Helsinki Java MOOC</a> 第一部分補幾天，再回到筆記，而不是帶著還不熟的 <code>var</code> 和 <code>switch</code> 去學 class。</p>
+<p>一個程式試兩次還編譯不過，就只留下那一條規則和五行程式，然後繼續。不要把兩個小時花在同一個分號上。</p>
+<h2 id="做題時關掉自動完成">做題時關掉自動完成</h2>
+<p>筆記只要求第 2 週有一個小時完全關掉自動完成。考試沒有 IntelliJ。</p>
+<p>由第 1 週開始：打新程式的那兩個小時可以開著建議，否則你會停在那裡找語法。做題的 40 分鐘關掉。設定在 IntelliJ：Settings → Editor → General → Code Completion，清除 “Show suggestions as you type”。做完題再打開。</p>
+<h2 id="書和-mock">書和 mock</h2>
+<p>八個星期裡只讀一本：Boyarsky 與 Selikoff 的 <em>OCP Oracle Certified Professional Java SE 21 Developer Study Guide</em>（考試編號 1Z0-830）。勘誤在 <a href="https://www.selikoff.net/ocp21/">selikoff.net/ocp21</a>。筆記裡的題是練習，不是書上的題，也不是真題。</p>
+<p><a href="https://enthuware.com/mock-exams/oracle-certified-professional/java-se-21-1z0-830">Enthuware 1Z0-830</a> 等到 <strong>1 月 18 日</strong> 才打開。現在做 mock，量到的是你還沒學的課題，不能用來判斷程度。</p>
+<p>Mock 的目標：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>日期</th>
+<th>哪一次</th>
+<th>目標</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 月 31 日</td>
+<td>計時 mock 1</td>
+<td>65%</td>
+</tr>
+<tr>
+<td>2 月 3 日</td>
+<td>mock 2</td>
+<td>70%</td>
+</tr>
+<tr>
+<td>2 月 6 日</td>
+<td>mock 3</td>
+<td>75%</td>
+</tr>
+<tr>
+<td>2 月 10 日</td>
+<td>mock 4</td>
+<td>75%</td>
+</tr>
+<tr>
+<td>2 月 13 日</td>
+<td>mock 5</td>
+<td>80%（40／50）</td>
+</tr>
+<tr>
+<td>2 月 20 日</td>
+<td>mock 6</td>
+<td>80%</td>
+</tr>
+<tr>
+<td>2 月 27 日</td>
+<td>mock 7，只有分數還未穩才做</td>
+<td>80%</td>
+</tr>
+</tbody>
+</table></div>
+<p>一次 mock 是 120 分鐘，閉卷，不暫停。覆盤沒有寫進錯題本，這一次分數不算。</p>
+<p><strong>1 月中之前訂考試位子。</strong> 最後兩次計時 mock 都要達到 <strong>75%（38／50）</strong> 才去考。合格線只是 68%。75% 是留給考試當天的緊張。未到這條線，不要提前去考。</p>
+<h2 id="考試當天怎麼答">考試當天怎麼答</h2>
+<p>大約兩分鐘一題。第一遍先做會的，其餘做記號，然後回來。空白和答錯扣一樣的分，所以每一題都要作答。題目說選兩個，就選兩個。先找不能編譯的那一行，或者會丟出例外的那一行，再去算結果。</p>
+<p>3 月 6 日星期六最多溫兩個小時，核對證件和考場或線上考試的設定，然後停。3 月 7 日去考。</p>
+</article>
+<nav class="pager" aria-label="前後篇">
+
+<a class="next" href="study-plan.html"><small>下一篇</small>開始 · 15 週計劃</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

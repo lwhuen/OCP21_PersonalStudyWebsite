@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 5 glossary — exceptions and the date-time API · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html" aria-current="page">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 5 週 · 詞彙</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#monday-try-catch-finally">Monday — try , catch , finally</a></li><li><a href="#wednesday-resources-and-custom-exceptions">Wednesday — resources and custom exceptions</a></li><li><a href="#saturday-date-and-time">Saturday — date and time</a></li><li><a href="#sunday-zones-and-formatters">Sunday — zones and formatters</a></li></ul></details>
+<article>
+<h1 id="week-5-glossary-exceptions-and-the-date-time-api">Week 5 glossary — exceptions and the date-time API</h1>
+<p>Terms from <a href="Week-05-notes.html">Week-05-notes.md</a>. The exam words are English. Friday 25 Dec is off.</p>
+<h2 id="monday-try-catch-finally">Monday — <code>try</code>, <code>catch</code>, <code>finally</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Throwable</code></td>
+<td>The parent of <code>Error</code> and <code>Exception</code>.</td>
+</tr>
+<tr>
+<td><code>Error</code></td>
+<td>A serious JVM failure, such as <code>OutOfMemoryError</code> or <code>StackOverflowError</code>. Ordinary code does not catch it and does not declare it.</td>
+</tr>
+<tr>
+<td>Checked exception</td>
+<td>An <code>Exception</code> that is not a <code>RuntimeException</code>, such as <code>IOException</code>. The caller catches it or declares it. <code>Exception</code> itself is checked.</td>
+</tr>
+<tr>
+<td>Unchecked exception</td>
+<td><code>RuntimeException</code> and its subclasses, such as <code>NullPointerException</code>, <code>IllegalArgumentException</code>, <code>ClassCastException</code>, and <code>ArithmeticException</code>. No <code>throws</code> clause is required.</td>
+</tr>
+<tr>
+<td><code>catch</code> order</td>
+<td>Specific type first, then the parent type. A later catch of a child of an earlier catch does not compile.</td>
+</tr>
+<tr>
+<td>Multi-catch</td>
+<td><code>catch (A \| B e)</code>. The alternatives cannot be related by inheritance. <code>e</code> is effectively final.</td>
+</tr>
+<tr>
+<td><code>finally</code></td>
+<td>Runs on the way out of <code>try</code> and <code>catch</code>, including when the <code>try</code> returns. If <code>finally</code> throws, that exception replaces the pending one. The pending one is not added as a suppressed exception.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wednesday-resources-and-custom-exceptions">Wednesday — resources and custom exceptions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Try-with-resources</td>
+<td>A <code>try</code> that declares resources in parentheses. Each type implements <code>AutoCloseable</code>.</td>
+</tr>
+<tr>
+<td>Close order</td>
+<td>After the body, resources close in reverse order of creation. The first one created is the last one closed.</td>
+</tr>
+<tr>
+<td>Suppressed exception</td>
+<td>When the body throws and <code>close</code> also throws, the body’s exception propagates and the close exception is added with <code>addSuppressed</code>.</td>
+</tr>
+<tr>
+<td>Effectively final resource</td>
+<td>A resource variable cannot be reassigned, including one declared outside and named in the parentheses.</td>
+</tr>
+<tr>
+<td>Custom checked exception</td>
+<td>A class that extends <code>Exception</code> and not <code>RuntimeException</code>. Callers must catch it or declare it.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="saturday-date-and-time">Saturday — date and time</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LocalDate</code></td>
+<td>A date, with no time and no zone.</td>
+</tr>
+<tr>
+<td><code>LocalTime</code></td>
+<td>A time, with no date and no zone.</td>
+</tr>
+<tr>
+<td><code>LocalDateTime</code></td>
+<td>A date and a time, with no zone.</td>
+</tr>
+<tr>
+<td><code>Instant</code></td>
+<td>A point on the UTC timeline.</td>
+</tr>
+<tr>
+<td><code>Period</code></td>
+<td>A date-based amount: years, months, and days. Printed as <code>P2D</code>.</td>
+</tr>
+<tr>
+<td><code>Duration</code></td>
+<td>A time-based amount: hours, minutes, seconds, and nanos. Printed as <code>PT2H30M</code>.</td>
+</tr>
+<tr>
+<td>Immutable date</td>
+<td><code>plusDays</code> and the other <code>plus</code> methods return a new object. The original variable does not change until you assign the result.</td>
+</tr>
+<tr>
+<td><code>Period.between</code></td>
+<td>The period from the start date to the end date.</td>
+</tr>
+<tr>
+<td>Date plus <code>Duration</code></td>
+<td><code>LocalDate.plus(Duration)</code> throws <code>UnsupportedTemporalTypeException</code>. A date has no time fields. <code>LocalTime</code> accepts a <code>Duration</code>. An <code>Instant</code> accepts a <code>Duration</code> and rejects a <code>Period</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sunday-zones-and-formatters">Sunday — zones and formatters</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ZonedDateTime</code></td>
+<td>A date, a time, and a zone.</td>
+</tr>
+<tr>
+<td>Gap</td>
+<td>A local time that does not exist, such as 02:30 in <code>America/New_York</code> on 8 March 2026. <code>ZonedDateTime.of</code> moves it forward. That call produces <code>2026-03-08T03:30-04:00</code>.</td>
+</tr>
+<tr>
+<td>Overlap</td>
+<td>A local time that happens twice, such as 01:30 in New York on 1 November 2026. <code>ZonedDateTime.of</code> picks the earlier offset, <code>-04:00</code>. <code>ofLocal</code> can pick <code>-05:00</code> when you pass that offset.</td>
+</tr>
+<tr>
+<td><code>DateTimeFormatter</code></td>
+<td>Turns a date or time into text from a pattern, or parses text. Use <code>Locale.US</code> when the pattern includes words.</td>
+</tr>
+<tr>
+<td><code>yyyy</code></td>
+<td>The year. <code>uuuu</code> is also the year.</td>
+</tr>
+<tr>
+<td><code>MM</code></td>
+<td>The month, with a leading zero. <code>MMM</code> is the short name (<code>Dec</code>). <code>MMMM</code> is the full name (<code>December</code>).</td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>The day of the month.</td>
+</tr>
+<tr>
+<td><code>HH</code></td>
+<td>The hour from 0 to 23. <code>h</code> is the hour on a 12-hour clock. <code>a</code> is the AM/PM marker.</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>The day of the year. 21 December 2026 is <code>355</code>.</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td>The quarter. December is <code>4</code>.</td>
+</tr>
+<tr>
+<td><code>e</code></td>
+<td>The numeric day of the week for the locale. In <code>Locale.US</code> the week starts on Sunday, so Monday is <code>2</code>.</td>
+</tr>
+<tr>
+<td><code>EEE</code></td>
+<td>The short weekday name. 21 December 2026 is <code>Mon</code>.</td>
+</tr>
+<tr>
+<td>Quoted pattern text</td>
+<td>Characters in single quotes are literals. <code>yyyy-MM-dd'T'HH:mm</code> keeps the <code>T</code>.</td>
+</tr>
+<tr>
+<td><code>ISO_LOCAL_DATE</code></td>
+<td>The predefined formatter <code>yyyy-MM-dd</code>.</td>
+</tr>
+</tbody>
+</table></div>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-05-notes.html"><small>上一篇</small>第 5 週 · 筆記</a>
+<a class="next" href="Week-06-notes.html"><small>下一篇</small>第 6 週 · 筆記</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

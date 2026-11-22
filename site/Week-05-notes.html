@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 5 notes — exceptions and the date-time API · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html" aria-current="page">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 5 週 · 筆記</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li class="chapter"><a href="#chapter-1-try-catch-finally">Chapter 1 — try , catch , finally</a><ul><li><a href="#what-you-must-know">What you must know</a></li><li><a href="#chapter-1-questions">Chapter 1 questions</a></li></ul></li><li class="chapter"><a href="#chapter-2-try-with-resources-and-a-custom-checked-exception">Chapter 2 — Try-with-resources and a custom checked exception</a><ul><li><a href="#what-you-must-know_1">What you must know</a></li><li><a href="#chapter-2-questions">Chapter 2 questions</a></li></ul></li><li class="chapter"><a href="#chapter-3-date-and-time">Chapter 3 — Date and time</a><ul><li><a href="#what-you-must-know_2">What you must know</a></li><li><a href="#chapter-3-questions">Chapter 3 questions</a></li></ul></li><li class="chapter"><a href="#sunday-daylight-saving-15-patterns-then-the-score">Sunday — daylight saving, 15 patterns, then the score</a><ul><li><a href="#dst">Dst</a></li><li><a href="#fifteen-patterns">Fifteen patterns</a></li><li><a href="#sunday-questions">Sunday questions</a></li></ul></li><li class="chapter"><a href="#rules-to-copy-onto-one-card">Rules to copy onto one card</a><ul></ul></li></ul></details>
+<article>
+<h1 id="week-5-notes-exceptions-and-the-date-time-api">Week 5 notes — exceptions and the date-time API</h1>
+<p><strong>21–27 Dec 2026. 15 hours.</strong> Friday 25 Dec is off. This file follows Week 5 of the study plan. The gate is the exceptions and date-time questions at <strong>70%</strong> (14 of the 20 questions in this file).</p>
+<p>Monday and Wednesday are 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Friday is a day off. Saturday is 6 hours. Sunday is 3 hours: the daylight-saving listing, 15 formatter predictions, and the questions. Monday’s first 20 minutes are the Week 4 misses.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>What the plan says</th>
+<th>Where it is in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td><code>try</code> / <code>catch</code> / <code>finally</code>, multi-catch, checked versus unchecked</td>
+<td>Chapter 1, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>Try-with-resources and a custom checked exception</td>
+<td>Chapter 2, <code>Doors</code>, <code>Pay</code>, questions Q1–Q4</td>
+</tr>
+<tr>
+<td>Fri 25 Dec</td>
+<td>Off</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Sat</td>
+<td><code>LocalDate</code>, <code>LocalTime</code>, <code>LocalDateTime</code>, <code>Period</code>, <code>Duration</code>, <code>Instant</code></td>
+<td>Chapter 3, <code>Dates</code>, questions Q1–Q5</td>
+</tr>
+<tr>
+<td>Sun</td>
+<td>One daylight-saving example, 15 formatter predictions, then questions</td>
+<td><code>Dst</code>, the 15 patterns, questions Q1–Q5, then score all 20</td>
+</tr>
+</tbody>
+</table></div>
+<p>Same checklist as the study plan:</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> From memory: checked versus unchecked versus <code>Error</code>, and what <code>finally</code> does when the catch block throws.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A custom checked exception, and a try-with-resources class whose close messages print in reverse order of creation.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>LocalDate</code>, <code>LocalTime</code>, <code>LocalDateTime</code>, <code>Instant</code>, <code>Period</code>, and <code>Duration</code>. <code>Period</code> is date-based. <code>Duration</code> is time-based. <code>plusDays</code> returns a new object.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> On a real daylight-saving date, show a local time that is skipped or repeated, and what <code>ZonedDateTime</code> does.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Predict 15 <code>DateTimeFormatter</code> patterns, then run them.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Exceptions and date-time questions at 70%.</li>
+</ul>
+<p>Predict each listing before you run it. Each miss goes in the notebook as one rule and a five-line program.</p>
+<p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
+<hr>
+<h1 id="chapter-1-try-catch-finally">Chapter 1 — <code>try</code>, <code>catch</code>, <code>finally</code></h1>
+<blockquote>
+<p><strong>必睇</strong>　第 11 章 Exceptions and Localization，pp. 614–636：由 “Understanding Exceptions” 到 “Adding a finally Block”。</p>
+<p><strong>唔使睇</strong>　“Automating Resource Management”（p. 637）係星期三。p. 646 起嘅格式同 locale 留星期日同第 8 週。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Monday</strong> is this chapter and questions Q1–Q6.</p>
+<h2 id="what-you-must-know">What you must know</h2>
+<p><code>Throwable</code> has two branches. <code>Error</code> means the JVM is in trouble (<code>OutOfMemoryError</code>, <code>StackOverflowError</code>). You do not catch <code>Error</code> in ordinary code, and you do not declare it. <code>Exception</code> splits again:</p>
+<ul>
+<li>Unchecked: <code>RuntimeException</code> and its subclasses, such as <code>NullPointerException</code>, <code>IllegalArgumentException</code>, <code>ClassCastException</code>, and <code>ArithmeticException</code>. A method may throw them without a <code>throws</code> clause.</li>
+<li>Checked: other <code>Exception</code> subclasses, such as <code>IOException</code> and <code>FileNotFoundException</code>. The caller catches them or declares them. <code>Exception</code> itself is checked. <code>RuntimeException</code> is not.</li>
+</ul>
+<p><code>catch</code> clauses are tried in order. A later catch cannot use a parent of an earlier catch, or the earlier one would have taken everything. <code>catch (FileNotFoundException | IOException e)</code> does not compile, because the alternatives are related by inheritance. The parameter of a multi-catch is effectively final.</p>
+<p><code>finally</code> runs after <code>try</code> and after <code>catch</code>, on the way out, including when the <code>try</code> returns. A <code>System.exit</code> call is the case that skips it. If <code>finally</code> throws, that exception replaces the one that was pending from <code>try</code> or <code>catch</code>. The pending one is not added as a suppressed exception. Suppressed exceptions belong to try-with-resources, which is Wednesday.</p>
+<p>This method prints <code>catch finally-ran</code> when <code>finally</code> does not throw, because <code>finally</code> runs and then the catch exception continues:</p>
+<pre><code class="language-java">try {
+    throw new RuntimeException(&quot;try&quot;);
+} catch (RuntimeException e) {
+    throw new RuntimeException(&quot;catch&quot;);
+} finally {
+    System.out.print(&quot;finally-ran &quot;);
+}
+</code></pre>
+<p>When <code>finally</code> itself throws <code>new RuntimeException("finally")</code>, the caller sees the message <code>finally</code>, and <code>getSuppressed()</code> is empty.</p>
+<p>Monday’s questions are Q1–Q6.</p>
+<h2 id="chapter-1-questions">Chapter 1 questions</h2>
+<section class="q" id="chapter-1-questions-Q1" data-qid="chapter-1-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> Which type is checked?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>IllegalArgumentException</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>IOException</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>NullPointerException</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>StackOverflowError</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>IOException</code> is a checked <code>Exception</code>. The two runtime exceptions are unchecked. <code>StackOverflowError</code> is an <code>Error</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q2" data-qid="chapter-1-questions-Q2" data-multi="0" data-key="C"><p><strong>Q2.</strong> What reaches the caller?</p><pre><code class="language-java">try {
+    throw new RuntimeException(&quot;try&quot;);
+} catch (RuntimeException e) {
+    throw new RuntimeException(&quot;catch&quot;);
+} finally {
+    throw new RuntimeException(&quot;finally&quot;);
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The message <code>try</code>, with <code>catch</code> suppressed</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The message <code>catch</code>, with <code>finally</code> suppressed</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The message <code>finally</code>, and <code>getSuppressed()</code> is empty</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> A <code>finally</code> that throws becomes the exception that leaves the statement. On this JDK the pending <code>catch</code> exception is not in <code>getSuppressed()</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q3" data-qid="chapter-1-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> Does this compile?</p><pre><code class="language-java">try {
+    throw new java.io.FileNotFoundException();
+} catch (java.io.FileNotFoundException | java.io.IOException e) {
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and <code>e</code> can be assigned a new exception</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The two types are related by inheritance</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. <code>FileNotFoundException</code> is unchecked</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> Multi-catch alternatives cannot be subclasses of each other. Catch <code>FileNotFoundException</code> in its own clause before <code>IOException</code>, or catch only <code>IOException</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q4" data-qid="chapter-1-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> This method returns a <code>String</code>. The caller does not print the returned value. What does the method print?</p><pre><code class="language-java">static String go() {
+    String s = &quot;go&quot;;
+    try {
+        s = s + &quot; try&quot;;
+        return s;
+    } finally {
+        s = s + &quot; finally&quot;;
+        System.out.print(s);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>go try</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>go try finally</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>go finally</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>finally</code> runs before the <code>return</code> completes. The print sees <code>go try finally</code>. The returned string is still <code>go try</code>, because <code>return</code> already captured that value. This question asks for the print.</p></div></section>
+<section class="q" id="chapter-1-questions-Q5" data-qid="chapter-1-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> Which catch order compiles?</p><pre><code class="language-java">catch (Exception e) { }
+catch (RuntimeException e) { }
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">This order</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The same catches swapped, with <code>RuntimeException</code> first</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Both orders</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Neither. <code>RuntimeException</code> cannot be caught</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The specific type comes first. A later <code>RuntimeException</code> catch is unreachable once <code>Exception</code> has been caught.</p></div></section>
+<section class="q" id="chapter-1-questions-Q6" data-qid="chapter-1-questions-Q6" data-multi="0" data-key="C"><p><strong>Q6.</strong> A method calls <code>Files.readString</code> and does not catch <code>IOException</code> or declare it. What is the result?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It compiles. <code>IOException</code> is unchecked</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It compiles. <code>finally</code> is implied</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It compiles and throws <code>Error</code> if the file is missing</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>IOException</code> is checked. The method must catch it or add <code>throws IOException</code>.</p><hr></div></section>
+<h1 id="chapter-2-try-with-resources-and-a-custom-checked-exception">Chapter 2 — Try-with-resources and a custom checked exception</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 11 章 “Automating Resource Management”，pp. 637–645。自訂 checked exception 在 “Throwing an Exception”（p. 618）；星期一未讀完就補呢一節。</p>
+<p><strong>唔使睇</strong>　p. 646 之後今日唔好睇。</p>
+</blockquote>
+<p><strong>Wednesday</strong> is this chapter, <code>Doors</code>, <code>Pay</code>, and questions Q1–Q4.</p>
+<h2 id="what-you-must-know_1">What you must know</h2>
+<p>A try-with-resources declares resources in parentheses. Each resource’s type implements <code>AutoCloseable</code>. The resources close automatically, after the body, in reverse order of creation. The first one created is the last one closed.</p>
+<p>If the body throws and <code>close</code> also throws, the body’s exception is the one that propagates. Each exception from <code>close</code> is added with <code>addSuppressed</code>. This is different from a <code>finally</code> that throws.</p>
+<p>The resource variable is effectively final. Assigning it inside the body does not compile.</p>
+<p>A custom checked exception extends <code>Exception</code> and not <code>RuntimeException</code>. Callers must catch it or declare it.</p>
+<h3 id="doors"><code>Doors</code></h3>
+<pre><code class="language-java">class Door implements AutoCloseable {
+    private final String name;
+    Door(String name) {
+        this.name = name;
+        System.out.print(name);
+    }
+    public void close() {
+        System.out.print(name.toLowerCase());
+    }
+}
+public class Doors {
+    public static void main(String[] args) {
+        try (Door a = new Door(&quot;A&quot;); Door b = new Door(&quot;B&quot;)) {
+            System.out.print(&quot;-&quot;);
+        }
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">AB-ba
+</code></pre>
+<p><code>A</code> and <code>B</code> are constructed, the body prints <code>-</code>, then <code>B</code> closes, then <code>A</code> closes.</p>
+<h3 id="pay"><code>Pay</code></h3>
+<pre><code class="language-java">class BadAmount extends Exception {
+    BadAmount(String message) { super(message); }
+}
+public class Pay {
+    static void charge(int cents) throws BadAmount {
+        if (cents &lt;= 0) {
+            throw new BadAmount(&quot;cents&quot;);
+        }
+    }
+    public static void main(String[] args) throws BadAmount {
+        charge(50);
+        System.out.println(&quot;charged&quot;);
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">charged
+</code></pre>
+<p>Remove <code>throws BadAmount</code> from <code>main</code> and <code>main</code> does not compile. <code>charge(-1)</code> throws <code>BadAmount</code> before <code>charged</code>.</p>
+<p>Wednesday’s questions are Q1–Q4.</p>
+<h2 id="chapter-2-questions">Chapter 2 questions</h2>
+<section class="q" id="chapter-2-questions-Q1" data-qid="chapter-2-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What does <code>Doors</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>AB-ab</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>AB-ba</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>baAB-</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>AB-AB</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> Creation prints <code>AB</code>. The body prints <code>-</code>. Close runs last-created first, so <code>b</code> then <code>a</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q2" data-qid="chapter-2-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> The body throws <code>IllegalStateException("body")</code> and <code>close</code> throws <code>IllegalStateException("close")</code>. What does the caller observe?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Message <code>close</code>, and <code>body</code> is suppressed</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Message <code>body</code>, and <code>close</code> is suppressed</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Message <code>finally</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The exception from the body propagates. The exception from <code>close</code> is suppressed on it. A throwing <code>finally</code> does not work this way. That was Monday’s rule.</p></div></section>
+<section class="q" id="chapter-2-questions-Q3" data-qid="chapter-2-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> Does this compile?</p><pre><code class="language-java">Door d = new Door(&quot;A&quot;);
+try (d) {
+    d = new Door(&quot;B&quot;);
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes, and the close order is <code>ba</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and only <code>A</code> is closed</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The resource variable is effectively final</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. A resource must be <code>Closeable</code>, not <code>AutoCloseable</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> A resource declared outside and used in the parentheses still cannot be reassigned. It is effectively final.</p></div></section>
+<section class="q" id="chapter-2-questions-Q4" data-qid="chapter-2-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> <code>charge</code> throws <code>BadAmount</code>. <code>main</code> calls <code>charge(50)</code> and does not catch or declare <code>BadAmount</code>. What is the result?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It compiles and prints <code>charged</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It compiles and throws <code>BadAmount</code> at runtime</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It compiles because <code>BadAmount</code> extends <code>RuntimeException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>BadAmount</code> extends <code>Exception</code> and not <code>RuntimeException</code>, so it is checked. <code>main</code> must handle it or declare it.</p><hr></div></section>
+<h1 id="chapter-3-date-and-time">Chapter 3 — Date and time</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 4 章 “Working with Dates and Times”，pp. 205–219：由 “Creating Dates and Times” 到 “Working with Instants”。</p>
+<p><strong>唔使睇</strong>　“Accounting for Daylight Saving Time”（p. 220）同第 11 章嘅 formatter 係星期日。locale（第 11 章 p. 651 起）留第 8 週。</p>
+</blockquote>
+<p><strong>Saturday</strong> is 6 hours: this chapter, <code>Dates</code>, and questions Q1–Q5.</p>
+<h2 id="what-you-must-know_2">What you must know</h2>
+<p>These types are immutable. A <code>plus</code> method returns a new object. The original variable does not change until you assign the result.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What it stores</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LocalDate</code></td>
+<td>A date, with no time and no zone</td>
+</tr>
+<tr>
+<td><code>LocalTime</code></td>
+<td>A time, with no date and no zone</td>
+</tr>
+<tr>
+<td><code>LocalDateTime</code></td>
+<td>A date and a time, with no zone</td>
+</tr>
+<tr>
+<td><code>Instant</code></td>
+<td>A point on the UTC timeline</td>
+</tr>
+<tr>
+<td><code>Period</code></td>
+<td>Years, months, and days. Date-based</td>
+</tr>
+<tr>
+<td><code>Duration</code></td>
+<td>Hours, minutes, seconds, and nanos. Time-based</td>
+</tr>
+<tr>
+<td><code>ZonedDateTime</code></td>
+<td>A date, a time, and a zone. Sunday uses it</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>Period.of(1, 2, 3)</code> is one year, two months, and three days. <code>Period.between(start, end)</code> counts from the start date to the end date. <code>Duration.ofHours(2).plusMinutes(30)</code> prints <code>PT2H30M</code>. <code>LocalDate.plus(Duration.ofDays(1))</code> throws <code>UnsupportedTemporalTypeException</code>, because a date has no time fields for a <code>Duration</code> to change. <code>LocalDate.plus(Period.ofDays(1))</code> works.</p>
+<p><code>LocalDateTime</code> can take a <code>Period</code> or a <code>Duration</code>. <code>Instant</code> takes a <code>Duration</code>. Adding a <code>Period</code> to an <code>Instant</code> does not fit: an instant has no calendar fields.</p>
+<h3 id="dates"><code>Dates</code></h3>
+<pre><code class="language-java">import java.time.*;
+
+public class Dates {
+    public static void main(String[] args) {
+        LocalDate d = LocalDate.of(2026, 12, 21);
+        d.plusDays(1);
+        System.out.println(d);
+        System.out.println(d.plusDays(1));
+        LocalDate later = d.plus(Period.ofDays(2));
+        System.out.println(later);
+        System.out.println(Period.between(d, later));
+        System.out.println(Duration.ofHours(2).plusMinutes(30));
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">2026-12-21
+2026-12-22
+2026-12-23
+P2D
+PT2H30M
+</code></pre>
+<p>The first line is still 21 December. <code>plusDays</code> returned a new date and the code ignored it.</p>
+<p>Saturday’s questions are Q1–Q5.</p>
+<h2 id="chapter-3-questions">Chapter 3 questions</h2>
+<section class="q" id="chapter-3-questions-Q1" data-qid="chapter-3-questions-Q1" data-multi="0" data-key="A"><p><strong>Q1.</strong> <code>LocalDate d = LocalDate.of(2026, 12, 21); d.plusDays(1);</code> What is <code>d</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2026-12-21</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2026-12-22</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>plusDays</code> returns a new <code>LocalDate</code>. <code>d</code> still points at 21 December.</p></div></section>
+<section class="q" id="chapter-3-questions-Q2" data-qid="chapter-3-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> What is <code>Period.between(LocalDate.of(2026, 12, 21), LocalDate.of(2026, 12, 23))</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>PT48H</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>P2D</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>P0Y2M</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Period.between</code> is date-based. Two days is <code>P2D</code>. A <code>Duration</code> would use the <code>PT</code> form.</p></div></section>
+<section class="q" id="chapter-3-questions-Q3" data-qid="chapter-3-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What happens on <code>LocalDate.of(2026, 12, 21).plus(Duration.ofDays(1))</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It returns <code>2026-12-22</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It returns a <code>LocalDateTime</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It throws <code>UnsupportedTemporalTypeException</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>LocalDate</code> has no time-of-day fields. A <code>Duration</code> cannot be applied to it.</p></div></section>
+<section class="q" id="chapter-3-questions-Q4" data-qid="chapter-3-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> Which addition fits the type?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>Instant.now().plus(Period.ofDays(1))</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>LocalDate.now().plus(Duration.ofHours(1))</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>LocalTime.now().plus(Duration.ofHours(1))</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>LocalDate.now().plus(Duration.ofDays(1))</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>LocalTime</code> has hour fields, so a <code>Duration</code> applies. An <code>Instant</code> does not accept a <code>Period</code>. A <code>LocalDate</code> does not accept a <code>Duration</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q5" data-qid="chapter-3-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> What does <code>Duration.ofHours(2).plusMinutes(30)</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2:30</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>PT2H30M</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>P2H30M</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>150</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Duration</code> prints with a <code>PT</code> prefix. <code>Period</code> prints with a <code>P</code> prefix and calendar units.</p><hr></div></section>
+<h1 id="sunday-daylight-saving-15-patterns-then-the-score">Sunday — daylight saving, 15 patterns, then the score</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 4 章 “Accounting for Daylight Saving Time”，p. 220。第 11 章 “Formatting Dates and Times” 同 “Customizing the Date/Time Format”，pp. 647–650。15 條 pattern 用呢兩節。</p>
+<p><strong>唔使睇</strong>　p. 651 起嘅 locale、貨幣、resource bundle 留第 8 週。</p>
+</blockquote>
+<p>Sunday is 3 hours. The first 20 minutes are Saturday’s misses.</p>
+<h2 id="dst"><code>Dst</code></h2>
+<p>8 March 2026 is the New York spring-forward. Local time 02:30 does not exist. 1 November 2026 is the fall-back. Local time 01:30 happens twice.</p>
+<pre><code class="language-java">import java.time.*;
+
+public class Dst {
+    public static void main(String[] args) {
+        ZoneId ny = ZoneId.of(&quot;America/New_York&quot;);
+        LocalDateTime gap = LocalDateTime.of(2026, 3, 8, 2, 30);
+        System.out.println(ZonedDateTime.of(gap, ny));
+        LocalDateTime overlap = LocalDateTime.of(2026, 11, 1, 1, 30);
+        System.out.println(ZonedDateTime.of(overlap, ny));
+        System.out.println(ZonedDateTime.ofLocal(overlap, ny, ZoneOffset.ofHours(-5)));
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">2026-03-08T03:30-04:00[America/New_York]
+2026-11-01T01:30-04:00[America/New_York]
+2026-11-01T01:30-05:00[America/New_York]
+</code></pre>
+<p><code>ZonedDateTime.of</code> moves the missing 02:30 forward to 03:30. On the overlap, <code>of</code> picks the earlier offset, which is still <code>-04:00</code>. <code>ofLocal</code> with the preferred offset <code>-05:00</code> picks the later, standard-time occurrence.</p>
+<h2 id="fifteen-patterns">Fifteen patterns</h2>
+<p>Use <code>LocalDateTime.of(2026, 12, 21, 15, 4, 5)</code> and <code>Locale.US</code>. That date is a Monday. Write the fifteen results before you run them. Then run a loop of <code>DateTimeFormatter.ofPattern(pattern, Locale.US)</code>, and use <code>DateTimeFormatter.ISO_LOCAL_DATE</code> for the last one.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Pattern</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>yyyy-MM-dd</code></td>
+<td><code>2026-12-21</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>dd/MM/yyyy</code></td>
+<td><code>21/12/2026</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>MMM d, yyyy</code></td>
+<td><code>Dec 21, 2026</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>MMMM</code></td>
+<td><code>December</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>EEE</code></td>
+<td><code>Mon</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>HH:mm:ss</code></td>
+<td><code>15:04:05</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>h:mm a</code></td>
+<td><code>3:04 PM</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>yyyy-MM-dd'T'HH:mm</code></td>
+<td><code>2026-12-21T15:04</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>D</code></td>
+<td><code>355</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>uuuu</code></td>
+<td><code>2026</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>q</code></td>
+<td><code>4</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>e</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>a</code></td>
+<td><code>PM</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>ss</code></td>
+<td><code>05</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>ISO_LOCAL_DATE</code></td>
+<td><code>2026-12-21</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>D</code> is the day of the year. <code>q</code> is the quarter. <code>e</code> is the numeric day of the week for this locale, and Monday is 2 because the US week starts on Sunday. A single <code>M</code> would print <code>12</code> without a leading zero. <code>MM</code> prints <code>12</code>. <code>MMM</code> prints <code>Dec</code>.</p>
+<h2 id="sunday-questions">Sunday questions</h2>
+<section class="q" id="sunday-questions-Q1" data-qid="sunday-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What does <code>ZonedDateTime.of(LocalDateTime.of(2026, 3, 8, 2, 30), ZoneId.of("America/New_York"))</code> use as the local time?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>02:30</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>03:30</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>01:30</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> 02:30 does not exist on the spring-forward morning. <code>ZonedDateTime.of</code> resolves it to 03:30 at offset <code>-04:00</code>.</p></div></section>
+<section class="q" id="sunday-questions-Q2" data-qid="sunday-questions-Q2" data-multi="0" data-key="A"><p><strong>Q2.</strong> On 1 November 2026 in <code>America/New_York</code>, which offset does <code>ZonedDateTime.of</code> choose for local time 01:30?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>-04:00</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>-05:00</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>Z</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The call throws <code>DateTimeException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The local time happens twice. <code>ZonedDateTime.of</code> selects the earlier offset, <code>-04:00</code>. The later offset is <code>-05:00</code>, and <code>ofLocal</code> can select it when you pass that offset.</p></div></section>
+<section class="q" id="sunday-questions-Q3" data-qid="sunday-questions-Q3" data-multi="0" data-key="B"><p><strong>Q3.</strong> What is pattern <code>yyyy-MM-dd'T'HH:mm</code> for 21 Dec 2026 at 15:04:05?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>2026-12-21 15:04:05</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2026-12-21T15:04</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>21/12/2026T3:04 PM</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The pattern does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The quoted <code>T</code> is a literal. <code>HH:mm</code> stops at minutes, so the seconds are not in the text.</p></div></section>
+<section class="q" id="sunday-questions-Q4" data-qid="sunday-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> What does pattern <code>D</code> print for 21 Dec 2026?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>21</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>12</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>355</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>Monday</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>D</code> is the day of the year. 21 December is day 355 in 2026.</p></div></section>
+<section class="q" id="sunday-questions-Q5" data-qid="sunday-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> <code>LocalDate</code> and <code>LocalDateTime</code> are created with <code>of</code>. You call <code>plusDays(1)</code> and do not assign the result. Which statement is true?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Both variables move forward one day</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Both variables stay on the original date</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Only <code>LocalDate</code> stays. <code>LocalDateTime</code> changes</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The calls do not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> Both types are immutable. <code>plusDays</code> returns a new value and leaves the receiver unchanged.</p><p>Score Chapter 1 (6), Chapter 2 (4), Chapter 3 (5), and Sunday (5). <strong>14 or more</strong> of the 20 questions is the gate. Every miss becomes one rule and a five-line program before Monday of Week 6.</p><hr></div></section>
+<h1 id="rules-to-copy-onto-one-card">Rules to copy onto one card</h1>
+<ul>
+<li>Checked exceptions must be caught or declared. <code>RuntimeException</code> is unchecked. <code>Error</code> is a separate branch.</li>
+<li><code>catch</code> goes from the specific type to the general type. Multi-catch alternatives cannot be related by inheritance.</li>
+<li><code>finally</code> runs on the way out. If <code>finally</code> throws, that exception replaces the pending one.</li>
+<li>Try-with-resources closes in reverse order of creation. An exception from <code>close</code> is suppressed when the body also threw.</li>
+<li>A custom checked exception extends <code>Exception</code>, not <code>RuntimeException</code>.</li>
+<li><code>Period</code> is date-based (<code>P2D</code>). <code>Duration</code> is time-based (<code>PT2H30M</code>). <code>plus</code> returns a new object.</li>
+<li><code>LocalDate</code> accepts a <code>Period</code> and rejects a <code>Duration</code>. A missing local time in a zone is moved. A repeated local time has two offsets.</li>
+<li><code>yyyy</code> is the year, <code>MM</code> the month, <code>dd</code> the day, <code>HH</code> the hour 0–23, <code>D</code> the day of the year.</li>
+</ul>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-04-glossary.html"><small>上一篇</small>第 4 週 · 詞彙</a>
+<a class="next" href="Week-05-glossary.html"><small>下一篇</small>第 5 週 · 詞彙</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

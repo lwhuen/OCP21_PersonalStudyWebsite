@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 7 glossary — lambdas and streams · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html" aria-current="page">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 7 週 · 詞彙</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#monday-lambdas-and-method-references">Monday — lambdas and method references</a></li><li><a href="#wednesday-the-common-interfaces">Wednesday — the common interfaces</a></li><li><a href="#friday-optional">Friday — Optional</a></li><li><a href="#saturday-and-sunday-streams">Saturday and Sunday — streams</a></li></ul></details>
+<article>
+<h1 id="week-7-glossary-lambdas-and-streams">Week 7 glossary — lambdas and streams</h1>
+<p>Terms from <a href="Week-07-notes.html">Week-07-notes.md</a>. The exam words are English.</p>
+<h2 id="monday-lambdas-and-method-references">Monday — lambdas and method references</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lambda</td>
+<td>A method body with no name. Its target type is a functional interface.</td>
+</tr>
+<tr>
+<td>Functional interface</td>
+<td>An interface with one abstract method.</td>
+</tr>
+<tr>
+<td>Expression lambda</td>
+<td><code>s -&gt; s.length()</code>. The value of the expression is the result. No <code>return</code> and no semicolon.</td>
+</tr>
+<tr>
+<td>Block lambda</td>
+<td>A body in braces. If the method returns a value, the block uses <code>return</code>.</td>
+</tr>
+<tr>
+<td><code>var</code> parameter</td>
+<td>Allowed only inside parentheses. If one parameter uses <code>var</code>, every parameter does. The target type supplies the type.</td>
+</tr>
+<tr>
+<td>Effectively final</td>
+<td>A local assigned once and not assigned again. A lambda may use it. A field does not have this limit.</td>
+</tr>
+<tr>
+<td>Static method reference</td>
+<td><code>Integer::parseInt</code>. The lambda argument becomes the method argument.</td>
+</tr>
+<tr>
+<td>Bound method reference</td>
+<td><code>word::length</code>. The instance is already chosen. A <code>Supplier</code> can call it.</td>
+</tr>
+<tr>
+<td>Unbound method reference</td>
+<td><code>String::length</code> or <code>String::isEmpty</code>. The instance arrives as the first argument.</td>
+</tr>
+<tr>
+<td>Constructor reference</td>
+<td><code>ArrayList::new</code> or <code>StringBuilder::new</code>. The target method picks which constructor.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wednesday-the-common-interfaces">Wednesday — the common interfaces</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Supplier&lt;T&gt;</code></td>
+<td><code>T get()</code>. No arguments.</td>
+</tr>
+<tr>
+<td><code>Consumer&lt;T&gt;</code></td>
+<td><code>void accept(T)</code>.</td>
+</tr>
+<tr>
+<td><code>Predicate&lt;T&gt;</code></td>
+<td><code>boolean test(T)</code>.</td>
+</tr>
+<tr>
+<td><code>Function&lt;T, R&gt;</code></td>
+<td><code>R apply(T)</code>.</td>
+</tr>
+<tr>
+<td><code>UnaryOperator&lt;T&gt;</code></td>
+<td><code>T apply(T)</code>. A function whose input and output types match.</td>
+</tr>
+<tr>
+<td><code>BinaryOperator&lt;T&gt;</code></td>
+<td><code>T apply(T, T)</code>.</td>
+</tr>
+<tr>
+<td><code>IntSupplier</code></td>
+<td><code>int getAsInt()</code>.</td>
+</tr>
+<tr>
+<td><code>IntConsumer</code></td>
+<td><code>void accept(int)</code>.</td>
+</tr>
+<tr>
+<td><code>IntPredicate</code></td>
+<td><code>boolean test(int)</code>.</td>
+</tr>
+<tr>
+<td><code>IntFunction&lt;R&gt;</code></td>
+<td><code>R apply(int)</code>.</td>
+</tr>
+<tr>
+<td><code>ToIntFunction&lt;T&gt;</code></td>
+<td><code>int applyAsInt(T)</code>.</td>
+</tr>
+<tr>
+<td><code>BiFunction&lt;T, U, R&gt;</code></td>
+<td><code>R apply(T, U)</code>.</td>
+</tr>
+<tr>
+<td><code>Runnable</code></td>
+<td><code>void run()</code>. No result. Not in <code>java.util.function</code>, but the empty lambda <code>() -&gt; {}</code> is one.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="friday-optional">Friday — <code>Optional</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Optional.of</code></td>
+<td>Wraps a non-null value. <code>of(null)</code> throws <code>NullPointerException</code>.</td>
+</tr>
+<tr>
+<td><code>Optional.ofNullable</code></td>
+<td>Wraps a value, or returns an empty optional when the value is <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>Optional.empty</code></td>
+<td>An optional with no value.</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>Applies a function when a value is present and wraps the result. On an empty optional, <code>map</code> stays empty and does not call the function.</td>
+</tr>
+<tr>
+<td><code>flatMap</code></td>
+<td>Like <code>map</code>, but the function already returns an <code>Optional</code>. One level is unwrapped, so you do not get <code>Optional&lt;Optional&lt;T&gt;&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>orElse</code></td>
+<td>Always evaluates its argument, then returns the stored value if there is one.</td>
+</tr>
+<tr>
+<td><code>orElseGet</code></td>
+<td>Calls the supplier only when the optional is empty.</td>
+</tr>
+<tr>
+<td><code>orElseThrow()</code></td>
+<td>Throws <code>NoSuchElementException</code> when the optional is empty.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="saturday-and-sunday-streams">Saturday and Sunday — streams</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intermediate operation</td>
+<td><code>filter</code>, <code>map</code>, <code>flatMap</code>, <code>sorted</code>, <code>distinct</code>, <code>limit</code>, <code>skip</code>, <code>peek</code>. Lazy. They do nothing until a terminal operation runs.</td>
+</tr>
+<tr>
+<td>Terminal operation</td>
+<td><code>toList</code>, <code>reduce</code>, <code>count</code>, <code>collect</code>, <code>forEach</code>, <code>findFirst</code>, <code>anyMatch</code>, <code>allMatch</code>, <code>noneMatch</code>. It runs the pipeline.</td>
+</tr>
+<tr>
+<td>Consumed stream</td>
+<td>A stream after its terminal operation. Using it again throws <code>IllegalStateException</code>.</td>
+</tr>
+<tr>
+<td><code>Stream.toList()</code></td>
+<td>A list that refuses <code>add</code>. <code>add</code> throws <code>UnsupportedOperationException</code>.</td>
+</tr>
+<tr>
+<td><code>flatMap</code></td>
+<td>Turns each element into a stream and joins those streams. <code>map</code> would leave a stream of streams or a stream of lists.</td>
+</tr>
+<tr>
+<td><code>distinct</code></td>
+<td>Drops later duplicates. An ordered stream keeps the first occurrence.</td>
+</tr>
+<tr>
+<td><code>reduce</code></td>
+<td>Combines the elements. <code>reduce(0, Integer::sum)</code> starts from the identity <code>0</code>.</td>
+</tr>
+<tr>
+<td><code>anyMatch</code></td>
+<td>True when one element passes.</td>
+</tr>
+<tr>
+<td><code>allMatch</code></td>
+<td>True when every element passes.</td>
+</tr>
+<tr>
+<td><code>noneMatch</code></td>
+<td>True when every element fails the test.</td>
+</tr>
+<tr>
+<td><code>findFirst</code></td>
+<td>An <code>Optional</code> of the first element. An empty stream returns an empty optional. It does not throw.</td>
+</tr>
+<tr>
+<td><code>groupingBy</code></td>
+<td>Builds a <code>Map</code>. The classifier is the key. The default value is a <code>List</code> of the elements. <code>counting()</code> makes the value a <code>Long</code> count.</td>
+</tr>
+<tr>
+<td><code>partitioningBy</code></td>
+<td>A map with both keys, <code>true</code> and <code>false</code>, even when one side is empty.</td>
+</tr>
+<tr>
+<td><code>IntStream.range</code></td>
+<td>From the start, exclusive of the end. <code>range(1, 4)</code> is <code>1, 2, 3</code>.</td>
+</tr>
+<tr>
+<td><code>IntStream.rangeClosed</code></td>
+<td>Includes the end.</td>
+</tr>
+<tr>
+<td><code>IntStream.average</code></td>
+<td>Returns <code>OptionalDouble</code>, because an empty stream has no average.</td>
+</tr>
+<tr>
+<td><code>Stream.concat</code></td>
+<td>Joins two streams into one. The result is parallel if either input is parallel.</td>
+</tr>
+<tr>
+<td>Parallel stream</td>
+<td><code>parallel()</code> or <code>parallelStream()</code>. A side-effect-free associative reduction matches the sequential result. <code>forEach</code> does not keep encounter order. <code>forEachOrdered</code> does.</td>
+</tr>
+<tr>
+<td><code>mapToInt</code></td>
+<td>Turns an object stream into an <code>IntStream</code>. <code>boxed</code> turns an <code>IntStream</code> back into <code>Stream&lt;Integer&gt;</code>.</td>
+</tr>
+</tbody>
+</table></div>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-07-notes.html"><small>上一篇</small>第 7 週 · 筆記</a>
+<a class="next" href="Week-08-notes.html"><small>下一篇</small>第 8 週 · 筆記</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

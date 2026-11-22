@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>OCP Java SE 21 study plan · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html" aria-current="page">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">開始 · 15 週計劃</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#hours">Hours</a></li><li><a href="#how-a-session-is-split">How a session is split</a></li><li><a href="#where-each-exam-topic-sits">Where each exam topic sits</a></li><li class="chapter"><a href="#part-1-eight-week-syllabus-23-nov-17-jan">Part 1 — Eight-week syllabus (23 Nov – 17 Jan)</a><ul><li><a href="#week-1-2329-nov-2026-types-operators-and-flow">Week 1 · 23–29 Nov 2026 · Types, operators, and flow</a></li><li><a href="#week-2-30-nov6-dec-2026-methods-text-and-arrays">Week 2 · 30 Nov–6 Dec 2026 · Methods, text, and arrays</a></li><li><a href="#week-3-713-dec-2026-classes-and-memory">Week 3 · 7–13 Dec 2026 · Classes and memory</a></li><li><a href="#week-4-1420-dec-2026-inheritance-through-pattern-matching">Week 4 · 14–20 Dec 2026 · Inheritance through pattern matching</a></li><li><a href="#week-5-2127-dec-2026-exceptions-and-the-date-time-api">Week 5 · 21–27 Dec 2026 · Exceptions and the date-time API</a></li><li><a href="#week-6-28-dec-20263-jan-2027-collections-and-generics">Week 6 · 28 Dec 2026–3 Jan 2027 · Collections and generics</a></li><li><a href="#week-7-410-jan-2027-lambdas-and-streams">Week 7 · 4–10 Jan 2027 · Lambdas and streams</a></li><li><a href="#week-8-1117-jan-2027-io-modules-and-threads">Week 8 · 11–17 Jan 2027 · I/O, modules, and threads</a></li></ul></li><li class="chapter"><a href="#part-2-mock-month-18-jan-14-feb">Part 2 — Mock month (18 Jan – 14 Feb)</a><ul><li><a href="#week-9-1824-jan-2027-find-the-weak-objectives">Week 9 · 18–24 Jan 2027 · Find the weak objectives</a></li><li><a href="#week-10-2531-jan-2027-mock-1">Week 10 · 25–31 Jan 2027 · Mock 1</a></li><li><a href="#week-11-17-feb-2027-mocks-2-and-3">Week 11 · 1–7 Feb 2027 · Mocks 2 and 3</a></li><li><a href="#week-12-814-feb-2027-mocks-4-and-5">Week 12 · 8–14 Feb 2027 · Mocks 4 and 5</a></li></ul></li><li class="chapter"><a href="#part-3-hold-the-score-15-feb-6-mar">Part 3 — Hold the score (15 Feb – 6 Mar)</a><ul><li><a href="#week-13-1521-feb-2027-mock-6">Week 13 · 15–21 Feb 2027 · Mock 6</a></li><li><a href="#week-14-2228-feb-2027-mock-7-only-if-the-score-moved">Week 14 · 22–28 Feb 2027 · Mock 7 only if the score moved</a></li><li><a href="#week-15-17-mar-2027-taper-then-the-exam">Week 15 · 1–7 Mar 2027 · Taper, then the exam</a></li></ul></li><li class="chapter"><a href="#books-and-tools">Books and tools</a><ul></ul></li><li class="chapter"><a href="#exam-morning">Exam morning</a><ul></ul></li><li class="chapter"><a href="#mistake-notebook">Mistake notebook</a><ul></ul></li></ul></details>
+<article>
+<h1 id="ocp-java-se-21-study-plan">OCP Java SE 21 study plan</h1>
+<p>Exam <strong>1Z0-830</strong> (Oracle Certified Professional: Java SE 21 Developer) on <strong>Sunday 7 March 2027</strong>.</p>
+<p>You start from no Java on <strong>Monday 23 November 2026</strong>. The first eight weeks cover the whole syllabus. The next month is mock exams. The last three weeks stay on mocks so the score is still there on exam morning.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Questions</td>
+<td>50, multiple choice</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>120 minutes</td>
+</tr>
+<tr>
+<td>Pass mark</td>
+<td>68% = <strong>34 of 50</strong></td>
+</tr>
+<tr>
+<td>Sit the exam when</td>
+<td>The last two timed mocks are both <strong>75% or higher</strong> (38 of 50)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Weekdays are Monday, Wednesday, and Friday, 3 hours each. Swap the names if your free days differ. A normal weekend day is 6 hours. Weeks 4, 7, and 8 use the full 8 hours each weekend day.</p>
+<h2 id="hours">Hours</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Dates</th>
+<th>Hours</th>
+<th>What you do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Syllabus</td>
+<td>23 Nov 2026 – 17 Jan 2027</td>
+<td>168 h</td>
+<td>Every exam topic, once</td>
+</tr>
+<tr>
+<td>Mock month</td>
+<td>18 Jan – 14 Feb 2027</td>
+<td>84 h</td>
+<td>Drills, then timed mocks 1–5</td>
+</tr>
+<tr>
+<td>Hold the score</td>
+<td>15 Feb – 6 Mar 2027</td>
+<td>about 48 h</td>
+<td>Mocks 6–7 and the notebook</td>
+</tr>
+<tr>
+<td>Exam</td>
+<td>Sunday 7 Mar 2027</td>
+<td>—</td>
+<td>50 questions, 120 minutes</td>
+</tr>
+</tbody>
+</table></div>
+<p>About 300 hours in total. Friday 25 December and Friday 1 January are already days off, so those two weeks inside the sprint are 15 hours, not 21.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Hours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Foundations (weeks 1–2)</td>
+<td>42</td>
+</tr>
+<tr>
+<td>OOP (weeks 3–4)</td>
+<td>46</td>
+</tr>
+<tr>
+<td>Exceptions and dates (week 5)</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Collections (week 6)</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Lambdas and streams (week 7)</td>
+<td>25</td>
+</tr>
+<tr>
+<td>I/O, modules, threads (week 8)</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Mock month (weeks 9–12)</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Last three weeks (weeks 13–15)</td>
+<td>48</td>
+</tr>
+</tbody>
+</table></div>
+<p>If a chapter is still open on Sunday 17 January, it becomes the first repair in the mock month. After that Sunday the book is a reference. You study the questions you missed.</p>
+<h2 id="how-a-session-is-split">How a session is split</h2>
+<p><strong>Knowledge week, 3 hours on a weekday</strong></p>
+<ul>
+<li>20 min: review yesterday’s misses</li>
+<li>2 h: the chapter, every listing typed by you</li>
+<li>40 min: questions, then the notebook</li>
+</ul>
+<p><strong>Mock week, 3 hours on a weekday</strong></p>
+<ul>
+<li>20 min: review yesterday’s misses</li>
+<li>2 h 20 min: code the traps you missed</li>
+<li>20 min: notebook</li>
+</ul>
+<p>A full mock is 120 minutes. It belongs on a weekend day, or on the Wednesday slots in February. The next session reviews it. On a heavy weekend day the extra two hours go into questions.</p>
+<p>Predict the output before you run the code. Each miss goes in the notebook as one rule and a five-line program. A chapter you scored 80% on does not get a second full reading during the sprint. It comes back as questions in January.</p>
+<p>You work about 80 to 100 book pages in each of the first eight weeks, because the pages are listings and questions.</p>
+<h2 id="where-each-exam-topic-sits">Where each exam topic sits</h2>
+<p>Oracle publishes the topic list and does not publish how many questions each topic gets.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Exam topic</th>
+<th>Week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Numeric types, boolean logic, operators</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Program flow</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Text, String, StringBuilder, arrays</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Classes, encapsulation, immutability</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Inheritance, interfaces, records, sealed types, patterns</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Exceptions</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Date, time, duration, period, time zones</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Collections, sequenced collections, generics</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Lambdas and streams</td>
+<td>7</td>
+</tr>
+<tr>
+<td>I/O and NIO.2</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Localization, plus logging and annotations</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Modules</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Concurrency and virtual threads</td>
+<td>8</td>
+</tr>
+</tbody>
+</table></div>
+<p>Generics are week 6. Annotations and the logging API are week 8, at recognition level. The published 1Z0-830 topics do not include JDBC.</p>
+<hr />
+<h1 id="part-1-eight-week-syllabus-23-nov-17-jan">Part 1 — Eight-week syllabus (23 Nov – 17 Jan)</h1>
+<h2 id="week-1-2329-nov-2026-types-operators-and-flow">Week 1 · 23–29 Nov 2026 · Types, operators, and flow</h2>
+<p><strong>21 h.</strong> Gate: chapter questions at 70%.</p>
+<ul>
+<li>Mon: install JDK 21 and IntelliJ, print one line from <code>main</code>.</li>
+<li>Wed: eight primitives, literals, <code>var</code>.</li>
+<li>Fri: operators, precedence, and casts. Write the answer before you run it.</li>
+<li>Sat: <code>Math</code>, if / else, and both kinds of switch.</li>
+<li>
+<p>Sun: loops, <code>break</code>, <code>continue</code>, then the review questions.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Install JDK 21 and IntelliJ IDEA Community. <code>java -version</code> prints 21. A class with <code>main</code> prints your name.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Write the eight primitives, their sizes, and their default values from memory.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Fifteen expressions on precedence, promotion, and casts. Write the answer first, then run. Keep the misses.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> One program that uses if / else, a switch expression, <code>for</code>, <code>while</code>, <code>break</code>, and <code>continue</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Call <code>Math.abs</code>, <code>min</code>, <code>max</code>, <code>round</code>, <code>ceil</code>, <code>floor</code>, and <code>pow</code>. <code>Math.round</code> on a double returns a long.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Building-blocks, operators, and decisions review questions at 70%. Each miss: one rule and a five-line program in the notebook.</li>
+</ul>
+<h2 id="week-2-30-nov6-dec-2026-methods-text-and-arrays">Week 2 · 30 Nov–6 Dec 2026 · Methods, text, and arrays</h2>
+<p><strong>21 h.</strong> Gate: 70%, plus one hour with autocomplete off.</p>
+<ul>
+<li>Mon: methods, return, overloading.</li>
+<li>Wed: varargs and pass-by-value.</li>
+<li>Fri: <code>String</code>, <code>StringBuilder</code>, and a text block.</li>
+<li>Sat: arrays, sort, <code>binarySearch</code>.</li>
+<li>
+<p>Sun: autocomplete off for one hour, then questions.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Overload one method three ways, including varargs. Varargs is the last parameter, and there is only one.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Prove pass-by-value: reassigning the parameter does not change the caller; mutating the object does.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> One call each for <code>substring</code>, <code>indexOf</code>, <code>equals</code>, <code>strip</code>, <code>isBlank</code>, <code>indent</code>, <code>formatted</code>, and a text block. The end index of <code>substring</code> is exclusive.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Show, in a loop, why <code>String</code> concatenation copies and <code>StringBuilder</code> does not. One sentence in the notebook.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Reverse an array in place, sort it, and <code>binarySearch</code> it. A negative result encodes the insertion point. Make one jagged two-dimensional array.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Autocomplete off for one hour. Methods, text, and arrays questions at 70%.</li>
+</ul>
+<h2 id="week-3-713-dec-2026-classes-and-memory">Week 3 · 7–13 Dec 2026 · Classes and memory</h2>
+<p><strong>21 h.</strong> Gate: you can hand-trace initializer order, and score 70%.</p>
+<ul>
+<li>Mon: classes, fields, constructors, <code>this</code>.</li>
+<li>Wed: static members and initializer order.</li>
+<li>Fri: encapsulation.</li>
+<li>Sat: an immutable class and five garbage-collection diagrams.</li>
+<li>
+<p>Sun: chapter questions.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A class with fields, a constructor, and <code>this</code>. No public fields.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Hand-write static-then-instance initializer order for a superclass and a subclass. Run code that prints the order and compare.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> An encapsulated <code>BankAccount</code>: private fields, constructor, methods.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> An immutable <code>Money</code> class: private final fields, no setters, class is final.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Five memory diagrams. A box is an object, an arrow is a reference. Mark what is eligible for collection.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Class-design questions at 70%, including one you can explain about garbage collection.</li>
+</ul>
+<h2 id="week-4-1420-dec-2026-inheritance-through-pattern-matching">Week 4 · 14–20 Dec 2026 · Inheritance through pattern matching</h2>
+<p><strong>25 h. Weekend days are 8 h.</strong> Gate: mixed OOP questions at 70%. This is the heavy week before the holidays.</p>
+<ul>
+<li>Mon: <code>extends</code>, <code>super</code>, overriding rules on one card.</li>
+<li>Wed: reference type versus object type, and field hiding.</li>
+<li>Fri: <code>equals</code>, <code>hashCode</code>, interfaces, and enums.</li>
+<li>Sat (8 h): records, sealed types, switch patterns, record patterns.</li>
+<li>
+<p>Sun (8 h): nested-class rules in the notebook, then a mixed OOP set.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>Animal</code>, <code>Dog</code>, and <code>Cat</code>. Overriding rules on one card: signature, covariant return, access, checked exceptions.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> One example where a field is hidden, not overridden. The reference type decides what compiles; the object type decides which override runs.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A correct <code>equals</code> and <code>hashCode</code>, and one broken <code>equals</code>. If <code>equals</code> is true, the hash codes match.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> An interface with a default method and a static method, two implementers, and an enum with a field and a method.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A sealed interface with an exhaustive switch, a record with a compact constructor, a record pattern, and a <code>when</code> guard. A general pattern above a specific one does not compile.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Mixed questions on inheritance, interfaces, records, and patterns at 70%. Nested classes: one notebook page on what each kind can see.</li>
+</ul>
+<h2 id="week-5-2127-dec-2026-exceptions-and-the-date-time-api">Week 5 · 21–27 Dec 2026 · Exceptions and the date-time API</h2>
+<p><strong>15 h. Holiday week.</strong> Gate: exceptions and dates at 70%. Friday 25 Dec is off.</p>
+<ul>
+<li>Mon: <code>try</code> / <code>catch</code> / <code>finally</code>, multi-catch, checked versus unchecked.</li>
+<li>Wed: try-with-resources and a custom checked exception.</li>
+<li>Fri 25 Dec: off.</li>
+<li>Sat: <code>LocalDate</code>, <code>LocalTime</code>, <code>LocalDateTime</code>, <code>Period</code>, <code>Duration</code>, <code>Instant</code>.</li>
+<li>
+<p>Sun: one daylight-saving example, 15 formatter predictions, then questions.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> From memory: checked versus unchecked versus <code>Error</code>, and what <code>finally</code> does when the catch block throws.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A custom checked exception, and a try-with-resources class whose close messages print in reverse order of creation.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>LocalDate</code>, <code>LocalTime</code>, <code>LocalDateTime</code>, <code>Instant</code>, <code>Period</code>, and <code>Duration</code>. <code>Period</code> is date-based. <code>Duration</code> is time-based. <code>plusDays</code> returns a new object.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> On a real daylight-saving date, show a local time that is skipped or repeated, and what <code>ZonedDateTime</code> does.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Predict 15 <code>DateTimeFormatter</code> patterns, then run them.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Exceptions and date-time questions at 70%.</li>
+</ul>
+<h2 id="week-6-28-dec-20263-jan-2027-collections-and-generics">Week 6 · 28 Dec 2026–3 Jan 2027 · Collections and generics</h2>
+<p><strong>15 h. Holiday week.</strong> Gate: collections questions at 70%. Friday 1 Jan is off.</p>
+<ul>
+<li>Mon: <code>List</code>, and the <code>remove</code> overload trap.</li>
+<li>Wed: <code>Set</code>, <code>Map</code>, null rules, and order.</li>
+<li>Fri 1 Jan: off.</li>
+<li>Sat: <code>Deque</code>, sequenced methods, <code>Comparable</code>, and <code>Comparator</code>.</li>
+<li>
+<p>Sun: generics, then the questions.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Show <code>list.remove(1)</code> versus <code>list.remove(Integer.valueOf(1))</code>.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> The same data in a <code>List</code>, a <code>HashSet</code>, a <code>TreeSet</code>, and a <code>HashMap</code>. Write down what is ordered and what allows null.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Use a <code>Deque</code> as a stack and as a queue. Call <code>getFirst</code>, <code>getLast</code>, <code>addFirst</code>, <code>addLast</code>, and <code>reversed</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Sort with <code>Comparable</code> and with <code>Comparator.comparing</code> followed by <code>thenComparing</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> For <code>? extends</code> and for <code>? super</code>, say whether you can add and whether you can get. One example of each.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Collections and generics questions at 70%.</li>
+</ul>
+<h2 id="week-7-410-jan-2027-lambdas-and-streams">Week 7 · 4–10 Jan 2027 · Lambdas and streams</h2>
+<p><strong>25 h. Weekend days are 8 h.</strong> Gate: 30 stream questions at 70%. Under 60% means mock week 1 opens with streams.</p>
+<ul>
+<li>Mon: lambda syntax and effectively final variables.</li>
+<li>Wed: <code>Predicate</code>, <code>Function</code>, <code>Consumer</code>, <code>Supplier</code>, <code>UnaryOperator</code>, and method references.</li>
+<li>Fri: <code>Optional</code>, including <code>orElse</code> versus <code>orElseGet</code>.</li>
+<li>Sat (8 h): pipelines, on paper first.</li>
+<li>
+<p>Sun (8 h): <code>groupingBy</code>, primitive streams, 30 questions.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Rewrite eight anonymous classes as lambdas, then as method references: static, bound, unbound, and constructor.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Name the functional interface from a snippet, 15 out of 15. Include a primitive form such as <code>IntPredicate</code> or <code>ToIntFunction</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>Optional</code> <code>map</code>, <code>flatMap</code>, <code>orElse</code>, and <code>orElseGet</code>. Show that <code>orElse</code> evaluates its argument even when a value is present.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> On paper, 12 pipelines using <code>filter</code>, <code>map</code>, <code>flatMap</code>, <code>sorted</code>, <code>distinct</code>, <code>limit</code>, <code>reduce</code>, and <code>collect</code>. Then type them.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>groupingBy</code> into a map of lists, and into a map of counts. <code>partitioningBy</code> into true and false. <code>IntStream.average</code> returns <code>OptionalDouble</code>. Reuse a consumed stream and read the exception.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> 30 stream questions at 70%. Under 60%: the first days of the mock month are streams, coded, before any other objective.</li>
+</ul>
+<h2 id="week-8-1117-jan-2027-io-modules-and-threads">Week 8 · 11–17 Jan 2027 · I/O, modules, and threads</h2>
+<p><strong>25 h. Weekend days are 8 h.</strong> Gate: mixed quiz at 65%. Sunday 17 Jan the syllabus is closed.</p>
+<ul>
+<li>Mon: byte and character streams, <code>Path</code>, and <code>Files</code>.</li>
+<li>Wed: serialization, locales, resource bundles.</li>
+<li>Fri: modules, compiled in a terminal.</li>
+<li>Sat (8 h): threads, executors, a race, virtual threads.</li>
+<li>
+<p>Sun (8 h): mixed quiz and the weak-topic list.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> With <code>Path</code> and try-with-resources, read a file, count words, and write a report. One notebook example each for <code>resolve</code>, <code>relativize</code>, and <code>normalize</code>.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> State what <code>transient</code> and <code>serialVersionUID</code> do. A resource bundle in two locales, printing a date and a currency. Search order is full locale, then language, then the base bundle.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Two modules, one <code>exports</code> and one <code>requires</code>, run with <code>java -p</code> and <code>-m</code>. Then a service with <code>provides</code>, <code>with</code>, and <code>uses</code>. Break a missing <code>exports</code> once and save the error.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A counter that loses updates, then the same counter fixed with <code>synchronized</code> or <code>AtomicInteger</code>. Run tasks on a fixed pool and on <code>newVirtualThreadPerTaskExecutor</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> From memory: thread states, <code>Runnable</code> versus <code>Callable</code>, <code>start</code> versus <code>run</code>, <code>shutdown</code> versus <code>shutdownNow</code>. Calling <code>run</code> does not start a thread. <code>Future.get</code> blocks.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Mixed quiz on I/O, locale, modules, and threads at 65%. Write your three weakest topics at the top of the notebook. The book is now a reference, not a reading plan.</li>
+</ul>
+<hr />
+<h1 id="part-2-mock-month-18-jan-14-feb">Part 2 — Mock month (18 Jan – 14 Feb)</h1>
+<p>Five timed mocks. Review is part of the mock: a score with no notebook lines does not count.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>When</th>
+<th>What you sit</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>18–24 Jan</td>
+<td>Objective drills, untimed</td>
+<td>A ranked weak list</td>
+</tr>
+<tr>
+<td>31 Jan, Sunday review</td>
+<td>Timed mock 1</td>
+<td>65%</td>
+</tr>
+<tr>
+<td>3 Feb, Wednesday</td>
+<td>Timed mock 2</td>
+<td>70%</td>
+</tr>
+<tr>
+<td>6 Feb, Saturday</td>
+<td>Timed mock 3</td>
+<td>75%</td>
+</tr>
+<tr>
+<td>10 Feb, Wednesday</td>
+<td>Timed mock 4</td>
+<td>75%</td>
+</tr>
+<tr>
+<td>13 Feb, Saturday</td>
+<td>Timed mock 5</td>
+<td>80% (40 of 50)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="week-9-1824-jan-2027-find-the-weak-objectives">Week 9 · 18–24 Jan 2027 · Find the weak objectives</h2>
+<p><strong>21 h.</strong> Gate: a ranked list of objectives. No full mock yet.</p>
+<ul>
+<li>Mon: 40 questions on OOP and exceptions, review the same day.</li>
+<li>Wed: 40 on collections and streams.</li>
+<li>Fri: 30 on dates, I/O, and locales.</li>
+<li>Sat: 30 on modules and threads, and code every miss.</li>
+<li>
+<p>Sun: turn the notebook into a one-page rule sheet, ranked worst objective to best.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> 40 Enthuware questions on OOP and exceptions. Review each miss before Wednesday.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> 40 questions on collections and streams. If streams were under 60% in week 7, this day is streams only.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> 30 questions on dates, I/O, and localization.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> 30 questions on modules and concurrency. Code every miss, including the ones you guessed.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> One page: objectives ranked from weakest to strongest, with the rule you keep breaking.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> No timed mock this week. The rank list is the gate.</li>
+</ul>
+<h2 id="week-10-2531-jan-2027-mock-1">Week 10 · 25–31 Jan 2027 · Mock 1</h2>
+<p><strong>21 h.</strong> Gate: timed mock 1 at 65% after a full review.</p>
+<ul>
+<li>Mon and Wed: code the traps from your weakest objective only.</li>
+<li>Fri: 20 mixed questions from that objective.</li>
+<li>Sat: timed mock 1, 120 minutes, closed book, then start the review.</li>
+<li>
+<p>Sun: finish the review. A second mock waits until every miss has a notebook line.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Two weekday sessions on the single weakest objective. Small programs.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Friday: 20 questions on that same objective.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Saturday: Enthuware timed mock 1. 50 questions, 120 minutes, no book, no pause.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Sunday: every miss becomes a rule plus a five-line program. Guessed answers count as misses.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Record the score. 65% is the target. Under 55% means next week repairs two objectives and still takes mock 2.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> The review is finished before any new mock is opened.</li>
+</ul>
+<h2 id="week-11-17-feb-2027-mocks-2-and-3">Week 11 · 1–7 Feb 2027 · Mocks 2 and 3</h2>
+<p><strong>21 h.</strong> Gate: mock 2 at 70%. Mock 3 at 75%.</p>
+<ul>
+<li>Mon: code the new weakest objective.</li>
+<li>Wed: timed mock 2 (2 hours) and mark it (1 hour).</li>
+<li>Fri: review mock 2.</li>
+<li>Sat: timed mock 3.</li>
+<li>
+<p>Sun: review mock 3.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Monday: code the traps from whichever objective mock 1 scored lowest.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Wednesday: timed mock 2. Target 70%.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Friday: review mock 2 completely.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Saturday: timed mock 3. Target 75% (38 of 50).</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Sunday: review mock 3. Update the ranked list.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Both reviews are in the notebook. The lower of the two scores decides next Monday’s topic.</li>
+</ul>
+<h2 id="week-12-814-feb-2027-mocks-4-and-5">Week 12 · 8–14 Feb 2027 · Mocks 4 and 5</h2>
+<p><strong>21 h.</strong> Gate: mock 5 at 80% (40 of 50). This Sunday closes the mock month.</p>
+<ul>
+<li>Mon: one objective, coded.</li>
+<li>Wed: timed mock 4.</li>
+<li>Fri: review it.</li>
+<li>Sat: timed mock 5.</li>
+<li>
+<p>Sun: review, and write the score you are carrying into the last three weeks.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Monday: the objective that is still under 70% across the mocks so far.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Wednesday: timed mock 4. Target 75%.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Friday: review mock 4.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Saturday: timed mock 5. Target 80%, 40 of 50.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Sunday: review mock 5. Circle the rules that appeared in more than one mock.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Mock month ends. Later weeks repeat mocks and the notebook.</li>
+</ul>
+<hr />
+<h1 id="part-3-hold-the-score-15-feb-6-mar">Part 3 — Hold the score (15 Feb – 6 Mar)</h1>
+<p>The exam is three weeks after the mock month ends. These weeks repeat mocks and the notebook.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>When</th>
+<th>What you sit</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20 Feb, Saturday</td>
+<td>Timed mock 6</td>
+<td>80%</td>
+</tr>
+<tr>
+<td>27 Feb, if needed</td>
+<td>Timed mock 7</td>
+<td>80%</td>
+</tr>
+<tr>
+<td>Before 7 Mar</td>
+<td>Last two timed mocks</td>
+<td>Both 75% or higher</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="week-13-1521-feb-2027-mock-6">Week 13 · 15–21 Feb 2027 · Mock 6</h2>
+<p><strong>21 h.</strong> Gate: mock 6 at 80%, or a written list of what is still under 75%.</p>
+<ul>
+<li>Mon and Wed: the rules that showed up in more than one mock, coded again.</li>
+<li>Fri: 30 mixed questions at exam pace (about 70 minutes) plus review.</li>
+<li>Sat: timed mock 6.</li>
+<li>
+<p>Sun: review.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Re-code the repeated traps from the notebook. Two weekday sessions.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Friday: 30 mixed questions at two minutes each, then review.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Saturday: timed mock 6. Target 80%.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Sunday: review mock 6 the same day. A miss with no notebook line is unfinished.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Practice the exam habit: first pass for what you know, flag the rest, answer every question.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> If mock 6 is under 75%, next week is another full mock. If it is 80% or higher, next week is the notebook.</li>
+</ul>
+<h2 id="week-14-2228-feb-2027-mock-7-only-if-the-score-moved">Week 14 · 22–28 Feb 2027 · Mock 7 only if the score moved</h2>
+<p><strong>15 h if mock 6 was 80% or higher, otherwise 21 h.</strong> Gate: two recent mocks at 75% or higher.</p>
+<p>If mock 6 was under 75%: Mon and Wed repair, Sat timed mock 7, Sun review.</p>
+<p>If mock 6 was 80% or higher: Mon, Wed, and Sat are notebook and flashcards only, about 3 hours each. Friday stays light either way.</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Choose from mock 6: another timed mock, or notebook only. Write the choice down before Monday.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Two sessions on the objective that still costs the most points.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Timed mock 7 if the last mock was under 80%. Target 80%. Skip it if you are already there twice.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Review that mock the next day, or spend the same hours rereading the one-page rule sheet.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> The last two timed mocks are both 75% or higher (38 of 50). That is the line for sitting on 7 Mar.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> The rule sheet is one page. If it has grown, cut it back to the rules you still miss.</li>
+</ul>
+<h2 id="week-15-17-mar-2027-taper-then-the-exam">Week 15 · 1–7 Mar 2027 · Taper, then the exam</h2>
+<p><strong>About 12 h, then stop.</strong> Saturday is two hours. Sunday 7 Mar is the exam.</p>
+<ul>
+<li>Mon: a timed mock only if you are still under 75%. Otherwise flashcards for 3 hours.</li>
+<li>Wed: rule sheet, 3 hours.</li>
+<li>Fri: flashcards, stop by 18:00.</li>
+<li>Sat: two hours in the morning, confirm ID and the test center or the online setup, then stop.</li>
+<li>
+<p>Sun: exam.</p>
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Monday: timed mock 8 only if the last two mocks are not both at 75%. Otherwise the notebook.
+</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Wednesday: one-page rule sheet, out loud.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Friday: three hours of flashcards. No mock after 18:00.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Saturday: at most two hours. Confirm the start time, the ID, and the test center or OnVUE setup.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Exam pace: about two minutes a question, flag and move, answer every question.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Sunday 7 Mar: 1Z0-830. 50 questions, 120 minutes, pass at 34.</li>
+</ul>
+<hr />
+<h1 id="books-and-tools">Books and tools</h1>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Material</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jeanne Boyarsky and Scott Selikoff, <em>OCP Oracle Certified Professional Java SE 21 Developer Study Guide</em>, exam 1Z0-830</td>
+<td>The only book during the 8 weeks. One pass. Errata: <a href="https://www.selikoff.net/ocp21/">selikoff.net/ocp21</a></td>
+</tr>
+<tr>
+<td><a href="https://enthuware.com/mock-exams/oracle-certified-professional/java-se-21-1z0-830">Enthuware 1Z0-830</a></td>
+<td>Objective drills from 18 Jan, then the timed mocks. This is the score you trust.</td>
+</tr>
+<tr>
+<td>JDK 21 and IntelliJ IDEA Community</td>
+<td>Daily coding. Turn autocomplete off for the hour named in week 2.</td>
+</tr>
+<tr>
+<td><a href="https://education.oracle.com/oracle-certified-professional-java-se-21-developer/pexam_1Z0-830">Oracle exam page for 1Z0-830</a></td>
+<td>Topic list. Read it again in the first mock week. Schedule the seat by mid-January.</td>
+</tr>
+</tbody>
+</table></div>
+<h1 id="exam-morning">Exam morning</h1>
+<p>50 questions, 120 minutes, pass at 34.</p>
+<p>About two minutes each. First pass for the ones you can answer, flag the rest, then return. A wrong answer costs the same as a blank one, so every question gets an answer. If it says choose two, choose two. Look for the line that does not compile, or the line that throws, before you compute a result.</p>
+<h1 id="mistake-notebook">Mistake notebook</h1>
+<p>One entry per miss: the rule in a sentence, then a five-line program. From 18 January this is what you study.</p>
+<pre><code>Date:
+Question / snippet:
+What I answered:
+The rule:
+Five-line program:
+</code></pre>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="strategy.html"><small>上一篇</small>開始 · 溫習策略</a>
+<a class="next" href="Week-01-notes.html"><small>下一篇</small>第 1 週 · 筆記</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

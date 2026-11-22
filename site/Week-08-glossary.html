@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 8 glossary — I/O, modules, and threads · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html" aria-current="page">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 8 週 · 詞彙</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#monday-files-and-paths">Monday — files and paths</a></li><li><a href="#wednesday-serialization-locales-recognition">Wednesday — serialization, locales, recognition</a></li><li><a href="#friday-modules">Friday — modules</a></li><li><a href="#saturday-threads">Saturday — threads</a></li></ul></details>
+<article>
+<h1 id="week-8-glossary-io-modules-and-threads">Week 8 glossary — I/O, modules, and threads</h1>
+<p>Terms from <a href="Week-08-notes.html">Week-08-notes.md</a>. The exam words are English. Sunday 17 Jan closes the syllabus.</p>
+<h2 id="monday-files-and-paths">Monday — files and paths</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>InputStream</code> / <code>OutputStream</code></td>
+<td>Move bytes.</td>
+</tr>
+<tr>
+<td><code>Reader</code> / <code>Writer</code></td>
+<td>Move characters. <code>InputStreamReader</code> bridges a byte stream to a character stream.</td>
+</tr>
+<tr>
+<td><code>BufferedReader</code></td>
+<td>Wraps another reader so you can read lines. Close the outermost wrapper.</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td>A location. <code>Path.of</code> builds one.</td>
+</tr>
+<tr>
+<td><code>resolve</code></td>
+<td>A relative argument is appended. An absolute argument replaces the original path.</td>
+</tr>
+<tr>
+<td><code>relativize</code></td>
+<td>The path from the first location to the second.</td>
+</tr>
+<tr>
+<td><code>normalize</code></td>
+<td>Removes <code>.</code> and applies <code>..</code>.</td>
+</tr>
+<tr>
+<td><code>Files.readString</code></td>
+<td>Reads a whole file as one <code>String</code>. Throws the checked <code>IOException</code>.</td>
+</tr>
+<tr>
+<td><code>Files.writeString</code></td>
+<td>Writes a <code>String</code> to a file. Throws <code>IOException</code>.</td>
+</tr>
+<tr>
+<td><code>Files.lines</code> / <code>Files.walk</code></td>
+<td>Return streams. Close them, usually with try-with-resources.</td>
+</tr>
+<tr>
+<td><code>System.in</code> / <code>System.out</code></td>
+<td>Console byte streams. <code>System.in</code> is an <code>InputStream</code>. <code>System.out</code> is a <code>PrintStream</code>. Do not close either one.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wednesday-serialization-locales-recognition">Wednesday — serialization, locales, recognition</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Serializable</code></td>
+<td>The marker interface that lets <code>ObjectOutputStream</code> write an object and <code>ObjectInputStream</code> read it back.</td>
+</tr>
+<tr>
+<td><code>serialVersionUID</code></td>
+<td>A <code>static final long</code> that names the class shape. A mismatch with the stream throws <code>InvalidClassException</code>.</td>
+</tr>
+<tr>
+<td><code>transient</code></td>
+<td>The field is not written. On the way back it receives the default: <code>0</code>, <code>false</code>, or <code>null</code>.</td>
+</tr>
+<tr>
+<td>Deserialization</td>
+<td>Restores the object without running its constructor. <code>static</code> fields are not part of one object’s saved state.</td>
+</tr>
+<tr>
+<td><code>Locale</code></td>
+<td>A language, and optionally a country. <code>Locale.US</code>. <code>Locale.forLanguageTag("fr-FR")</code>.</td>
+</tr>
+<tr>
+<td><code>NumberFormat</code></td>
+<td>Formats a number for a locale. The US currency format of <code>1.5</code> is <code>$1.50</code>. <code>getPercentInstance</code> multiplies by 100, so <code>0.25</code> in <code>Locale.US</code> is <code>25%</code>.</td>
+</tr>
+<tr>
+<td>Resource bundle</td>
+<td>A set of property files for one base name. <code>ResourceBundle.getBundle("messages", locale).getString("hello")</code>. For a French locale the search is <code>messages_fr_FR</code>, then <code>messages_fr</code>, then <code>messages</code>. A missing key can come from the parent file.</td>
+</tr>
+<tr>
+<td><code>MessageFormat</code></td>
+<td>Replaces <code>{0}</code>, <code>{1}</code>, and so on. <code>MessageFormat.format("Hello {0}", "Ada")</code> is <code>Hello Ada</code>.</td>
+</tr>
+<tr>
+<td><code>MissingResourceException</code></td>
+<td>Thrown when <code>getBundle</code> cannot find the base bundle.</td>
+</tr>
+<tr>
+<td><code>@Override</code></td>
+<td>Checks that a method really overrides.</td>
+</tr>
+<tr>
+<td><code>@FunctionalInterface</code></td>
+<td>Checks that an interface has one abstract method.</td>
+</tr>
+<tr>
+<td><code>@Deprecated</code></td>
+<td>Marks an element you should stop using.</td>
+</tr>
+<tr>
+<td><code>@SuppressWarnings</code></td>
+<td>Silences a named warning.</td>
+</tr>
+<tr>
+<td>Logger</td>
+<td><code>System.Logger</code> or <code>java.util.logging</code>. A call records a level and a message. Recognition level only this week.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="friday-modules">Friday — modules</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Module</td>
+<td>A named group of packages, described by <code>module-info.java</code>.</td>
+</tr>
+<tr>
+<td><code>requires</code></td>
+<td>This module reads another module.</td>
+</tr>
+<tr>
+<td><code>exports</code></td>
+<td>Makes a package visible to modules that read this one. A package that is not exported is not visible.</td>
+</tr>
+<tr>
+<td><code>provides ... with ...</code></td>
+<td>This module offers a service implementation.</td>
+</tr>
+<tr>
+<td><code>uses</code></td>
+<td>This module loads that service with <code>ServiceLoader</code>. The consumer does not <code>require</code> the provider by name.</td>
+</tr>
+<tr>
+<td>Module path</td>
+<td>The directories or jars given to <code>-p</code>.</td>
+</tr>
+<tr>
+<td><code>-m</code></td>
+<td>The module and the main class, as in <code>com.example.app/com.example.app.Main</code>.</td>
+</tr>
+<tr>
+<td>Not visible</td>
+<td>The compiler error when code imports a package that its required module does not export.</td>
+</tr>
+<tr>
+<td><code>opens</code></td>
+<td>Allows reflective access to a package. <code>exports</code> does not grant <code>setAccessible</code>.</td>
+</tr>
+<tr>
+<td><code>requires transitive</code></td>
+<td>A module that reads yours also reads that dependency.</td>
+</tr>
+<tr>
+<td>Unnamed module</td>
+<td>All code on the classpath. It reads every resolved module. A named module cannot <code>requires</code> it.</td>
+</tr>
+<tr>
+<td>Automatic module</td>
+<td>A JAR with no <code>module-info</code> on the module path. It exports and opens every package. The name comes from the JAR file name, or from <code>Automatic-Module-Name</code> in the manifest.</td>
+</tr>
+<tr>
+<td>Modular jar</td>
+<td>A jar that contains <code>module-info.class</code>. Run it with <code>-p</code> and <code>-m</code>.</td>
+</tr>
+<tr>
+<td><code>jlink</code></td>
+<td>Builds a runtime image that contains the modules you name and the modules they need.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="saturday-threads">Saturday — threads</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NEW</code></td>
+<td>A <code>Thread</code> that has not been started.</td>
+</tr>
+<tr>
+<td><code>RUNNABLE</code></td>
+<td>Eligible to run, or running.</td>
+</tr>
+<tr>
+<td><code>BLOCKED</code></td>
+<td>Waiting to enter a <code>synchronized</code> block.</td>
+</tr>
+<tr>
+<td><code>WAITING</code></td>
+<td>Waiting with no timeout, such as <code>join()</code> or <code>Object.wait()</code>.</td>
+</tr>
+<tr>
+<td><code>TIMED_WAITING</code></td>
+<td><code>sleep</code>, <code>wait(millis)</code>, or <code>join(millis)</code>.</td>
+</tr>
+<tr>
+<td><code>TERMINATED</code></td>
+<td>The body has finished.</td>
+</tr>
+<tr>
+<td><code>Runnable</code></td>
+<td><code>void run()</code>. Cannot throw a checked exception.</td>
+</tr>
+<tr>
+<td><code>Callable</code></td>
+<td><code>call</code> returns a value and can throw <code>Exception</code>.</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td>Schedules the thread. Calling it twice throws <code>IllegalThreadStateException</code>.</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>An ordinary call. The body runs on the current thread. It does not schedule a new thread.</td>
+</tr>
+<tr>
+<td><code>ExecutorService</code></td>
+<td>Runs tasks. <code>newFixedThreadPool</code> reuses platform threads. <code>newVirtualThreadPerTaskExecutor</code> starts a virtual thread per task.</td>
+</tr>
+<tr>
+<td><code>Future.get</code></td>
+<td>Blocks until the task finishes and returns its value. A task that throws is delivered as <code>ExecutionException</code>.</td>
+</tr>
+<tr>
+<td><code>shutdown</code></td>
+<td>Rejects new tasks and lets current tasks finish.</td>
+</tr>
+<tr>
+<td><code>shutdownNow</code></td>
+<td>Interrupts running tasks and returns the tasks that had not started.</td>
+</tr>
+<tr>
+<td>Lost update</td>
+<td>Two threads read the same <code>int</code> and both write that number plus one. One increment disappears.</td>
+</tr>
+<tr>
+<td><code>AtomicInteger</code></td>
+<td><code>incrementAndGet</code> updates the number without a lost update. A <code>synchronized</code> block can do the same.</td>
+</tr>
+<tr>
+<td>Virtual thread</td>
+<td>A lightweight thread. Start one with <code>Thread.ofVirtual().start</code> or <code>Thread.startVirtualThread</code>. Do not build a pool of them by hand.</td>
+</tr>
+<tr>
+<td><code>ReentrantLock</code></td>
+<td><code>lock()</code>, then <code>unlock()</code> in a <code>finally</code> block. Unlike <code>synchronized</code>, leaving the block does not unlock it. The same thread may lock it again, and each <code>lock</code> needs an <code>unlock</code>.</td>
+</tr>
+<tr>
+<td><code>ConcurrentHashMap</code></td>
+<td>A map that concurrent tasks may update. A <code>null</code> key or a <code>null</code> value throws <code>NullPointerException</code>.</td>
+</tr>
+<tr>
+<td><code>parallelStream</code></td>
+<td>A parallel stream of a collection. An associative sum matches the sequential sum. <code>forEach</code> may run in any order.</td>
+</tr>
+</tbody>
+</table></div>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-08-notes.html"><small>上一篇</small>第 8 週 · 筆記</a>
+
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

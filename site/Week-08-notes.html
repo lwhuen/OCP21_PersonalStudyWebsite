@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 8 notes — I/O, modules, and threads · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html" aria-current="page">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 8 週 · 筆記</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li class="chapter"><a href="#chapter-1-streams-of-bytes-and-characters-path-and-files">Chapter 1 — Streams of bytes and characters, Path , and Files</a><ul><li><a href="#what-you-must-know">What you must know</a></li><li><a href="#chapter-1-questions">Chapter 1 questions</a></li></ul></li><li class="chapter"><a href="#chapter-2-serialization-locales-and-bundles">Chapter 2 — Serialization, locales, and bundles</a><ul><li><a href="#what-you-must-know_1">What you must know</a></li><li><a href="#chapter-2-questions">Chapter 2 questions</a></li></ul></li><li class="chapter"><a href="#chapter-3-modules">Chapter 3 — Modules</a><ul><li><a href="#what-you-must-know_2">What you must know</a></li><li><a href="#migration-jars-and-a-runtime-image">Migration, jars, and a runtime image</a></li><li><a href="#chapter-3-questions">Chapter 3 questions</a></li></ul></li><li class="chapter"><a href="#chapter-4-threads">Chapter 4 — Threads</a><ul><li><a href="#what-you-must-know_3">What you must know</a></li><li><a href="#chapter-4-questions">Chapter 4 questions</a></li></ul></li><li class="chapter"><a href="#sunday-mixed-quiz-then-the-syllabus-closes">Sunday — mixed quiz, then the syllabus closes</a><ul><li><a href="#mixed-set">Mixed set</a></li></ul></li><li class="chapter"><a href="#rules-to-copy-onto-one-card">Rules to copy onto one card</a><ul></ul></li></ul></details>
+<article>
+<h1 id="week-8-notes-io-modules-and-threads">Week 8 notes — I/O, modules, and threads</h1>
+<p><strong>11–17 Jan 2027. 25 hours.</strong> Weekend days are 8 hours. This file follows Week 8 of the study plan. The gate is the mixed quiz at <strong>65%</strong> (13 of the 20 questions in this file). Sunday 17 Jan closes the syllabus. After that the book is a reference.</p>
+<p>Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 8 hours each. The extra two hours are questions. Monday’s first 20 minutes are the Week 7 misses.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>What the plan says</th>
+<th>Where it is in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td>Byte and character streams, <code>Path</code>, and <code>Files</code></td>
+<td>Chapter 1, <code>Words</code>, the three path lines, questions Q1–Q4</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>Serialization, locales, resource bundles</td>
+<td>Chapter 2, <code>Bag</code>, questions Q1–Q4</td>
+</tr>
+<tr>
+<td>Fri</td>
+<td>Modules, compiled in a terminal</td>
+<td>Chapter 3, the two modules, the service, the broken export, questions Q1–Q4</td>
+</tr>
+<tr>
+<td>Sat (8 h)</td>
+<td>Threads, executors, a race, virtual threads</td>
+<td>Chapter 4, <code>Race</code>, questions Q1–Q4</td>
+</tr>
+<tr>
+<td>Sun (8 h)</td>
+<td>Mixed quiz and the weak-topic list</td>
+<td>The mixed set, score all 20, write the three weakest topics</td>
+</tr>
+</tbody>
+</table></div>
+<p>Same checklist as the study plan:</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> With <code>Path</code> and try-with-resources, read a file, count words, and write a report. One notebook example each for <code>resolve</code>, <code>relativize</code>, and <code>normalize</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> State what <code>transient</code> and <code>serialVersionUID</code> do. A resource bundle in two locales, printing a date and a currency. Search order is full locale, then language, then the base bundle.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Two modules, one <code>exports</code> and one <code>requires</code>, run with <code>java -p</code> and <code>-m</code>. Then a service with <code>provides</code>, <code>with</code>, and <code>uses</code>. Break a missing <code>exports</code> once and save the error.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A counter that loses updates, then the same counter fixed with <code>synchronized</code> or <code>AtomicInteger</code>. Run tasks on a fixed pool and on <code>newVirtualThreadPerTaskExecutor</code>.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> From memory: thread states, <code>Runnable</code> versus <code>Callable</code>, <code>start</code> versus <code>run</code>, <code>shutdown</code> versus <code>shutdownNow</code>. Calling <code>run</code> does not start a thread. <code>Future.get</code> blocks.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Mixed quiz on I/O, locale, modules, and threads at 65%. Write your three weakest topics at the top of the notebook. The book is now a reference, not a reading plan.</li>
+</ul>
+<p>Predict each listing before you run it. Each miss goes in the notebook as one rule and a five-line program.</p>
+<p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
+<p>Annotations and logging are on the exam at recognition level. They sit at the end of Chapter 2. You do not build a logging application this week.</p>
+<hr>
+<h1 id="chapter-1-streams-of-bytes-and-characters-path-and-files">Chapter 1 — Streams of bytes and characters, <code>Path</code>, and <code>Files</code></h1>
+<blockquote>
+<p><strong>必睇</strong>　第 14 章 I/O，pp. 812–847（<code>Path</code>、<code>Files</code>、byte 同 character streams）同 pp. 856–871（“Interacting with Users”、file attributes、走訪目錄）。</p>
+<p><strong>略讀</strong>　“Review of Key APIs”，p. 872。只核對筆記未出現過嘅方法名。</p>
+<p><strong>唔使睇</strong>　“Serializing Data”（pp. 848–855）係星期三。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Monday</strong> is this chapter, <code>Words</code>, three notebook lines, and questions Q1–Q4.</p>
+<h2 id="what-you-must-know">What you must know</h2>
+<p><code>InputStream</code> and <code>OutputStream</code> move bytes. <code>Reader</code> and <code>Writer</code> move characters. <code>InputStreamReader</code> bridges a byte stream to a character stream with a charset. <code>BufferedReader</code> and <code>BufferedWriter</code> wrap another stream so you can read lines. Close the outermost wrapper. Try-with-resources, from Week 5, is how you close it.</p>
+<p><code>Path</code> is a location. <code>Path.of("docs", "notes", "week.txt")</code> builds one. These three go in the notebook. On Windows the separator in the print is <code>\</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Result on this PC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Path.of("docs", "notes", "week.txt").resolve("extra.txt")</code></td>
+<td><code>docs\notes\week.txt\extra.txt</code></td>
+</tr>
+<tr>
+<td><code>Path.of("docs", "notes", "week.txt").resolve(Path.of("C:\\temp\\x.txt"))</code></td>
+<td><code>C:\temp\x.txt</code></td>
+</tr>
+<tr>
+<td><code>Path.of("docs", "notes").relativize(Path.of("docs", "code", "A.java"))</code></td>
+<td><code>..\code\A.java</code></td>
+</tr>
+<tr>
+<td><code>Path.of("a", "..", "b", ".", "c").normalize()</code></td>
+<td><code>b\c</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>resolve</code> of a relative path appends. <code>resolve</code> of an absolute path replaces the original. <code>relativize</code> builds the path from the first location to the second. <code>normalize</code> removes <code>.</code> and applies <code>..</code>.</p>
+<p><code>Files.readString</code>, <code>Files.writeString</code>, <code>Files.readAllLines</code>, <code>Files.lines</code>, <code>Files.exists</code>, <code>Files.createDirectories</code>, <code>Files.copy</code>, and <code>Files.walk</code> are the methods to recognize. <code>lines</code> and <code>walk</code> return streams. Close them. They throw the checked <code>IOException</code>.</p>
+<p>Console input and output use the same streams. <code>System.in</code> is an <code>InputStream</code>. <code>System.out</code> is a <code>PrintStream</code>, which is an <code>OutputStream</code>. A line from the console is <code>new BufferedReader(new InputStreamReader(System.in)).readLine()</code>. Do not close <code>System.in</code> or <code>System.out</code>. Closing either one closes the console for the rest of the program.</p>
+<h3 id="words"><code>Words</code></h3>
+<p>Create <code>notes.txt</code> in the working directory with one line, <code>Ada loves Java</code>. Then type this.</p>
+<pre><code class="language-java">import java.nio.file.*;
+
+public class Words {
+    public static void main(String[] args) throws Exception {
+        Path in = Path.of(&quot;notes.txt&quot;);
+        String text = Files.readString(in);
+        int words = text.isBlank() ? 0 : text.trim().split(&quot;\\s+&quot;).length;
+        Path report = Path.of(&quot;report.txt&quot;);
+        Files.writeString(report, &quot;words=&quot; + words + System.lineSeparator());
+        System.out.println(Files.readString(report).trim());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">words=3
+</code></pre>
+<p>Monday’s questions are Q1–Q4.</p>
+<h2 id="chapter-1-questions">Chapter 1 questions</h2>
+<section class="q" id="chapter-1-questions-Q1" data-qid="chapter-1-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> Which type reads characters rather than raw bytes?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>FileInputStream</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>BufferedReader</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>FileOutputStream</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>DataOutputStream</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> A <code>Reader</code> uses characters. The three <code>Stream</code> names in the other options use bytes. <code>InputStreamReader</code> is the bridge from bytes to characters.</p></div></section>
+<section class="q" id="chapter-1-questions-Q2" data-qid="chapter-1-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> <code>base</code> is <code>Path.of("docs", "notes", "week.txt")</code>. What does <code>base.resolve(Path.of("C:\\temp\\x.txt"))</code> point at, on Windows?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>docs\notes\week.txt\C:\temp\x.txt</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>C:\temp\x.txt</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>docs\temp\x.txt</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> An absolute argument to <code>resolve</code> replaces the receiver. A relative argument would have been appended.</p></div></section>
+<section class="q" id="chapter-1-questions-Q3" data-qid="chapter-1-questions-Q3" data-multi="0" data-key="B"><p><strong>Q3.</strong> What is <code>Path.of("a", "..", "b", ".", "c").normalize()</code> on Windows?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a\..\b\.\c</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>b\c</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>a\b\c</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>c</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>..</code> removes <code>a</code>. <code>.</code> is dropped. The remaining elements are <code>b</code> and <code>c</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q4" data-qid="chapter-1-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> <code>notes.txt</code> contains <code>Ada loves Java</code>. What does <code>Words</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>words=2</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>words=3</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>words=14</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown because <code>writeString</code> needs try-with-resources</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>trim</code> removes the line ending, and <code>split("\\s+")</code> finds three words. <code>writeString</code> throws <code>IOException</code>, which <code>main</code> declares. It does not by itself require a try-with-resources.</p><hr></div></section>
+<h1 id="chapter-2-serialization-locales-and-bundles">Chapter 2 — Serialization, locales, and bundles</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 14 章 “Serializing Data”，pp. 848–855。第 11 章 p. 646（“Formatting Numbers”，貨幣同百分比）同 pp. 651–667（locale、resource bundle、<code>MessageFormat</code>）。</p>
+<p><strong>唔使睇</strong>　日期 pattern（pp. 647–650）第 5 週已讀。書冇 logging 或 annotations 嘅獨立章。筆記本章尾嘅 recognition 段就係考試要認到嘅程度。</p>
+</blockquote>
+<p><strong>Wednesday</strong> is this chapter, <code>Bag</code>, and questions Q1–Q4.</p>
+<h2 id="what-you-must-know_1">What you must know</h2>
+<p>A class implements <code>Serializable</code> so <code>ObjectOutputStream</code> can write it and <code>ObjectInputStream</code> can read it back. <code>serialVersionUID</code> is a <code>static final long</code>. If the class changes shape and the stored id does not match, reading throws <code>InvalidClassException</code>.</p>
+<p><code>transient</code> fields are not written. On the way back they receive the default for their type: <code>0</code>, <code>false</code>, or <code>null</code>. <code>static</code> fields are not part of one object’s saved state. Deserialization does not run the constructor.</p>
+<h3 id="bag"><code>Bag</code></h3>
+<pre><code class="language-java">import java.io.*;
+
+class Bag implements Serializable {
+    static int constructed;
+    int n = 1;
+    transient int t = 2;
+    Bag() { constructed++; }
+}
+public class BagLab {
+    public static void main(String[] args) throws Exception {
+        Bag bag = new Bag();
+        bag.n = 7;
+        bag.t = 9;
+        var raw = new ByteArrayOutputStream();
+        try (var out = new ObjectOutputStream(raw)) {
+            out.writeObject(bag);
+        }
+        try (var in = new ObjectInputStream(new ByteArrayInputStream(raw.toByteArray()))) {
+            Bag back = (Bag) in.readObject();
+            System.out.println(back.n + &quot; &quot; + back.t + &quot; &quot; + Bag.constructed);
+        }
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">7 0 1
+</code></pre>
+<p><code>n</code> was saved. <code>t</code> came back as the default <code>0</code>. The constructor ran once, for the original <code>new Bag()</code>, and not again while reading.</p>
+<h3 id="locales-and-bundles">Locales and bundles</h3>
+<p>A <code>Locale</code> is a language, and optionally a country. <code>Locale.US</code> and <code>Locale.forLanguageTag("fr-FR")</code> are the two you need this week.</p>
+<p><code>NumberFormat.getCurrencyInstance(Locale.US).format(1.5)</code> prints <code>$1.50</code>. A French locale uses a comma as the decimal mark and the euro sign. <code>NumberFormat.getPercentInstance(Locale.US).format(0.25)</code> prints <code>25%</code>, because the percent formatter multiplies by 100. <code>DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.US)</code> prints <code>12/21/26</code> for 21 December 2026.</p>
+<p><code>ResourceBundle.getBundle("messages", Locale.FRANCE).getString("hello")</code> is the call that walks the search list below. <code>MessageFormat.format("Hello {0}", "Ada")</code> replaces <code>{0}</code> and returns <code>Hello Ada</code>. <code>{1}</code> is the second argument. <code>MessageFormat.format("Hello {1}", "Ada")</code> has no argument at index 1, so the result stays <code>Hello {1}</code>. Write one argument per index you use.</p>
+<p>A resource bundle is a set of property files. For <code>Locale.FRANCE</code> and the base name <code>messages</code>, the search order on the checklist is:</p>
+<ol>
+<li><code>messages_fr_FR</code></li>
+<li><code>messages_fr</code></li>
+<li><code>messages</code></li>
+</ol>
+<p>If the key is still missing, Java repeats that idea for the default locale. If the base bundle is missing too, <code>getBundle</code> throws <code>MissingResourceException</code>. A key found in a parent file is used when the more specific file does not define it.</p>
+<p>Put <code>messages.properties</code> (<code>hello=Hello</code>) and <code>messages_fr.properties</code> (<code>hello=Bonjour</code>) on the classpath and print both locales. That is the two-locale checklist item.</p>
+<h3 id="recognition-only">Recognition only</h3>
+<p><code>@Override</code> checks an override. <code>@FunctionalInterface</code> checks that an interface has one abstract method. <code>@Deprecated</code> marks an element you should stop using. <code>@SuppressWarnings</code> silences a named warning. You will see these in snippets. You do not need to declare your own annotation type.</p>
+<p><code>System.Logger</code> and <code>java.util.logging</code> are the logging names on the exam. A logger has levels. You log a level and a message. You do not configure a logging framework this week.</p>
+<p>Wednesday’s questions are Q1–Q4.</p>
+<h2 id="chapter-2-questions">Chapter 2 questions</h2>
+<section class="q" id="chapter-2-questions-Q1" data-qid="chapter-2-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> After the round trip in <code>BagLab</code>, what are <code>n</code>, <code>t</code>, and <code>constructed</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>7 9 1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>7 0 1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>7 0 2</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>1 2 1</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The ordinary field <code>n</code> is restored as <code>7</code>. The transient field <code>t</code> is restored as <code>0</code>. Deserialization does not run <code>Bag()</code>, so <code>constructed</code> stays <code>1</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q2" data-qid="chapter-2-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> What does <code>transient</code> do?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It saves the field first</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It skips the field, and the restored field gets the type’s default</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It makes the field <code>static</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It encrypts the field</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>transient</code> leaves the field out of the byte stream. The default for an <code>int</code> is <code>0</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q3" data-qid="chapter-2-questions-Q3" data-multi="0" data-key="B"><p><strong>Q3.</strong> What does <code>NumberFormat.getCurrencyInstance(Locale.US).format(1.5)</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1.50</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>$1.50</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>1,50 €</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>USD 1.5</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The US currency format includes the dollar sign and two decimal places. The symbol and the separators come from the locale.</p></div></section>
+<section class="q" id="chapter-2-questions-Q4" data-qid="chapter-2-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> <code>messages_fr.properties</code> defines <code>hello</code>, and <code>messages.properties</code> defines <code>hello</code> and <code>bye</code>. For <code>Locale.FRENCH</code>, which file supplies <code>bye</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>messages_fr.properties</code> only, so the key is missing</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>messages.properties</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>messages_fr_FR.properties</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The search starts at the base file</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Locale.FRENCH</code> searches <code>messages_fr</code> and then the base <code>messages</code>. <code>bye</code> is not in the French file, so the base file supplies it.</p><hr></div></section>
+<h1 id="chapter-3-modules">Chapter 3 — Modules</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 12 章 Modules，pp. 684–718（由介紹到 <code>jlink</code>）同 pp. 724–734（module 種類同 migration）。</p>
+<p><strong>唔使睇</strong>　<code>jpackage</code>（p. 719）。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Friday</strong> is this chapter. Compile it in a terminal. Questions Q1–Q4 come after the broken export.</p>
+<h2 id="what-you-must-know_2">What you must know</h2>
+<p>A module is a named group of packages, described by <code>module-info.java</code> in the module root.</p>
+<ul>
+<li><code>requires other</code> reads that module.</li>
+<li><code>exports pkg</code> makes that package visible to modules that read this one.</li>
+<li><code>provides com.example.api.Speaker with com.example.hello.HelloSpeaker</code> offers a service.</li>
+<li><code>uses com.example.api.Speaker</code> means this module loads that service.</li>
+</ul>
+<p>A package that is not exported is not visible, even when the other module <code>requires</code> you.</p>
+<p>Create this tree under a folder named <code>mods</code>.</p>
+<p><code>mods/com.example.api/module-info.java</code></p>
+<pre><code class="language-java">module com.example.api {
+    exports com.example.api;
+}
+</code></pre>
+<p><code>mods/com.example.api/com/example/api/Speaker.java</code></p>
+<pre><code class="language-java">package com.example.api;
+public interface Speaker {
+    String speak();
+}
+</code></pre>
+<p><code>mods/com.example.hello/module-info.java</code></p>
+<pre><code class="language-java">module com.example.hello {
+    requires com.example.api;
+    provides com.example.api.Speaker with com.example.hello.HelloSpeaker;
+}
+</code></pre>
+<p><code>mods/com.example.hello/com/example/hello/HelloSpeaker.java</code></p>
+<pre><code class="language-java">package com.example.hello;
+import com.example.api.Speaker;
+public class HelloSpeaker implements Speaker {
+    public String speak() { return &quot;hello&quot;; }
+}
+</code></pre>
+<p><code>mods/com.example.app/module-info.java</code></p>
+<pre><code class="language-java">module com.example.app {
+    requires com.example.api;
+    uses com.example.api.Speaker;
+}
+</code></pre>
+<p><code>mods/com.example.app/com/example/app/Main.java</code></p>
+<pre><code class="language-java">package com.example.app;
+import com.example.api.Speaker;
+import java.util.ServiceLoader;
+public class Main {
+    public static void main(String[] args) {
+        ServiceLoader.load(Speaker.class).forEach(s -&gt; System.out.println(s.speak()));
+    }
+}
+</code></pre>
+<p>From the folder that contains <code>mods</code>:</p>
+<pre><code class="language-text">javac -d out --module-source-path mods mods\com.example.api\module-info.java mods\com.example.api\com\example\api\Speaker.java mods\com.example.hello\module-info.java mods\com.example.hello\com\example\hello\HelloSpeaker.java mods\com.example.app\module-info.java mods\com.example.app\com\example\app\Main.java
+java -p out -m com.example.app/com.example.app.Main
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">hello
+</code></pre>
+<p><code>-p</code> is the module path. <code>-m</code> is the module and the main class.</p>
+<p>Break it once. Remove <code>exports com.example.api;</code> and compile an app that imports <code>Speaker</code>. Save this error in the notebook:</p>
+<pre><code class="language-text">package com.example.api is not visible
+(package com.example.api is declared in module com.example.api, which does not export it)
+</code></pre>
+<p>The hidden-package drill in the checklist uses the same message. Put the package you actually hid into that sentence.</p>
+<h2 id="migration-jars-and-a-runtime-image">Migration, jars, and a runtime image</h2>
+<p><code>exports</code> makes the public types of a package usable by other modules. <code>opens</code> allows reflective access, including <code>setAccessible</code> on members that are not public. <code>exports</code> alone does not grant that reflection. <code>exports com.example.hello to com.example.app</code> and <code>opens com.example.hello to com.example.app</code> limit the right to one named module.</p>
+<p><code>requires transitive com.example.util</code> means a module that <code>requires</code> yours also reads <code>com.example.util</code>. That caller can use <code>com.example.util</code>’s exported types without writing its own <code>requires</code>. A plain <code>requires</code> does not pass the dependency on.</p>
+<p>A JAR with no <code>module-info</code> that you put on the classpath belongs to the unnamed module. The unnamed module reads every resolved module, and all of its packages are open. A named module cannot <code>requires</code> the unnamed module.</p>
+<p>The same JAR placed on the module path is an automatic module. Its name comes from the JAR file name, unless the manifest sets <code>Automatic-Module-Name</code>. An automatic module exports and opens every package, and it reads every other resolved module, including the unnamed module.</p>
+<p><code>jar --create --file app.jar -C out .</code> builds a non-modular jar when <code>out</code> has no <code>module-info.class</code>. Run it with <code>java -cp app.jar com.example.app.Main</code>. A jar that contains <code>module-info.class</code> is a modular jar. Run it with <code>java -p app.jar -m com.example.app/com.example.app.Main</code>.</p>
+<p><code>jlink</code> builds a runtime image with only the modules you name and the modules they need. The module path includes the JDK’s <code>jmods</code> folder, because that is where <code>java.base</code> lives.</p>
+<pre><code class="language-text">jlink --module-path &quot;%JAVA_HOME%\jmods;out&quot; --add-modules com.example.app --output image
+</code></pre>
+<p>The program is then <code>image\bin\java -m com.example.app/com.example.app.Main</code>.</p>
+<p>Friday’s questions are Q1–Q4.</p>
+<h2 id="chapter-3-questions">Chapter 3 questions</h2>
+<section class="q" id="chapter-3-questions-Q1" data-qid="chapter-3-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> Which directive lets another module read a package?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>requires</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>exports</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>uses</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>opens</code> is required for every read</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>exports</code> makes a package visible to readers. <code>requires</code> is how a module reads another module. Both are needed for a normal call across modules. <code>opens</code> is reflective access, not a substitute for <code>exports</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q2" data-qid="chapter-3-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> The app module calls <code>ServiceLoader.load(Speaker.class)</code>. Which pair belongs in the module descriptors?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The provider <code>uses</code> the service, and the app <code>provides</code> it</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The provider <code>provides ... with ...</code>, and the app <code>uses</code> the service</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Both modules <code>exports</code> the service class</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>requires</code> alone publishes the service</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The provider module says <code>provides Interface with Implementation</code>. The consumer says <code>uses Interface</code>. The consumer does not <code>require</code> the provider module by name.</p></div></section>
+<section class="q" id="chapter-3-questions-Q3" data-qid="chapter-3-questions-Q3" data-multi="0" data-key="B"><p><strong>Q3.</strong> What does <code>java -p out -m com.example.app/com.example.app.Main</code> do?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It compiles the module</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It runs <code>Main</code> using the modules in <code>out</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It exports every package</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It ignores <code>module-info.java</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>-p out</code> is the module path. <code>-m</code> names the module and the class. The matching compile command is <code>javac -d out --module-source-path mods</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q4" data-qid="chapter-3-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> A module <code>requires</code> another module, and the package it imports is not exported. What is the compile error about?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">A missing <code>main</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">A cycle of <code>requires</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The package is not visible, because the module does not export it</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>ServiceLoader</code> cannot see a class</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>requires</code> does not export packages. The compiler reports that the package is not visible and names the module that failed to export it.</p><hr></div></section>
+<h1 id="chapter-4-threads">Chapter 4 — Threads</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 13 章 Concurrency，pp. 746–785：threads、virtual threads、executors、<code>Lock</code>、<code>CyclicBarrier</code>、concurrent collections、race。</p>
+<p><strong>唔使睇</strong>　“Working with Parallel Streams”（pp. 786–794）第 7 週讀過就跳過。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Saturday</strong> is 8 hours: this chapter, <code>Race</code>, and questions Q1–Q4.</p>
+<h2 id="what-you-must-know_3">What you must know</h2>
+<p>A thread’s states are <code>NEW</code>, <code>RUNNABLE</code>, <code>BLOCKED</code>, <code>WAITING</code>, <code>TIMED_WAITING</code>, and <code>TERMINATED</code>. <code>BLOCKED</code> means it is waiting to enter a <code>synchronized</code> block. <code>WAITING</code> is a wait with no timeout, such as <code>join()</code> or <code>Object.wait()</code>. <code>TIMED_WAITING</code> is <code>sleep</code>, <code>wait(millis)</code>, or <code>join(millis)</code>.</p>
+<p><code>Runnable.run</code> returns void and cannot throw a checked exception. <code>Callable.call</code> returns a value and can throw <code>Exception</code>.</p>
+<p><code>thread.start()</code> schedules the thread. <code>thread.run()</code>, or calling <code>run</code> on the <code>Runnable</code> yourself, executes the body on the current thread and does not schedule a new one. Calling <code>start</code> twice throws <code>IllegalThreadStateException</code>.</p>
+<p><code>ExecutorService</code> runs tasks. <code>Executors.newFixedThreadPool(1)</code> reuses one platform thread. <code>Executors.newVirtualThreadPerTaskExecutor()</code> starts a virtual thread per task. <code>Future.get</code> blocks until the task finishes and returns its value. <code>shutdown</code> rejects new tasks and lets the current tasks finish. <code>shutdownNow</code> interrupts running tasks and returns the tasks that had not started.</p>
+<p>A plain <code>int</code> updated from two threads can lose increments. The two reads can see the same number and both write that number plus one. <code>AtomicInteger.incrementAndGet</code> and a <code>synchronized</code> block do not lose those updates.</p>
+<p><code>synchronized</code> releases the monitor when the block ends, including when the block throws. A <code>ReentrantLock</code> does not. Call <code>lock()</code> and put <code>unlock()</code> in a <code>finally</code> block. The same thread may lock it again. Each <code>lock</code> needs its own <code>unlock</code>.</p>
+<p><code>ConcurrentHashMap</code> is a map that concurrent tasks may update. It rejects a <code>null</code> key and a <code>null</code> value. <code>HashMap</code> accepts one <code>null</code> key and does not survive concurrent updates.</p>
+<p><code>list.parallelStream()</code> is the parallel stream from Week 7. A sum of the elements matches the sequential sum. <code>forEach</code> may run in any order.</p>
+<p><code>Thread.ofVirtual().start(...)</code> and <code>Thread.startVirtualThread(...)</code> create virtual threads. Do not build a pool of virtual threads by hand. The per-task executor is the tool from the checklist.</p>
+<h3 id="race"><code>Race</code></h3>
+<p>The atomic counter is the one to trust. Two virtual threads each increment 1000 times.</p>
+<pre><code class="language-java">import java.util.concurrent.atomic.AtomicInteger;
+
+public class Race {
+    public static void main(String[] args) throws Exception {
+        AtomicInteger atom = new AtomicInteger();
+        Thread a = Thread.startVirtualThread(() -&gt; {
+            for (int i = 0; i &lt; 1000; i++) atom.incrementAndGet();
+        });
+        Thread b = Thread.startVirtualThread(() -&gt; {
+            for (int i = 0; i &lt; 1000; i++) atom.incrementAndGet();
+        });
+        a.join();
+        b.join();
+        System.out.println(atom.get());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">2000
+</code></pre>
+<p>For the broken counter, repeat the same loops on a shared <code>int</code> with <code>count = count + 1</code> and no lock. Run it several times. Some totals are below 2000. That is the lost update. Then wrap the increment in <code>synchronized (lock)</code> and the total is 2000 again.</p>
+<p>A fixed pool of one thread, given <code>Callable&lt;String&gt;</code> that returns <code>"ok"</code>, prints <code>ok</code> from <code>future.get()</code>, and <code>shutdown()</code> lets that task finish.</p>
+<p>Saturday’s questions are Q1–Q4.</p>
+<h2 id="chapter-4-questions">Chapter 4 questions</h2>
+<section class="q" id="chapter-4-questions-Q1" data-qid="chapter-4-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What does calling <code>run()</code> on a <code>Runnable</code> do?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It schedules a new thread</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It runs the body on the current thread</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It moves a thread from <code>NEW</code> to <code>TERMINATED</code> without running the body</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It throws <code>IllegalThreadStateException</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>run</code> is an ordinary method call. <code>start</code> is the call that schedules a thread. A second <code>start</code> on the same <code>Thread</code> throws <code>IllegalThreadStateException</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q2" data-qid="chapter-4-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> What does <code>Future.get</code> do when the task is still running?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It returns <code>null</code> immediately</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It blocks until the task finishes</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It cancels the task</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It throws <code>IllegalStateException</code> immediately</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>get</code> waits for the result. A task that throws delivers that failure as <code>ExecutionException</code> from <code>get</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q3" data-qid="chapter-4-questions-Q3" data-multi="0" data-key="B"><p><strong>Q3.</strong> Which pair matches the methods?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>shutdown</code> interrupts running tasks. <code>shutdownNow</code> only rejects new ones</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>shutdown</code> rejects new tasks and lets current tasks finish. <code>shutdownNow</code> interrupts running tasks</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Both wait forever for new tasks</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Both are illegal on a virtual-thread executor</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>shutdown</code> is the orderly stop. <code>shutdownNow</code> tries to stop work that is already running and hands back the queue of tasks that had not started.</p></div></section>
+<section class="q" id="chapter-4-questions-Q4" data-qid="chapter-4-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> Two threads each run <code>count = count + 1</code> a thousand times on a shared <code>int</code>, with no lock. Which statement is true?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The total is always 2000</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The total can be below 2000</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The total is always 1000</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> Both threads can read the same <code>count</code> and write the same next number. One update is lost. <code>AtomicInteger.incrementAndGet</code> for the same two loops of 1000 ends at 2000.</p><hr></div></section>
+<h1 id="sunday-mixed-quiz-then-the-syllabus-closes">Sunday — mixed quiz, then the syllabus closes</h1>
+<blockquote>
+<p><strong>唔使睇</strong>　混合測驗用筆記計分。由今日起書變成參考，唔使再逐章重讀。</p>
+</blockquote>
+<p>The first 20 minutes are Saturday’s misses. Then this set. Score Chapter 1 (4), Chapter 2 (4), Chapter 3 (4), Chapter 4 (4), and the mixed set (4). <strong>13 or more</strong> of the 20 questions is the gate.</p>
+<p>Write your three weakest topics at the top of the notebook. The book is now a reference. Week 9 starts from that list.</p>
+<h2 id="mixed-set">Mixed set</h2>
+<section class="q" id="mixed-set-M1" data-qid="mixed-set-M1" data-multi="0" data-key="B"><p><strong>M1.</strong> <code>Path.of("docs", "notes").relativize(Path.of("docs", "code", "A.java"))</code> on Windows is which path?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>docs\code\A.java</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>..\code\A.java</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>notes\code\A.java</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>code\A.java</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>relativize</code> is the step from <code>docs\notes</code> up to <code>docs</code> and then down into <code>docs\code</code>. The print is <code>..\code\A.java</code>.</p></div></section>
+<section class="q" id="mixed-set-M2" data-qid="mixed-set-M2" data-multi="0" data-key="B"><p><strong>M2.</strong> What is <code>serialVersionUID</code> for?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It saves <code>transient</code> fields</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It names the class shape. A mismatch with the stream throws <code>InvalidClassException</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It locks the object during <code>readObject</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It replaces <code>Serializable</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>serialVersionUID</code> identifies the class shape. Reading a stream whose id does not match the class throws <code>InvalidClassException</code>.</p></div></section>
+<section class="q" id="mixed-set-M3" data-qid="mixed-set-M3" data-multi="0" data-key="B"><p><strong>M3.</strong> <code>provides</code> and <code>uses</code> are in place, and <code>java -p out -m com.example.app/com.example.app.Main</code> runs. What does the service <code>Main</code> in this chapter print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">nothing</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>hello</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">the module name</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception, because the app did not <code>require</code> the provider module</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>ServiceLoader</code> finds <code>HelloSpeaker</code> because the provider is on the module path and the app module <code>uses</code> the service. The app does not <code>require</code> the provider by name. The print is <code>hello</code>.</p></div></section>
+<section class="q" id="mixed-set-M4" data-qid="mixed-set-M4" data-multi="0" data-key="C"><p><strong>M4.</strong> Which state means a thread is in <code>Thread.sleep</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>NEW</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>BLOCKED</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>TIMED_WAITING</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>TERMINATED</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>sleep</code> is a timed wait. <code>BLOCKED</code> is the state for waiting on a monitor. <code>NEW</code> is before <code>start</code>. <code>TERMINATED</code> is after the body has finished.</p><hr></div></section>
+<h1 id="rules-to-copy-onto-one-card">Rules to copy onto one card</h1>
+<ul>
+<li>Byte streams use <code>InputStream</code> and <code>OutputStream</code>. Character streams use <code>Reader</code> and <code>Writer</code>. Close the outer wrapper. Do not close <code>System.in</code> or <code>System.out</code>.</li>
+<li><code>resolve</code> appends a relative path and replaces with an absolute path. <code>relativize</code> is the path from one location to another. <code>normalize</code> drops <code>.</code> and applies <code>..</code>.</li>
+<li><code>transient</code> is not saved and comes back as the default. Deserialization does not run the constructor. <code>serialVersionUID</code> names the class shape.</li>
+<li>Bundle search for a locale is the full locale, then the language, then the base file. Currency and short dates follow the locale. Percent format multiplies by 100. <code>MessageFormat</code> replaces <code>{0}</code>.</li>
+<li><code>exports</code> makes a package visible. <code>opens</code> allows reflection. <code>requires transitive</code> passes a read on. <code>provides ... with ...</code> and <code>uses</code> publish and load a service. A missing <code>exports</code> makes the package not visible.</li>
+<li>Classpath code is the unnamed module. A JAR with no <code>module-info</code> on the module path is an automatic module. <code>jlink</code> builds a runtime image.</li>
+<li><code>start</code> schedules a thread. <code>run</code> does not. <code>Future.get</code> blocks. <code>shutdown</code> finishes current work. <code>shutdownNow</code> interrupts it.</li>
+<li>A shared <code>int</code> increment can lose updates. <code>AtomicInteger</code> or <code>synchronized</code> keeps them. <code>ReentrantLock</code> needs <code>unlock</code> in <code>finally</code>. <code>ConcurrentHashMap</code> rejects null. Virtual threads are one per task, not a hand-built pool.</li>
+</ul>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-07-glossary.html"><small>上一篇</small>第 7 週 · 詞彙</a>
+<a class="next" href="Week-08-glossary.html"><small>下一篇</small>第 8 週 · 詞彙</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 3 glossary — classes and memory · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html" aria-current="page">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 3 週 · 詞彙</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#monday-constructors-and-this">Monday — constructors and this</a></li><li><a href="#wednesday-static-and-initialization-order">Wednesday — static and initialization order</a></li><li><a href="#friday-encapsulation">Friday — encapsulation</a></li><li><a href="#saturday-immutability-and-garbage-collection">Saturday — immutability and garbage collection</a></li></ul></details>
+<article>
+<h1 id="week-3-glossary-classes-and-memory">Week 3 glossary — classes and memory</h1>
+<p>Terms from <a href="Week-03-notes.html">Week-03-notes.md</a>. The exam words are English. Overriding, interfaces, records, and sealed types are Week 4.</p>
+<h2 id="monday-constructors-and-this">Monday — constructors and <code>this</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constructor</td>
+<td>A block whose name is the class name and which has no return type. <code>new</code> allocates the object and runs a constructor. <code>void Person()</code> is a method. <code>new</code> does not call it.</td>
+</tr>
+<tr>
+<td>Default constructor</td>
+<td>The no-arg constructor the compiler adds only when you write none. It has the same access as the class. The first constructor you write removes it.</td>
+</tr>
+<tr>
+<td>Top-level class</td>
+<td><code>public</code> or package-private. A file has at most one <code>public</code> top-level class, and the file name matches it. <code>private</code> and <code>protected</code> are not allowed on a top-level class.</td>
+</tr>
+<tr>
+<td><code>this.field</code></td>
+<td>The field. A parameter of the same name hides the field. <code>n = n</code> assigns the parameter to itself and leaves the field at its default.</td>
+</tr>
+<tr>
+<td><code>this(...)</code></td>
+<td>A call to another constructor of the same class. It is the first statement. Its arguments cannot be instance fields or instance methods. A cycle of constructors does not compile.</td>
+</tr>
+<tr>
+<td>Instance initializer</td>
+<td>A <code>{ }</code> block in the class body. It runs in the constructor that actually builds the object, not in a constructor that starts with <code>this(...)</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wednesday-static-and-initialization-order">Wednesday — <code>static</code> and initialization order</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>static</code> member</td>
+<td>One copy for the class, shared by every object. A <code>static</code> method cannot use <code>this</code> or an instance member. An instance method can use a <code>static</code> member.</td>
+</tr>
+<tr>
+<td><code>static</code> initializer</td>
+<td>A <code>static { }</code> block. It runs once, when the class is first used. If <code>main</code> is inside that class, it runs before the first line of <code>main</code>.</td>
+</tr>
+<tr>
+<td>Initialization order</td>
+<td>For one class: <code>static</code> fields and blocks in source order, once. Then each <code>new</code> runs instance fields and blocks in source order, then the constructor body.</td>
+</tr>
+<tr>
+<td>Superclass, then subclass</td>
+<td>Parent static, child static, parent instance, parent constructor, child instance, child constructor. The second <code>new</code> skips the static steps.</td>
+</tr>
+<tr>
+<td><code>super()</code></td>
+<td>The parent constructor call. If you write neither <code>this(...)</code> nor <code>super(...)</code>, the compiler inserts <code>super()</code>. That call needs a no-arg constructor on the parent. Constructors are not inherited.</td>
+</tr>
+<tr>
+<td>Blank <code>final</code></td>
+<td>A <code>final</code> instance field with no initializer. It is assigned once on every constructor path: in the declaration, an instance block, or the constructor. A second assignment does not compile.</td>
+</tr>
+<tr>
+<td>Illegal forward reference</td>
+<td><code>int a = b</code> does not compile when <code>b</code> is declared later. <code>int a = read()</code> can compile and see <code>b</code>’s default <code>0</code>, because <code>b</code>’s initializer has not run yet.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="friday-encapsulation">Friday — encapsulation</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encapsulation</td>
+<td>Fields are private, and every change goes through a method. Another class cannot assign the field.</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>Visible in the declaring class only, including that class’s own <code>main</code>.</td>
+</tr>
+<tr>
+<td>Package-private</td>
+<td>No modifier. Visible to classes in the same package. Classes in the same file share a package.</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>Visible in the same package, and in subclasses. A subclass in another package is practiced in Week 4.</td>
+</tr>
+<tr>
+<td><code>public</code></td>
+<td>Visible to every class.</td>
+</tr>
+<tr>
+<td>Mutable escape</td>
+<td>A getter that returns a <code>StringBuilder</code>, an array, or a list hands out the object you stored. The caller can change it. Return a copy. A returned <code>String</code> is safe, because a <code>String</code> cannot be changed.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="saturday-immutability-and-garbage-collection">Saturday — immutability and garbage collection</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Immutable class</td>
+<td><code>final</code>, with <code>private final</code> fields, no setters, and no shared mutable object. A method that looks like a change returns a new object.</td>
+</tr>
+<tr>
+<td><code>final</code> reference</td>
+<td>The field cannot be pointed at a different object. The <code>StringBuilder</code> or list it already points at can still change. Copy on the way in and on the way out.</td>
+</tr>
+<tr>
+<td>Eligible</td>
+<td>No live reference can reach the object, so the collector is allowed to reclaim it. Eligible is not the same as already collected.</td>
+</tr>
+<tr>
+<td>Live reference</td>
+<td>A local variable that still holds the object, a field of a reachable object, or a <code>static</code> field. One remaining reference keeps the object alive.</td>
+</tr>
+<tr>
+<td>Island</td>
+<td>Two or more objects that point only at each other. With no reference from outside, all of them are eligible.</td>
+</tr>
+<tr>
+<td><code>System.gc()</code></td>
+<td>A request for a collection. It does not make a reachable object eligible, and it does not promise that anything was collected.</td>
+</tr>
+</tbody>
+</table></div>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-03-notes.html"><small>上一篇</small>第 3 週 · 筆記</a>
+<a class="next" href="Week-04-notes.html"><small>下一篇</small>第 4 週 · 筆記</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>
