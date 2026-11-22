@@ -1,10 +1,10 @@
 # Week 3 notes — classes and memory
 
-**7–13 Dec 2026. 21 hours.** This file follows Week 3 of the study plan. The gate is two parts: you can hand-trace superclass-then-subclass initializer order, and the class-design questions in this file at **70%** (23 of the 32 questions).
+**21 hours.** This file follows Week 3 of the study plan. Calendar dates are only in the [15-week plan](OCP-Java-SE-21-study-plan.md). The gate is two parts: you can hand-trace superclass-then-subclass initializer order, and the class-design questions in this file at **70%** (23 of the 32 questions).
 
 Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 6 hours each. Monday’s first 20 minutes are the Week 2 misses.
 
-The exam topic this week is classes, encapsulation, and immutability, plus the garbage-collection diagrams on the checklist. Wednesday uses `extends` only so you can watch a superclass finish before the subclass. Overriding, interfaces, records, and sealed types are Week 4. Leave them until 14 Dec.
+The exam topic this week is classes, encapsulation, and immutability, plus the garbage-collection diagrams on the checklist. Wednesday uses `extends` only so you can watch a superclass finish before the subclass. Overriding, interfaces, records, and sealed types are Week 4. Leave them until then.
 
 | Day | What the plan says | Where it is in this file |
 |---|---|---|

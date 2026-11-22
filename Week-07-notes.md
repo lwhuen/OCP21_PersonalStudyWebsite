@@ -1,6 +1,6 @@
 # Week 7 notes — lambdas and streams
 
-**4–10 Jan 2027. 25 hours.** Weekend days are 8 hours. This file follows Week 7 of the study plan. The gate is the 30 stream questions at **70%** (21 of 30). Under **60%** (under 18) means the first days of the mock month are streams, coded, before any other objective.
+**25 hours.** Weekend days are 8 hours. This file follows Week 7 of the study plan. Calendar dates are only in the [15-week plan](OCP-Java-SE-21-study-plan.md). The gate is the 30 stream questions at **70%** (21 of 30). Under **60%** (under 18) means the first days of the mock month are streams, coded, before any other objective.
 
 Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 8 hours each. The extra two hours are questions. Monday’s first 20 minutes are the Week 6 misses.
 

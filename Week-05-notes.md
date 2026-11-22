@@ -1,6 +1,6 @@
 # Week 5 notes — exceptions and the date-time API
 
-**21–27 Dec 2026. 15 hours.** Friday 25 Dec is off. This file follows Week 5 of the study plan. The gate is the exceptions and date-time questions at **70%** (14 of the 20 questions in this file).
+**15 hours.** Friday is a day off this week (see the [15-week plan](OCP-Java-SE-21-study-plan.md) for the calendar). This file follows Week 5 of the study plan. The gate is the exceptions and date-time questions at **70%** (14 of the 20 questions in this file).
 
 Monday and Wednesday are 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Friday is a day off. Saturday is 6 hours. Sunday is 3 hours: the daylight-saving listing, 15 formatter predictions, and the questions. Monday’s first 20 minutes are the Week 4 misses.
 
@@ -8,7 +8,7 @@ Monday and Wednesday are 3 hours each: 20 minutes on yesterday’s misses, 2 hou
 |---|---|---|
 | Mon | `try` / `catch` / `finally`, multi-catch, checked versus unchecked | Chapter 1, questions Q1–Q6 |
 | Wed | Try-with-resources and a custom checked exception | Chapter 2, `Doors`, `Pay`, questions Q1–Q4 |
-| Fri 25 Dec | Off | — |
+| Fri | Off | — |
 | Sat | `LocalDate`, `LocalTime`, `LocalDateTime`, `Period`, `Duration`, `Instant` | Chapter 3, `Dates`, questions Q1–Q5 |
 | Sun | One daylight-saving example, 15 formatter predictions, then questions | `Dst`, the 15 patterns, questions Q1–Q5, then score all 20 |
 

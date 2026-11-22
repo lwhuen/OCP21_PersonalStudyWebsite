@@ -1,6 +1,6 @@
 # Week 6 notes — collections and generics
 
-**28 Dec 2026–3 Jan 2027. 15 hours.** Friday 1 Jan is off. This file follows Week 6 of the study plan. The gate is the collections and generics questions at **70%** (14 of the 20 questions in this file).
+**15 hours.** Friday is a day off this week (see the [15-week plan](OCP-Java-SE-21-study-plan.md) for the calendar). This file follows Week 6 of the study plan. The gate is the collections and generics questions at **70%** (14 of the 20 questions in this file).
 
 Monday and Wednesday are 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Friday is a day off. Saturday is 6 hours. Sunday is 3 hours: generics, then the questions, then the score. Monday’s first 20 minutes are the Week 5 misses.
 
@@ -8,7 +8,7 @@ Monday and Wednesday are 3 hours each: 20 minutes on yesterday’s misses, 2 hou
 |---|---|---|
 | Mon | `List`, and the `remove` overload trap | Chapter 1, `Removes`, questions Q1–Q4 |
 | Wed | `Set`, `Map`, null rules, and order | Chapter 2, `SameData`, questions Q1–Q4 |
-| Fri 1 Jan | Off | — |
+| Fri | Off | — |
 | Sat | `Deque`, sequenced methods, `Comparable`, and `Comparator` | Chapter 3, `Lines`, `Names`, questions Q1–Q6 |
 | Sun | Generics, then the questions | Chapter 4, questions Q1–Q6, then score all 20 |
 

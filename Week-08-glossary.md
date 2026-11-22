@@ -1,6 +1,6 @@
 # Week 8 glossary — I/O, modules, and threads
 
-Terms from [Week-08-notes.md](Week-08-notes.md). The exam words are English. Sunday 17 Jan closes the syllabus.
+Terms from [Week-08-notes.md](Week-08-notes.md). The exam words are English.
 
 ## Monday — files and paths
 

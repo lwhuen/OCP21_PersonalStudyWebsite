@@ -1,6 +1,6 @@
 # Week 2 notes — methods, text, and arrays
 
-**30 Nov–6 Dec 2026. 21 hours.** This file follows Week 2 of the study plan. The gate is two parts: methods, text, and arrays questions at **70%** (21 of the 30 questions in this file), and **one hour with autocomplete off**.
+**21 hours.** This file follows Week 2 of the study plan. Calendar dates are only in the [15-week plan](OCP-Java-SE-21-study-plan.md). The gate is two parts: methods, text, and arrays questions at **70%** (21 of the 30 questions in this file), and **one hour with autocomplete off**.
 
 Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 6 hours each. Monday’s first 20 minutes are the Week 1 misses.
 

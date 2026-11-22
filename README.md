@@ -1,6 +1,6 @@
 # OCP Java SE 21 — Personal Study Website
 
-個人溫習用的 **1Z0-830**（Java SE 21 Developer）筆記站。考試目標：**2027 年 3 月 7 日**。
+個人溫習用的 **1Z0-830**（Java SE 21 Developer）筆記站。考試日同每週日程只寫在 [`OCP-Java-SE-21-study-plan.md`](OCP-Java-SE-21-study-plan.md)。
 
 線上看：https://lwhuen.github.io/OCP21_PersonalStudyWebsite/
 
@@ -80,13 +80,13 @@ pip install markdown
 
 ## 溫習節奏（摘要）
 
-- **八週學完 syllabus**（2026-11-23 → 2027-01-17）
-- **一個月 mock**（1 月 18 日起；Enthuware 由呢日先開）
+- **八週學完 syllabus**
+- **一個月 mock**（Enthuware 由 mock 月先開）
 - **三個 hold 週**保住分數
 - 平日每天約 3 小時：20 分鐘錯題 Anki → 2 小時打 listing → 40 分鐘做題
 - 最後兩次計時 mock 都要 **≥ 75%（38／50）** 先去考；合格線是 68%
 
-詳細門檻同每天 checklist 睇策略同計劃兩個檔。
+具體日期睇 [15 週計劃](OCP-Java-SE-21-study-plan.md)。門檻同每天 checklist 睇策略同計劃兩個檔。
 
 ---
 

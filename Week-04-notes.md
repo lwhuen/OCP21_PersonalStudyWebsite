@@ -1,6 +1,6 @@
 # Week 4 notes — inheritance through pattern matching
 
-**14–20 Dec 2026. 25 hours.** Weekend days are 8 hours. This file follows Week 4 of the study plan. The gate is the mixed OOP questions at **70%** (21 of the 30 questions in this file).
+**25 hours.** Weekend days are 8 hours. This file follows Week 4 of the study plan. Calendar dates are only in the [15-week plan](OCP-Java-SE-21-study-plan.md). The gate is the mixed OOP questions at **70%** (21 of the 30 questions in this file).
 
 Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 8 hours each. The extra two hours are questions. Monday’s first 20 minutes are the Week 3 misses.
 

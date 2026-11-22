@@ -1,6 +1,6 @@
 # Week 6 glossary — collections and generics
 
-Terms from [Week-06-notes.md](Week-06-notes.md). The exam words are English. Friday 1 Jan is off.
+Terms from [Week-06-notes.md](Week-06-notes.md). The exam words are English.
 
 ## Monday — `List`
 

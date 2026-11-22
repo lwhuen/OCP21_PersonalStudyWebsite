@@ -1,6 +1,6 @@
 # Week 8 notes — I/O, modules, and threads
 
-**11–17 Jan 2027. 25 hours.** Weekend days are 8 hours. This file follows Week 8 of the study plan. The gate is the mixed quiz at **65%** (13 of the 20 questions in this file). Sunday 17 Jan closes the syllabus. After that the book is a reference.
+**25 hours.** Weekend days are 8 hours. This file follows Week 8 of the study plan. Calendar dates are only in the [15-week plan](OCP-Java-SE-21-study-plan.md). The gate is the mixed quiz at **65%** (13 of the 20 questions in this file). When this week ends, the syllabus is closed. After that the book is a reference.
 
 Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 8 hours each. The extra two hours are questions. Monday’s first 20 minutes are the Week 7 misses.
 

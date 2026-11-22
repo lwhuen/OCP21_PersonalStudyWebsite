@@ -1,8 +1,8 @@
 # Week 1 notes — types, operators, and flow
 
-**23–29 Nov 2026. 21 hours.** This file follows Week 1 of the study plan. The gate is the building-blocks, operators, and decisions questions at **70%** (24 of the 34 questions in this file).
+**21 hours.** This file follows Week 1 of the study plan. Calendar dates are only in the [15-week plan](OCP-Java-SE-21-study-plan.md). The gate is the building-blocks, operators, and decisions questions at **70%** (24 of the 34 questions in this file).
 
-參考書係 Boyarsky 同 Selikoff 嘅 *OCP Oracle Certified Professional Java SE 21 Developer Study Guide*。每章下面嘅頁碼係紙本書。**必睇**先至翻開。**略讀**只核對標題同筆記未寫過嘅一句。**唔使睇**留到標明嗰一週，或者唔使做。每章末嘅 Review Questions 都唔使做，計分用呢份筆記嘅題。書前面嘅 Assessment Test 同網上題庫留到 1 月 18 日。勘誤在 [selikoff.net/ocp21](https://www.selikoff.net/ocp21/)。
+參考書係 Boyarsky 同 Selikoff 嘅 *OCP Oracle Certified Professional Java SE 21 Developer Study Guide*。每章下面嘅頁碼係紙本書。**必睇**先至翻開。**略讀**只核對標題同筆記未寫過嘅一句。**唔使睇**留到標明嗰一週，或者唔使做。每章末嘅 Review Questions 都唔使做，計分用呢份筆記嘅題。書前面嘅 Assessment Test 同網上題庫留到 mock 月開始（見 15 週計劃）。勘誤在 [selikoff.net/ocp21](https://www.selikoff.net/ocp21/)。
 
 Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 6 hours each. Monday has nothing to review yet, so those 20 minutes are the JDK check.
 
@@ -11,7 +11,7 @@ These are the two exam objectives the plan puts in this week:
 - Numeric types and boolean logic: primitives, wrapper classes, precedence, promotion, casts, and `Math`.
 - Program flow: `if` / `else`, `switch` statements and expressions, loops, `break`, and `continue`.
 
-String methods, arrays, and methods you write yourself are Week 2. Leave them until 30 Nov.
+String methods, arrays, and methods you write yourself are Week 2. Leave them until then.
 
 | Day | What the plan says | Where it is in this file |
 |---|---|---|

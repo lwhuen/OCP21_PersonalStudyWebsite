@@ -1,6 +1,6 @@
 # Week 5 glossary — exceptions and the date-time API
 
-Terms from [Week-05-notes.md](Week-05-notes.md). The exam words are English. Friday 25 Dec is off.
+Terms from [Week-05-notes.md](Week-05-notes.md). The exam words are English.
 
 ## Monday — `try`, `catch`, `finally`
 
