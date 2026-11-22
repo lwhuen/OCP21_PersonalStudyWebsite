@@ -78,7 +78,57 @@ def render_markdown(text):
     )
     body = body.replace("<table>", '<div class="table-wrap"><table>')
     body = body.replace("</table>", "</table></div>")
+    body = enhance_plan_layout(body)
     return enhance_questions(body)
+
+
+def enhance_plan_layout(body):
+    def week_heading(match):
+        anchor, raw = match.group(1), match.group(2)
+        title = plain_text(raw)
+        parts = [part.strip() for part in re.split(r"\s*·\s*", title) if part.strip()]
+        if len(parts) < 3 or not parts[0].lower().startswith("week"):
+            return match.group(0)
+        week, date, topic = parts[0], parts[1], " · ".join(parts[2:])
+        return (
+            f'<h2 id="{anchor}" class="week-head">'
+            f'<span class="week-head-main">'
+            f'<span class="week-head-top">'
+            f'<span class="week-num">{html.escape(week)}</span>'
+            f'<span class="week-date">{html.escape(date)}</span>'
+            f"</span>"
+            f'<span class="week-topic">{html.escape(topic)}</span>'
+            f"</span></h2>"
+        )
+
+    body = re.sub(
+        r'<h2 id="([^"]+)">(.*?)</h2>',
+        week_heading,
+        body,
+        flags=re.S,
+    )
+
+    def day_item(match):
+        day, detail = match.group(1), match.group(2).strip()
+        return (
+            f'<li class="day-row">'
+            f'<span class="day-tag">{html.escape(day)}</span>'
+            f'<span class="day-body">{detail}</span>'
+            f"</li>"
+        )
+
+    body = re.sub(
+        r"<li>((?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:\s*\([^)]*\))?):\s*(.*?)</li>",
+        day_item,
+        body,
+        flags=re.S,
+    )
+    body = re.sub(
+        r"<ul>\s*(?=<li class=\"day-row\">)",
+        '<ul class="day-plan">',
+        body,
+    )
+    return body
 
 
 class _Blocks(html.parser.HTMLParser):
@@ -1261,6 +1311,90 @@ article ul:has(> .task) {
   line-height: 1.45;
 }
 .toc .topic .toc-rest { font-size: 0.88rem; font-weight: 550; }
+.week-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin: 2rem 0 0.7rem;
+  padding: 0.85rem 0.9rem;
+  background: #f7f2ea;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.week-head-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.week-head-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+}
+.week-num {
+  font-size: 0.95rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+}
+.week-date {
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--muted);
+  background: var(--paper);
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  line-height: 1.25;
+}
+.week-topic {
+  font-size: 1.18rem;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+.day-plan {
+  list-style: none;
+  margin: 0.95rem 0 1.15rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.day-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.day-tag {
+  flex: none;
+  min-width: 2.85rem;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.28rem 0.45rem;
+  line-height: 1.2;
+}
+.day-body {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  padding-top: 0.05rem;
+}
 .jump {
   position: fixed;
   top: 4.5rem;
@@ -1480,20 +1614,52 @@ article ul:has(> .task) {
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    padding: 1rem 0.85rem 1.2rem;
-    border-radius: 12px;
+    padding: 1.15rem 1rem 1.35rem;
+    border-radius: 14px;
     overflow-x: hidden;
   }
   .weeks { grid-template-columns: 1fr; }
-  .hero h1, article h1 { font-size: 1.45rem; }
-  article { font-size: 1.05rem; max-width: 100%; min-width: 0; }
-  :is(p, li, td, h1, h2, h3, blockquote, .task-body) code {
+  .hero h1, article h1 { font-size: 1.4rem; line-height: 1.3; }
+  article {
+    font-size: 1.08rem;
+    line-height: 1.75;
+    max-width: 100%;
+    min-width: 0;
+  }
+  article p { margin: 0.95em 0; }
+  article h2 { margin-top: 1.6rem; }
+  .week-head {
+    margin: 1.5rem 0 0.85rem;
+    padding: 0.95rem 0.9rem;
+    gap: 0.55rem;
+  }
+  .week-topic { font-size: 1.12rem; }
+  .week-date { font-size: 0.74rem; }
+  .day-plan { gap: 0.55rem; margin: 1rem 0 1.3rem; }
+  .day-row {
+    padding: 0.85rem 0.9rem;
+    gap: 0.8rem;
+  }
+  .day-tag {
+    min-width: 3rem;
+    font-size: 0.74rem;
+    padding: 0.32rem 0.5rem;
+  }
+  .day-body { font-size: 1.02rem; line-height: 1.6; }
+  .task {
+    margin: 0.6em 0;
+    padding: 0.7rem 0.75rem 0.7rem 0.55rem;
+    gap: 0.8rem;
+  }
+  .task-body { line-height: 1.6; }
+  :is(p, li, td, h1, h2, h3, blockquote, .task-body, .day-body) code {
     white-space: normal;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
   .mark { width: 2.05rem; height: 2.05rem; }
   article :is(h1, h2, h3) .mark { opacity: 1; }
+  .week-head .mark { margin-top: 0.1rem; }
   article .q,
   article > blockquote { padding-right: 2.7rem; max-width: 100%; box-sizing: border-box; }
   .table-wrap {
