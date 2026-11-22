@@ -1482,10 +1482,16 @@ function paintMarks() {
     if (!host || !host.id) return;
     const on = hrefs.has(fileName() + "#" + host.id);
     host.classList.toggle("reached", on);
-    button.setAttribute("aria-label", on ? "已收藏，雙擊取消" : "收藏");
+    button.setAttribute("aria-label", on ? "已收藏，再撳取消" : "收藏");
     button.setAttribute("aria-pressed", on ? "true" : "false");
-    button.title = on ? "已收藏 · 雙擊取消" : "收藏";
+    button.title = on ? "已收藏 · 再撳取消" : "收藏";
   });
+}
+
+function isMarked(el) {
+  if (!el?.id) return false;
+  const href = fileName() + "#" + el.id;
+  return readPlaces().some((item) => item.href === href);
 }
 
 function saveMark(el) {
@@ -1514,6 +1520,11 @@ function clearMark(el) {
   paintPlace();
 }
 
+function toggleMark(el) {
+  if (isMarked(el)) clearMark(el);
+  else saveMark(el);
+}
+
 function attachMark(el) {
   if (!el || el.querySelector(":scope > .mark")) return;
   const button = document.createElement("button");
@@ -1522,26 +1533,7 @@ function attachMark(el) {
   button.setAttribute("aria-label", "收藏");
   button.title = "收藏";
   button.innerHTML = '<svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-3-5 3z"/></svg><svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-3-5 3z"/></svg>';
-  let clickTimer = 0;
-  button.addEventListener("click", () => {
-    if (clickTimer) {
-      clearTimeout(clickTimer);
-      clickTimer = 0;
-      return;
-    }
-    clickTimer = setTimeout(() => {
-      clickTimer = 0;
-      saveMark(el);
-    }, 280);
-  });
-  button.addEventListener("dblclick", (event) => {
-    event.preventDefault();
-    if (clickTimer) {
-      clearTimeout(clickTimer);
-      clickTimer = 0;
-    }
-    clearMark(el);
-  });
+  button.addEventListener("click", () => toggleMark(el));
   el.appendChild(button);
 }
 
