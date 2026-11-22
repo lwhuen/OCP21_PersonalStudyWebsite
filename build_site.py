@@ -678,9 +678,13 @@ main { flex: 1; min-width: 0; width: 100%; padding: clamp(0.85rem, 2vw, 1.75rem)
 .place-home { margin: 1rem 0 0; max-width: 36rem; }
 .place-head { display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; }
 .place p, .place-home p { margin: 0; color: var(--accent); font-weight: 650; font-size: 0.75rem; }
-.place a, .place-home a { display: block; margin-top: 0.15rem; font-weight: 650; text-decoration: none; color: var(--ink); }
-.place small, .place-home small { display: block; color: var(--muted); margin-top: 0.1rem; }
-.place-clear {
+.place-list { list-style: none; margin: 0.35rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; max-height: 14rem; overflow: auto; }
+.place-item { display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 0.35rem; align-items: start; }
+.place-item a { display: block; font-weight: 650; text-decoration: none; color: var(--ink); line-height: 1.35; }
+.place-item a:hover, .place-item a:focus { color: var(--accent); }
+.place-item .place-path { grid-column: 1 / -1; display: block; color: var(--ink); font-weight: 650; margin: 0; line-height: 1.35; font-size: 0.78rem; }
+.place-item .place-where { grid-column: 1 / -1; display: block; color: var(--muted); margin: 0; font-size: 0.72rem; line-height: 1.3; }
+.place-clear, .place-item-clear {
   flex: none;
   width: 1.55rem;
   height: 1.55rem;
@@ -694,8 +698,9 @@ main { flex: 1; min-width: 0; width: 100%; padding: clamp(0.85rem, 2vw, 1.75rem)
   color: var(--muted);
   cursor: pointer;
 }
-.place-clear:hover, .place-clear:focus { background: white; color: var(--ink); }
-.place-clear svg { width: 0.95rem; height: 0.95rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; }
+.place-clear:hover, .place-clear:focus,
+.place-item-clear:hover, .place-item-clear:focus { background: white; color: var(--ink); }
+.place-clear svg, .place-item-clear svg { width: 0.95rem; height: 0.95rem; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; }
 .week-progress { margin: 0.8rem 0.15rem 0.15rem; padding: 0.55rem 0.65rem 0.6rem; background: white; border-radius: 10px; }
 .week-progress p { display: flex; justify-content: space-between; gap: 0.5rem; margin: 0; font-size: 0.78rem; font-weight: 650; }
 .week-progress .pct { color: var(--accent); }
@@ -726,7 +731,6 @@ h3 .mark svg { width: 0.9rem; height: 0.9rem; }
 .mark[aria-pressed="true"] .icon-off { display: none; }
 .mark[aria-pressed="true"] .icon-on { display: block; fill: currentColor; stroke: none; }
 article :is(h1, h2, h3).reached { box-shadow: inset 3px 0 0 var(--accent); padding-left: 0.6rem; }
-.place-path { display: block; color: var(--ink); font-weight: 650; margin-top: 0.2rem; line-height: 1.35; }
 .hero h1, article h1 { font-size: 1.85rem; line-height: 1.25; margin: 0 0 0.7rem; font-weight: 700; }
 .kicker { margin: 0 0 0.35rem; color: var(--accent); font-weight: 650; font-size: 0.92rem; }
 article { font-size: 1.0625rem; line-height: 1.8; text-wrap: pretty; }
@@ -760,7 +764,6 @@ pre {
 pre code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
 .q { margin: 1.5rem 0 1.8rem; }
 .choices { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.75rem 0 0.55rem; }
-.q .reveal, .kept .reveal { margin-top: 0.1rem; }
 .choice { display: flex; align-items: flex-start; gap: 0.7rem; width: 100%; text-align: left; font: inherit; color: inherit; background: #fbf8f3; border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.75rem; cursor: pointer; line-height: 1.5; }
 .choice:hover { border-color: #cfc4b4; }
 .choice[aria-pressed="true"] { background: #eef4f3; border-color: #b7d0cc; }
@@ -771,11 +774,16 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
 .choice-body .snippet { display: block; white-space: pre-wrap; font-size: 0.92rem; line-height: 1.55; }
 .reveal {
   display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.15rem;
-  min-height: 2.4rem;
-  padding: 0.4rem 0.95rem 0.4rem 0.75rem;
+  justify-content: center;
+  gap: 0.5rem;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 2.45rem;
+  margin: 0.35rem 0 1rem;
+  padding: 0.45rem 1rem 0.45rem 0.8rem;
   border: 1px solid var(--line);
   background: white;
   color: var(--ink);
@@ -783,6 +791,8 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
   font: inherit;
   font-size: 0.9rem;
   font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
   cursor: pointer;
 }
 .reveal svg {
@@ -802,10 +812,10 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
   color: var(--accent);
 }
 .reveal[aria-expanded="true"] .icon-show { display: none; }
-.reveal[aria-expanded="true"] .icon-hide { display: block; }
+.reveal[aria-expanded="true"] .icon-hide { display: inline; }
 .reveal:hover, .reveal:focus-visible { background: var(--accent-soft); border-color: #b7d0cc; outline: none; }
-.reveal-label { line-height: 1; }
-.answer { margin-top: 0.7rem; padding: 0.75rem 0.9rem; background: #f6f3ec; border: 1px solid var(--line); border-radius: 10px; }
+.reveal-label { flex: none; white-space: nowrap; line-height: 1.2; }
+.answer { margin-top: 0.55rem; margin-bottom: 0.35rem; padding: 0.75rem 0.9rem; background: #f6f3ec; border: 1px solid var(--line); border-radius: 10px; }
 .answer > :first-child { margin-top: 0; }
 .answer > :last-child { margin-bottom: 0; }
 .q.shown .choice.right { background: #f3f7f6; border-color: #9bbfb8; }
@@ -1025,7 +1035,12 @@ tbody tr:nth-child(even) { background: #fbf8f3; }
   article :is(h1, h2, h3) { gap: 0.45rem; }
   .mark { width: 2.25rem; height: 2.25rem; }
   h3 .mark { width: 2rem; height: 2rem; }
-  .reveal { min-height: 2.6rem; padding: 0.5rem 1.05rem 0.5rem 0.85rem; font-size: 0.95rem; }
+  .reveal {
+    min-height: 2.7rem;
+    padding: 0.55rem 1.1rem 0.55rem 0.9rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.15rem;
+  }
   .choice { padding: 0.7rem 0.8rem; }
   .pager { flex-direction: column; }
   .pager a:only-child { max-width: none; }
@@ -1162,12 +1177,29 @@ try {
 } catch (error) {}
 
 const PLACE_KEY = "ocp-place";
+const PLACES_KEY = "ocp-places";
 const placeBox = document.querySelector("#place");
 const placeHome = document.querySelector("#place-home");
 
-function readPlace() {
-  try { return JSON.parse(localStorage.getItem(PLACE_KEY) || "null"); }
-  catch (error) { return null; }
+function readPlaces() {
+  try {
+    const multi = localStorage.getItem(PLACES_KEY);
+    if (multi) {
+      const list = JSON.parse(multi);
+      return Array.isArray(list) ? list.filter((item) => item && item.href) : [];
+    }
+    const legacy = localStorage.getItem(PLACE_KEY);
+    if (!legacy) return [];
+    const one = JSON.parse(legacy);
+    return one && one.href ? [one] : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function writePlaces(list) {
+  localStorage.setItem(PLACES_KEY, JSON.stringify(list));
+  localStorage.removeItem(PLACE_KEY);
 }
 
 function fileName() {
@@ -1197,56 +1229,105 @@ function placePath(heading) {
   return [chapter, section].filter(Boolean).join(" · ");
 }
 
+function placeItemHtml(item) {
+  const path = item.path ? `<small class="place-path">${esc(item.path)}</small>` : "";
+  return `<li class="place-item" data-href="${esc(item.href)}">
+    <a href="${esc(item.href)}">${esc(item.heading)}</a>
+    <button type="button" class="place-item-clear" aria-label="移除收藏" title="移除">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    ${path}
+    <small class="place-where">${esc(item.where || "")}</small>
+  </li>`;
+}
+
 function paintPlace() {
-  const saved = readPlace();
+  const list = readPlaces();
   [placeBox, placeHome].forEach((box) => {
     if (!box) return;
-    if (!saved) {
+    if (!list.length) {
       box.hidden = true;
       box.innerHTML = "";
       return;
     }
     box.hidden = false;
-    const path = saved.path ? `<small class="place-path">${esc(saved.path)}</small>` : "";
-    box.innerHTML = `<div class="place-head"><p>溫到呢度</p><button type="button" class="place-clear" aria-label="清除"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><a href="${esc(saved.href)}">${esc(saved.heading)}</a>${path}<small>${esc(saved.where)}</small>`;
+    box.innerHTML = `<div class="place-head"><p>收藏 ${list.length}</p><button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><ul class="place-list">${list.map(placeItemHtml).join("")}</ul>`;
     box.querySelector(".place-clear").addEventListener("click", () => {
-      localStorage.removeItem(PLACE_KEY);
+      writePlaces([]);
       paintPlace();
-      paintMarks();
+    });
+    box.querySelectorAll(".place-item-clear").forEach((button) => {
+      button.addEventListener("click", () => {
+        const href = button.closest(".place-item")?.dataset.href;
+        writePlaces(readPlaces().filter((item) => item.href !== href));
+        paintPlace();
+      });
     });
   });
   paintMarks();
 }
 
 function paintMarks() {
-  const saved = readPlace();
+  const hrefs = new Set(readPlaces().map((item) => item.href));
   document.querySelectorAll("article .mark").forEach((button) => {
     const heading = button.closest("h1, h2, h3");
-    const on = !!(saved && saved.href === fileName() + "#" + heading.id);
+    const on = hrefs.has(fileName() + "#" + heading.id);
     heading.classList.toggle("reached", on);
-    button.setAttribute("aria-label", on ? "溫到呢度" : "記低");
+    button.setAttribute("aria-label", on ? "已收藏，雙擊取消" : "收藏");
     button.setAttribute("aria-pressed", on ? "true" : "false");
-    button.title = on ? "溫到呢度" : "記低";
+    button.title = on ? "已收藏 · 雙擊取消" : "收藏";
   });
+}
+
+function saveMark(heading) {
+  const href = fileName() + "#" + heading.id;
+  const list = readPlaces().filter((item) => item.href !== href);
+  const where = document.querySelector(".crumb")?.textContent?.trim() || document.title.replace(/ · OCP Java 21$/, "");
+  list.unshift({
+    href,
+    heading: headingText(heading),
+    path: placePath(heading),
+    where
+  });
+  writePlaces(list);
+  paintPlace();
+}
+
+function clearMark(heading) {
+  const href = fileName() + "#" + heading.id;
+  const list = readPlaces();
+  const next = list.filter((item) => item.href !== href);
+  if (next.length === list.length) return;
+  writePlaces(next);
+  paintPlace();
 }
 
 document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "mark";
-  button.setAttribute("aria-label", "記低");
-  button.title = "記低";
+  button.setAttribute("aria-label", "收藏");
+  button.title = "收藏";
   button.innerHTML = '<svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-3-5 3z"/></svg><svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-3-5 3z"/></svg>';
+  let clickTimer = 0;
   button.addEventListener("click", () => {
-    const where = document.querySelector(".crumb")?.textContent?.trim() || document.title.replace(/ · OCP Java 21$/, "");
-    const saved = {
-      href: fileName() + "#" + heading.id,
-      heading: headingText(heading),
-      path: placePath(heading),
-      where
-    };
-    localStorage.setItem(PLACE_KEY, JSON.stringify(saved));
-    paintPlace();
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = 0;
+      return;
+    }
+    clickTimer = setTimeout(() => {
+      clickTimer = 0;
+      saveMark(heading);
+    }, 280);
+  });
+  button.addEventListener("dblclick", (event) => {
+    event.preventDefault();
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = 0;
+    }
+    clearMark(heading);
   });
   heading.appendChild(button);
 });

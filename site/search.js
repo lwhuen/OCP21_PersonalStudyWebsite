@@ -117,12 +117,29 @@ try {
 } catch (error) {}
 
 const PLACE_KEY = "ocp-place";
+const PLACES_KEY = "ocp-places";
 const placeBox = document.querySelector("#place");
 const placeHome = document.querySelector("#place-home");
 
-function readPlace() {
-  try { return JSON.parse(localStorage.getItem(PLACE_KEY) || "null"); }
-  catch (error) { return null; }
+function readPlaces() {
+  try {
+    const multi = localStorage.getItem(PLACES_KEY);
+    if (multi) {
+      const list = JSON.parse(multi);
+      return Array.isArray(list) ? list.filter((item) => item && item.href) : [];
+    }
+    const legacy = localStorage.getItem(PLACE_KEY);
+    if (!legacy) return [];
+    const one = JSON.parse(legacy);
+    return one && one.href ? [one] : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function writePlaces(list) {
+  localStorage.setItem(PLACES_KEY, JSON.stringify(list));
+  localStorage.removeItem(PLACE_KEY);
 }
 
 function fileName() {
@@ -152,56 +169,105 @@ function placePath(heading) {
   return [chapter, section].filter(Boolean).join(" · ");
 }
 
+function placeItemHtml(item) {
+  const path = item.path ? `<small class="place-path">${esc(item.path)}</small>` : "";
+  return `<li class="place-item" data-href="${esc(item.href)}">
+    <a href="${esc(item.href)}">${esc(item.heading)}</a>
+    <button type="button" class="place-item-clear" aria-label="移除收藏" title="移除">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    ${path}
+    <small class="place-where">${esc(item.where || "")}</small>
+  </li>`;
+}
+
 function paintPlace() {
-  const saved = readPlace();
+  const list = readPlaces();
   [placeBox, placeHome].forEach((box) => {
     if (!box) return;
-    if (!saved) {
+    if (!list.length) {
       box.hidden = true;
       box.innerHTML = "";
       return;
     }
     box.hidden = false;
-    const path = saved.path ? `<small class="place-path">${esc(saved.path)}</small>` : "";
-    box.innerHTML = `<div class="place-head"><p>溫到呢度</p><button type="button" class="place-clear" aria-label="清除"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><a href="${esc(saved.href)}">${esc(saved.heading)}</a>${path}<small>${esc(saved.where)}</small>`;
+    box.innerHTML = `<div class="place-head"><p>收藏 ${list.length}</p><button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><ul class="place-list">${list.map(placeItemHtml).join("")}</ul>`;
     box.querySelector(".place-clear").addEventListener("click", () => {
-      localStorage.removeItem(PLACE_KEY);
+      writePlaces([]);
       paintPlace();
-      paintMarks();
+    });
+    box.querySelectorAll(".place-item-clear").forEach((button) => {
+      button.addEventListener("click", () => {
+        const href = button.closest(".place-item")?.dataset.href;
+        writePlaces(readPlaces().filter((item) => item.href !== href));
+        paintPlace();
+      });
     });
   });
   paintMarks();
 }
 
 function paintMarks() {
-  const saved = readPlace();
+  const hrefs = new Set(readPlaces().map((item) => item.href));
   document.querySelectorAll("article .mark").forEach((button) => {
     const heading = button.closest("h1, h2, h3");
-    const on = !!(saved && saved.href === fileName() + "#" + heading.id);
+    const on = hrefs.has(fileName() + "#" + heading.id);
     heading.classList.toggle("reached", on);
-    button.setAttribute("aria-label", on ? "溫到呢度" : "記低");
+    button.setAttribute("aria-label", on ? "已收藏，雙擊取消" : "收藏");
     button.setAttribute("aria-pressed", on ? "true" : "false");
-    button.title = on ? "溫到呢度" : "記低";
+    button.title = on ? "已收藏 · 雙擊取消" : "收藏";
   });
+}
+
+function saveMark(heading) {
+  const href = fileName() + "#" + heading.id;
+  const list = readPlaces().filter((item) => item.href !== href);
+  const where = document.querySelector(".crumb")?.textContent?.trim() || document.title.replace(/ · OCP Java 21$/, "");
+  list.unshift({
+    href,
+    heading: headingText(heading),
+    path: placePath(heading),
+    where
+  });
+  writePlaces(list);
+  paintPlace();
+}
+
+function clearMark(heading) {
+  const href = fileName() + "#" + heading.id;
+  const list = readPlaces();
+  const next = list.filter((item) => item.href !== href);
+  if (next.length === list.length) return;
+  writePlaces(next);
+  paintPlace();
 }
 
 document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "mark";
-  button.setAttribute("aria-label", "記低");
-  button.title = "記低";
+  button.setAttribute("aria-label", "收藏");
+  button.title = "收藏";
   button.innerHTML = '<svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-3-5 3z"/></svg><svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-3-5 3z"/></svg>';
+  let clickTimer = 0;
   button.addEventListener("click", () => {
-    const where = document.querySelector(".crumb")?.textContent?.trim() || document.title.replace(/ · OCP Java 21$/, "");
-    const saved = {
-      href: fileName() + "#" + heading.id,
-      heading: headingText(heading),
-      path: placePath(heading),
-      where
-    };
-    localStorage.setItem(PLACE_KEY, JSON.stringify(saved));
-    paintPlace();
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = 0;
+      return;
+    }
+    clickTimer = setTimeout(() => {
+      clickTimer = 0;
+      saveMark(heading);
+    }, 280);
+  });
+  button.addEventListener("dblclick", (event) => {
+    event.preventDefault();
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = 0;
+    }
+    clearMark(heading);
   });
   heading.appendChild(button);
 });
