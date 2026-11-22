@@ -393,14 +393,14 @@ def toc_label_html(title):
     )
     if day:
         return (
-            f'<span class="toc-kicker">{html.escape(day.group(1))}</span>'
             f'<span class="toc-rest">{html.escape(day.group(2))}</span>'
+            f'<span class="toc-kicker">{html.escape(day.group(1))}</span>'
         )
     chapter = re.match(r"^(Chapter\s+\d+)\s*[—–-]\s*(.+)$", title, flags=re.I)
     if chapter:
         return (
-            f'<span class="toc-kicker">{html.escape(chapter.group(1))}</span>'
             f'<span class="toc-rest">{html.escape(chapter.group(2))}</span>'
+            f'<span class="toc-kicker">{html.escape(chapter.group(1))}</span>'
         )
     return f'<span class="toc-rest">{html.escape(title)}</span>'
 
@@ -1216,8 +1216,10 @@ article ul:has(> .task) {
 .toc a {
   text-decoration: none;
   display: flex;
-  flex-direction: column;
-  gap: 0.28rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
   padding: 0.85rem 0.95rem;
   border-radius: 12px;
   background: var(--paper);
@@ -1237,8 +1239,9 @@ article ul:has(> .task) {
 }
 .toc .topic > a { color: var(--muted); font-weight: 550; }
 .toc-kicker {
+  flex: none;
   display: inline-flex;
-  align-self: flex-start;
+  align-items: center;
   font-size: 0.68rem;
   font-weight: 750;
   letter-spacing: 0.04em;
@@ -1248,8 +1251,15 @@ article ul:has(> .task) {
   border-radius: 999px;
   padding: 0.2rem 0.55rem;
   line-height: 1.25;
+  white-space: nowrap;
 }
-.toc-rest { font-size: 0.92rem; font-weight: 650; line-height: 1.45; }
+.toc-rest {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
 .toc .topic .toc-rest { font-size: 0.88rem; font-weight: 550; }
 .jump {
   position: fixed;
@@ -1331,9 +1341,10 @@ article ul:has(> .task) {
 .jump a {
   text-decoration: none;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.25rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
   padding: 0.75rem 0.8rem;
   border-radius: 12px;
   border: 1px solid transparent;
