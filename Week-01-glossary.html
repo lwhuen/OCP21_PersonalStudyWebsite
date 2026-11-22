@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 1 glossary — types, operators, and flow · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html" aria-current="page">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 1 週 · 詞彙</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#monday-a-program">Monday — a program</a></li><li><a href="#wednesday-primitives-literals-var-wrappers">Wednesday — primitives, literals, var , wrappers</a></li><li><a href="#friday-operators">Friday — operators</a></li><li><a href="#saturday-and-sunday-math-and-flow">Saturday and Sunday — Math and flow</a></li></ul></details>
+<article>
+<h1 id="week-1-glossary-types-operators-and-flow">Week 1 glossary — types, operators, and flow</h1>
+<p>Terms from <a href="Week-01-notes.html">Week-01-notes.md</a>. The exam words are English.</p>
+<h2 id="monday-a-program">Monday — a program</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>main</code></td>
+<td>The entry point. <code>public static void main(String[] args)</code>. <code>public</code> and <code>static</code> may be swapped. The parameter may be <code>String[]</code> or <code>String...</code>.</td>
+</tr>
+<tr>
+<td>Compile</td>
+<td><code>javac Hello.java</code> checks the source and writes <code>Hello.class</code>. A file that fails to compile never runs.</td>
+</tr>
+<tr>
+<td>Local variable</td>
+<td>A variable declared inside a method. It has no default. Reading it before it is assigned does not compile.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wednesday-primitives-literals-var-wrappers">Wednesday — primitives, literals, <code>var</code>, wrappers</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primitive</td>
+<td>One of eight types: <code>byte</code> 8-bit, <code>short</code> 16, <code>int</code> 32, <code>long</code> 64, <code>float</code> 32, <code>double</code> 64, <code>char</code> 16-bit unsigned, <code>boolean</code>.</td>
+</tr>
+<tr>
+<td><code>byte</code> range</td>
+<td>−128 to 127. <code>byte b = 128</code> does not compile.</td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>An unsigned number from 0 to 65,535. A negative literal such as <code>char c = -1</code> does not compile. A cast such as <code>(char) -1</code> does.</td>
+</tr>
+<tr>
+<td>Field default</td>
+<td>A field that is not assigned starts as <code>0</code>, <code>false</code>, <code>'\u0000'</code>, or <code>null</code>. Locals do not get these defaults.</td>
+</tr>
+<tr>
+<td>Literal</td>
+<td>A value written in source. A whole number is an <code>int</code> unless it ends in <code>L</code>. <code>1.0</code> is a <code>double</code>. A <code>float</code> literal ends in <code>f</code>.</td>
+</tr>
+<tr>
+<td>Octal literal</td>
+<td>A leading <code>0</code> means base 8. <code>011</code> is 9. <code>018</code> does not compile, because 8 is not an octal digit.</td>
+</tr>
+<tr>
+<td>Underscore in a number</td>
+<td>Allowed only between digits. <code>1_000</code> compiles. <code>10_L</code>, <code>0x_11</code>, and <code>1_000_</code> do not.</td>
+</tr>
+<tr>
+<td><code>var</code></td>
+<td>One local variable with an initializer the compiler can type. Not a field, a parameter, or a return type. <code>var x;</code> and <code>var y = null</code> do not compile. <code>var n = (String) null</code> does, because the cast supplies the type.</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>The block where a name can be used. An inner block cannot declare <code>int x</code> when the outer block already has <code>int x</code>. After the inner block ends, the name may be declared again.</td>
+</tr>
+<tr>
+<td>Wrapper</td>
+<td>An object for a primitive: <code>Integer</code>, <code>Long</code>, <code>Double</code>, and the others. On Java 21, <code>new Integer(1)</code> does not compile. Use <code>Integer n = 1</code> or <code>Integer.valueOf(1)</code>.</td>
+</tr>
+<tr>
+<td>Boxing</td>
+<td>Wrapping a primitive in its wrapper. <code>Integer n = 1</code> boxes.</td>
+</tr>
+<tr>
+<td>Unboxing</td>
+<td>Taking the primitive out of a wrapper. <code>int value = n</code> unboxes. Unboxing <code>null</code> throws <code>NullPointerException</code>.</td>
+</tr>
+<tr>
+<td><code>Integer</code> cache</td>
+<td><code>Integer</code> reuses one object for each value from −128 to 127. <code>==</code> on two wrappers compares references, so <code>127 == 127</code> is true and <code>128 == 128</code> is false. <code>equals</code> compares the number. <code>Byte</code>, <code>Short</code>, and <code>Long</code> use the same cache. <code>Character</code> caches 0 to 127. <code>Float</code> and <code>Double</code> do not cache.</td>
+</tr>
+<tr>
+<td>Wrapper compared with a primitive</td>
+<td><code>Integer == int</code> unboxes the wrapper, so the cache does not matter. <code>Integer a = 200; int b = 200; a == b</code> is true.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="friday-operators">Friday — operators</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Precedence</td>
+<td>Which operator runs first. Postfix <code>++</code>, then <code>*</code>, then <code>+</code>, then <code>&amp;&amp;</code>, then <code>\|\|</code>, then <code>?:</code>. <code>?:</code> and assignment associate right to left. Most others associate left to right.</td>
+</tr>
+<tr>
+<td>Numeric promotion</td>
+<td><code>byte</code>, <code>short</code>, and <code>char</code> arithmetic produces an <code>int</code>. A constant expression whose result fits may still be assigned: <code>byte d = 1 + 2</code> compiles, <code>byte c = a + b</code> does not.</td>
+</tr>
+<tr>
+<td>Compound assignment</td>
+<td><code>+=</code>, <code>-=</code>, <code>*=</code>, and the rest. The operation includes a hidden cast back to the left-hand type, so <code>b += 1</code> compiles when <code>b = b + 1</code> does not. <code>n *= 2 + 3</code> means <code>n = n * (2 + 3)</code>.</td>
+</tr>
+<tr>
+<td>Postfix and prefix</td>
+<td><code>x++</code> contributes the current value, then adds 1. <code>++x</code> adds 1, then contributes the new value. After <code>int x = 1; int y = x++ + ++x</code>, <code>x</code> is 3 and <code>y</code> is 4.</td>
+</tr>
+<tr>
+<td>Short-circuit</td>
+<td><code>&amp;&amp;</code> and <code>\|\|</code> skip the right side when the result is already known. <code>&amp;</code> and <code>\|</code> on a boolean always evaluate both sides.</td>
+</tr>
+<tr>
+<td>Integer division</td>
+<td><code>5 / 2</code> is <code>2</code>. Truncation is toward zero. The sign of <code>%</code> follows the dividend, so <code>-5 % 2</code> is <code>-1</code>. An <code>int</code> divided by zero throws <code>ArithmeticException</code>. <code>1.0 / 0.0</code> is <code>Infinity</code>.</td>
+</tr>
+<tr>
+<td>Cast</td>
+<td>An explicit conversion, such as <code>(int) 5.0</code>. Casting a <code>double</code> toward zero drops the fraction: <code>(int) 9.9</code> is <code>9</code> and <code>(int) -9.9</code> is <code>-9</code>. <code>(boolean) 1</code> does not compile. A boolean cannot be cast to or from a number.</td>
+</tr>
+<tr>
+<td>Shift</td>
+<td>An <code>int</code> shift distance is taken mod 32, so <code>1 &lt;&lt; 32</code> is <code>1 &lt;&lt; 0</code>, which is <code>1</code>. <code>1 &lt;&lt; 31</code> is <code>Integer.MIN_VALUE</code>.</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td><code>condition ? a : b</code>. It associates to the right. Both branches share one type. <code>flag ? 1 : 2.0</code> has type <code>double</code>.</td>
+</tr>
+<tr>
+<td>Assignment in <code>if</code></td>
+<td><code>if (ready = true)</code> assigns, then tests the assigned boolean. <code>if (n = 5)</code> does not compile when <code>n</code> is an <code>int</code>, because <code>if</code> needs a boolean.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="saturday-and-sunday-math-and-flow">Saturday and Sunday — <code>Math</code> and flow</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Math.round</code></td>
+<td>A tie rounds toward positive infinity. <code>Math.round(2.5)</code> is <code>3</code>. <code>Math.round(-1.5)</code> is <code>-1</code>. <code>round(double)</code> returns <code>long</code>. <code>round(float)</code> returns <code>int</code>.</td>
+</tr>
+<tr>
+<td><code>Math.floor</code></td>
+<td>Toward negative infinity. <code>floor(-1.1)</code> is <code>-2.0</code>. Returns <code>double</code>.</td>
+</tr>
+<tr>
+<td><code>Math.ceil</code></td>
+<td>Toward positive infinity. <code>ceil(-1.1)</code> is <code>-1.0</code>. Returns <code>double</code>.</td>
+</tr>
+<tr>
+<td><code>Math.abs</code></td>
+<td>The magnitude. <code>Math.abs(Integer.MIN_VALUE)</code> stays negative, because the positive value does not fit in an <code>int</code>. The same trap exists for <code>Long.MIN_VALUE</code>.</td>
+</tr>
+<tr>
+<td>Dangling <code>else</code></td>
+<td>An <code>else</code> belongs to the nearest <code>if</code>.</td>
+</tr>
+<tr>
+<td>Unreachable</td>
+<td><code>while (false)</code> does not compile. <code>if (false)</code> does compile, and the lines after the <code>if</code> still run.</td>
+</tr>
+<tr>
+<td>Single statement</td>
+<td>A local-variable declaration cannot be the only statement of an <code>if</code> or a loop. Use a block.</td>
+</tr>
+<tr>
+<td>Classic <code>switch</code></td>
+<td>The selector may be <code>byte</code>, <code>short</code>, <code>char</code>, <code>int</code>, their wrappers, <code>String</code>, or an enum. Not <code>long</code>, <code>float</code>, <code>double</code>, or <code>boolean</code>. A case label is a compile-time constant. Duplicate labels do not compile.</td>
+</tr>
+<tr>
+<td>Fall-through</td>
+<td>In a colon <code>switch</code>, a case without <code>break</code> continues into the next case. <code>default</code> may sit anywhere. No match and no <code>default</code> means a switch statement does nothing.</td>
+</tr>
+<tr>
+<td>Arrow <code>switch</code></td>
+<td>Cases use <code>-&gt;</code> and do not fall through. They do not use <code>break</code>. Mixing <code>-&gt;</code> and <code>:</code> in one switch does not compile.</td>
+</tr>
+<tr>
+<td>Switch expression</td>
+<td>Produces a value. On an <code>int</code> it must cover every remaining value, so it needs a <code>default</code> or enough cases. A block produces its value with <code>yield</code>. <code>break 10</code> is not Java.</td>
+</tr>
+<tr>
+<td><code>null</code> selector</td>
+<td>A <code>switch</code> on a <code>null</code> <code>String</code> throws <code>NullPointerException</code> before any case or <code>default</code> runs.</td>
+</tr>
+<tr>
+<td><code>do</code> / <code>while</code></td>
+<td>The body runs at least once. The semicolon after <code>while (...)</code> is required. <code>int i = 0; do { print i; } while (i++ &lt; 2);</code> prints <code>012</code>.</td>
+</tr>
+<tr>
+<td><code>break</code></td>
+<td>Leaves the nearest loop or switch. <code>break</code> with a label leaves the named enclosing loop or switch.</td>
+</tr>
+<tr>
+<td><code>continue</code></td>
+<td>Starts the next iteration of the nearest loop. <code>continue</code> with a label must name a loop.</td>
+</tr>
+<tr>
+<td>Enhanced <code>for</code></td>
+<td><code>for (int n : nums)</code> gives <code>n</code> a separate copy. Assigning to <code>n</code> does not write into the array. A <code>null</code> array throws <code>NullPointerException</code>.</td>
+</tr>
+</tbody>
+</table></div>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-01-notes.html"><small>上一篇</small>第 1 週 · 筆記</a>
+<a class="next" href="Week-02-notes.html"><small>下一篇</small>第 2 週 · 筆記</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

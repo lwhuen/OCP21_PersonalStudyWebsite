@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 3 notes — classes and memory · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html" aria-current="page">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 3 週 · 筆記</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li class="chapter"><a href="#chapter-1-classes-fields-constructors-this">Chapter 1 — Classes, fields, constructors, this</a><ul><li><a href="#what-you-must-know">What you must know</a></li><li><a href="#monday-lab-person">Monday lab — Person</a></li><li><a href="#chapter-1-questions">Chapter 1 questions</a></li></ul></li><li class="chapter"><a href="#chapter-2-static-members-and-initializer-order">Chapter 2 — Static members and initializer order</a><ul><li><a href="#what-you-must-know_1">What you must know</a></li><li><a href="#chapter-2-questions">Chapter 2 questions</a></li></ul></li><li class="chapter"><a href="#chapter-3-encapsulation">Chapter 3 — Encapsulation</a><ul><li><a href="#what-you-must-know_2">What you must know</a></li><li><a href="#chapter-3-questions">Chapter 3 questions</a></li></ul></li><li class="chapter"><a href="#chapter-4-immutability-and-garbage-collection">Chapter 4 — Immutability and garbage collection</a><ul><li><a href="#what-you-must-know_3">What you must know</a></li><li><a href="#chapter-4-questions">Chapter 4 questions</a></li></ul></li><li class="chapter"><a href="#sunday-chapter-questions">Sunday — chapter questions</a><ul><li><a href="#mixed-set">Mixed set</a></li></ul></li><li class="chapter"><a href="#rules-to-copy-onto-one-card">Rules to copy onto one card</a><ul></ul></li></ul></details>
+<article>
+<h1 id="week-3-notes-classes-and-memory">Week 3 notes — classes and memory</h1>
+<p><strong>7–13 Dec 2026. 21 hours.</strong> This file follows Week 3 of the study plan. The gate is two parts: you can hand-trace superclass-then-subclass initializer order, and the class-design questions in this file at <strong>70%</strong> (23 of the 32 questions).</p>
+<p>Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 6 hours each. Monday’s first 20 minutes are the Week 2 misses.</p>
+<p>The exam topic this week is classes, encapsulation, and immutability, plus the garbage-collection diagrams on the checklist. Wednesday uses <code>extends</code> only so you can watch a superclass finish before the subclass. Overriding, interfaces, records, and sealed types are Week 4. Leave them until 14 Dec.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>What the plan says</th>
+<th>Where it is in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td>Classes, fields, constructors, <code>this</code></td>
+<td>Chapter 1, <code>Person</code>, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>Static members and initializer order</td>
+<td><code>Counter</code>, <code>Once</code>, <code>OrderLab</code>, questions Q1–Q8</td>
+</tr>
+<tr>
+<td>Fri</td>
+<td>Encapsulation</td>
+<td><code>OpenBox</code>, <code>BankAccount</code>, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Sat</td>
+<td>An immutable class and five garbage-collection diagrams</td>
+<td><code>Money</code>, <code>CopyLab</code>, the five diagrams, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Sun</td>
+<td>Chapter questions</td>
+<td>Hand-trace M1, the mixed set, then score all 32</td>
+</tr>
+</tbody>
+</table></div>
+<p>Same checklist as the study plan:</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A class with fields, a constructor, and <code>this</code>. No public fields.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Hand-write static-then-instance initializer order for a superclass and a subclass. Run code that prints the order and compare.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> An encapsulated <code>BankAccount</code>: private fields, constructor, methods.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> An immutable <code>Money</code> class: private final fields, no setters, class is final.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Five memory diagrams. A box is an object, an arrow is a reference. Mark what is eligible for collection.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Class-design questions at 70%, including one you can explain about garbage collection.</li>
+</ul>
+<p>Predict each listing before you run it. Each miss goes in the notebook as one rule and a five-line program.</p>
+<p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
+<hr>
+<h1 id="chapter-1-classes-fields-constructors-this">Chapter 1 — Classes, fields, constructors, <code>this</code></h1>
+<blockquote>
+<p><strong>必睇</strong>　參考書第 6 章 Class Design，pp. 297–311：“Creating Classes” 同 “Declaring Constructors”（<code>this</code>、<code>super()</code>）。</p>
+<p><strong>唔使睇</strong>　“Inheriting Members” 同 “Creating Abstract Classes” 留第 4 週。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Monday</strong> is this chapter, the <code>Person</code> lab, and questions Q1–Q6.</p>
+<h2 id="what-you-must-know">What you must know</h2>
+<p>A class groups fields and methods. <code>new Person("Ada", 36)</code> allocates an object and runs a constructor. The fields receive their defaults first: <code>0</code> for a number, <code>false</code> for a boolean, <code>'\u0000'</code> for a char, and <code>null</code> for a reference. Those are the same defaults as Week 1. A local variable still has no default.</p>
+<p>A file has at most one <code>public</code> top-level class, and the file name matches that class. A top-level class is <code>public</code> or package-private (no modifier). <code>private</code> and <code>protected</code> are not modifiers for a top-level class.</p>
+<p>A constructor’s name is the class name, and it has no return type.</p>
+<pre><code class="language-java">public Person(String name) {
+    this.name = name;
+}
+</code></pre>
+<p><code>void Person(String name)</code> is an ordinary method that happens to share the class name. <code>new</code> does not call it. If you write no constructor, the compiler adds a no-arg constructor with the same access as the class. The moment you write any constructor, that default constructor is gone. <code>new Person()</code> then fails unless one of your constructors takes no arguments.</p>
+<p>A parameter with the same name as a field hides the field. <code>this.field</code> is the field. <code>n = n</code> assigns the parameter to itself and leaves the field at its default.</p>
+<p><code>this(...)</code> calls another constructor of the same class. It is the first statement of the constructor. The arguments cannot be instance fields or instance methods, because this object is not ready yet. A cycle, where two constructors call each other, does not compile.</p>
+<p>Instance initializers run in the constructor that actually builds the object. A constructor that starts with <code>this(...)</code> waits, and the body after <code>this(...)</code> runs when the other constructor returns. Type this.</p>
+<pre><code class="language-java">public class Chain {
+    { System.out.print(&quot;I&quot;); }
+    Chain() { this(1); System.out.print(&quot;A&quot;); }
+    Chain(int n) { System.out.print(&quot;B&quot;); }
+    public static void main(String[] args) {
+        new Chain();
+    }
+}
+</code></pre>
+<p><code>new Chain()</code> prints <code>IBA</code>. The <code>{ }</code> block and the <code>Chain(int)</code> body run inside the delegated constructor. <code>A</code> prints after that constructor returns.</p>
+<h2 id="monday-lab-person">Monday lab — <code>Person</code></h2>
+<p>Type this. The fields are private. The constructor stores both parameters with <code>this</code>.</p>
+<pre><code class="language-java">public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String describe() {
+        return name + &quot; &quot; + age;
+    }
+
+    public static void main(String[] args) {
+        Person p = new Person(&quot;Ada&quot;, 36);
+        System.out.println(p.describe());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">Ada 36
+</code></pre>
+<p>Monday’s questions are Q1–Q6.</p>
+<h2 id="chapter-1-questions">Chapter 1 questions</h2>
+<section class="q" id="chapter-1-questions-Q1" data-qid="chapter-1-questions-Q1" data-multi="0" data-key="A"><p><strong>Q1.</strong> What is the output?</p><pre><code class="language-java">public class Q1 {
+    boolean ok = true;
+    void Q1() { ok = false; }
+    public static void main(String[] args) {
+        System.out.println(new Q1().ok);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>true</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>false</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>void Q1()</code> has a return type, so it is a method. <code>new</code> uses the no-arg constructor the compiler added. That constructor leaves <code>ok</code> as <code>true</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q2" data-qid="chapter-1-questions-Q2" data-multi="0" data-key="A"><p><strong>Q2.</strong> What is the output?</p><pre><code class="language-java">public class Q2 {
+    int n = 5;
+    void set(int n) { n = 10; }
+    public static void main(String[] args) {
+        Q2 q = new Q2();
+        q.set(10);
+        System.out.println(q.n);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>5</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>10</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The parameter <code>n</code> hides the field. <code>n = 10</code> changes the parameter. The field stays <code>5</code>. <code>this.n = n</code> would store <code>10</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q3" data-qid="chapter-1-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What is the result?</p><pre><code class="language-java">public class Q3 {
+    int n;
+    Q3() {
+        n = 1;
+        this(2);
+    }
+    Q3(int n) { this.n = n; }
+    public static void main(String[] args) {
+        System.out.println(new Q3().n);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>this(...)</code> is the first statement of a constructor. Here <code>n = 1</code> comes first, so the class does not compile.</p></div></section>
+<section class="q" id="chapter-1-questions-Q4" data-qid="chapter-1-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> What is the result?</p><pre><code class="language-java">public class Q4 {
+    Q4(int n) {}
+    public static void main(String[] args) {
+        new Q4();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It runs and prints nothing</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>Q4(int)</code> is a constructor, so the compiler does not add a no-arg constructor. <code>new Q4()</code> has nothing to call.</p></div></section>
+<section class="q" id="chapter-1-questions-Q5" data-qid="chapter-1-questions-Q5" data-multi="0" data-key="C"><p><strong>Q5.</strong> What is the result?</p><pre><code class="language-java">public class Q5 {
+    Q5() { this(1); }
+    Q5(int n) { this(); }
+    public static void main(String[] args) {
+        new Q5();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It runs and prints nothing</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">A <code>StackOverflowError</code> is thrown</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> The two constructors call each other. The compiler rejects that cycle. It does not become a <code>StackOverflowError</code> at runtime.</p></div></section>
+<section class="q" id="chapter-1-questions-Q6" data-qid="chapter-1-questions-Q6" data-multi="0" data-key="C"><p><strong>Q6.</strong> What is the result?</p><pre><code class="language-java">public class Q6 {
+    int n = 1;
+    Q6() { this(n); }
+    Q6(int n) {}
+    public static void main(String[] args) {
+        new Q6();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It runs and prints nothing</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>this(n)</code> reads the instance field <code>n</code> before the object is built. That reference is illegal. A constant such as <code>this(1)</code> would compile.</p><hr></div></section>
+<h1 id="chapter-2-static-members-and-initializer-order">Chapter 2 — Static members and initializer order</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 5 章 “Accessing Static Data”，pp. 257–265。第 6 章 “Initializing Objects”，pp. 312–319。</p>
+<p><strong>唔使睇</strong>　p. 320 起嘅 overriding 留第 4 週。</p>
+</blockquote>
+<p><strong>Wednesday</strong> is this chapter, three listings, and questions Q1–Q8. The hand-written order is a gate item. Write it on paper before you run <code>OrderLab</code>.</p>
+<h2 id="what-you-must-know_1">What you must know</h2>
+<p>A <code>static</code> member belongs to the class. There is one copy, shared by every object. An instance field belongs to one object.</p>
+<p>A <code>static</code> method can use <code>static</code> members. It cannot use <code>this</code> or an instance member, because it has no object. An instance method can use <code>static</code> members.</p>
+<p>A subclass <code>extends</code> one superclass. Constructors are not inherited. The child constructor calls a parent constructor first. If you write neither <code>this(...)</code> nor <code>super(...)</code>, the compiler inserts <code>super()</code>. That inserted call needs a no-arg constructor on the superclass. If the superclass only has <code>Parent(int n)</code>, the child must start with <code>super(n)</code>. Overriding is Week 4.</p>
+<p>Initialization of one class, the first time it is used:</p>
+<ol>
+<li><code>static</code> fields and <code>static</code> blocks, top to bottom, once.</li>
+<li>For each <code>new</code>: instance fields and instance blocks, top to bottom, then the constructor body.</li>
+</ol>
+<p>A constructor that starts with <code>this(...)</code> does not repeat step 2. Step 2 runs in the constructor that calls the superclass. You already saw that as <code>IBA</code> in Chapter 1.</p>
+<p>The first time a subclass is used, the superclass goes first:</p>
+<ol>
+<li>Superclass <code>static</code> fields and blocks.</li>
+<li>Subclass <code>static</code> fields and blocks.</li>
+<li>Superclass instance fields and blocks.</li>
+<li>Superclass constructor body.</li>
+<li>Subclass instance fields and blocks.</li>
+<li>Subclass constructor body.</li>
+</ol>
+<p>The second <code>new</code> of that subclass skips steps 1 and 2. Both classes are already loaded. If <code>main</code> is inside the class you are loading, the <code>static</code> steps run before the first line of <code>main</code>.</p>
+<p>A blank <code>final</code> field is assigned exactly once on every constructor path. The assignment can be the declaration, an instance block, or the constructor body. Two assignments do not compile. Zero assignments do not compile.</p>
+<p>An initializer may call a method. It may not use a field that is declared later by its simple name.</p>
+<pre><code class="language-java">int a = b;       // does not compile: illegal forward reference
+int b = 7;
+</code></pre>
+<pre><code class="language-java">int a = read();  // compiles
+int b = 7;
+int read() { return b; }
+</code></pre>
+<p><code>new</code> of that second class prints <code>0</code> for <code>a</code>. The field <code>b</code> still holds its default when <code>read()</code> runs. <code>b = 7</code> has not run yet.</p>
+<h3 id="counter"><code>Counter</code></h3>
+<p>Type this. Two objects share one <code>static</code> field.</p>
+<pre><code class="language-java">public class Counter {
+    static int made;
+    Counter() { made++; }
+    public static void main(String[] args) {
+        new Counter();
+        new Counter();
+        System.out.println(made);
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">2
+</code></pre>
+<h3 id="once"><code>Once</code></h3>
+<p>Predict the line, then type this. <code>main</code> is inside the class, so the <code>static</code> work runs before <code>main</code> prints the space.</p>
+<pre><code class="language-java">public class Once {
+    static int s = mark(&quot;S1&quot;);
+    static { mark(&quot;S2&quot;); }
+    int i = mark(&quot;I1&quot;);
+    { mark(&quot;I2&quot;); }
+    Once() { mark(&quot;C&quot;); }
+
+    static int mark(String label) {
+        System.out.print(label);
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        new Once();
+        System.out.print(&quot; &quot;);
+        new Once();
+        System.out.println();
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">S1S2I1I2C I1I2C
+</code></pre>
+<p><code>S1S2</code> is stuck to the first object because those two marks happen before <code>main</code> starts. The second object prints <code>I1I2C</code> only.</p>
+<h3 id="orderlab"><code>OrderLab</code></h3>
+<p>On paper, list the six steps from the section above and write the output. Then type this and compare. The file name is <code>OrderLab.java</code>.</p>
+<pre><code class="language-java">class Parent {
+    static { System.out.print(&quot;1&quot;); }
+    int p = mark(&quot;3&quot;);
+    { System.out.print(&quot;4&quot;); }
+    Parent() { System.out.print(&quot;5&quot;); }
+    static int mark(String s) { System.out.print(s); return 0; }
+}
+
+class Child extends Parent {
+    static { System.out.print(&quot;2&quot;); }
+    int c = mark(&quot;6&quot;);
+    { System.out.print(&quot;7&quot;); }
+    Child() { System.out.print(&quot;8&quot;); }
+}
+
+public class OrderLab {
+    public static void main(String[] args) {
+        new Child();
+        System.out.print(&quot; &quot;);
+        new Child();
+        System.out.println();
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">12345678 345678
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Digit</th>
+<th>What ran</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1</code></td>
+<td><code>Parent</code> static block</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>Child</code> static block</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>Parent</code> instance field</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td><code>Parent</code> instance block</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td><code>Parent</code> constructor</td>
+</tr>
+<tr>
+<td><code>6</code></td>
+<td><code>Child</code> instance field</td>
+</tr>
+<tr>
+<td><code>7</code></td>
+<td><code>Child</code> instance block</td>
+</tr>
+<tr>
+<td><code>8</code></td>
+<td><code>Child</code> constructor</td>
+</tr>
+</tbody>
+</table></div>
+<p>The second object starts at <code>3</code>. The static steps have already run.</p>
+<p>Wednesday’s questions are Q1–Q8.</p>
+<h2 id="chapter-2-questions">Chapter 2 questions</h2>
+<section class="q" id="chapter-2-questions-Q1" data-qid="chapter-2-questions-Q1" data-multi="0" data-key="A"><p><strong>Q1.</strong> What is the output?</p><pre><code class="language-java">public class Q1 {
+    static { System.out.print(&quot;S&quot;); }
+    { System.out.print(&quot;I&quot;); }
+    Q1() { System.out.print(&quot;C&quot;); }
+    public static void main(String[] args) {
+        new Q1();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>SIC</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>ISC</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>CIS</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The class loads before <code>main</code>, so <code>S</code> prints first. <code>new</code> then runs the instance block <code>I</code> and the constructor <code>C</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q2" data-qid="chapter-2-questions-Q2" data-multi="0" data-key="A"><p><strong>Q2.</strong> What is the output?</p><pre><code class="language-java">public class Q2 {
+    static { System.out.print(&quot;S&quot;); }
+    { System.out.print(&quot;I&quot;); }
+    Q2() { System.out.print(&quot;C&quot;); }
+    public static void main(String[] args) {
+        new Q2();
+        new Q2();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>SICIC</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>SICSIC</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>ICIC</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>S</code> runs once. Each <code>new</code> adds <code>IC</code>. The print is <code>SICIC</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q3" data-qid="chapter-2-questions-Q3" data-multi="0" data-key="A"><p><strong>Q3.</strong> What is the output? The file name is <code>Q3.java</code>.</p><pre><code class="language-java">class Base {
+    static { System.out.print(&quot;1&quot;); }
+    { System.out.print(&quot;3&quot;); }
+    Base() { System.out.print(&quot;4&quot;); }
+}
+public class Q3 extends Base {
+    static { System.out.print(&quot;2&quot;); }
+    { System.out.print(&quot;5&quot;); }
+    Q3() { System.out.print(&quot;6&quot;); }
+    public static void main(String[] args) {
+        new Q3();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>123456</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>123456123456</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>125634</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> Parent static <code>1</code>, child static <code>2</code>, parent instance <code>3</code>, parent constructor <code>4</code>, child instance <code>5</code>, child constructor <code>6</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q4" data-qid="chapter-2-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> What is the result of compiling this class?</p><pre><code class="language-java">public class Q4 {
+    int n = 1;
+    static void show() {
+        System.out.println(n);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It compiles</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It compiles, and <code>show()</code> prints <code>1</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown when the class loads</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>show</code> is <code>static</code>, so it has no object. The instance field <code>n</code> cannot be used there.</p></div></section>
+<section class="q" id="chapter-2-questions-Q5" data-qid="chapter-2-questions-Q5" data-multi="0" data-key="A"><p><strong>Q5.</strong> What is the output?</p><pre><code class="language-java">public class Q5 {
+    int a = read();
+    int b = 7;
+    int read() { return b; }
+    public static void main(String[] args) {
+        System.out.println(new Q5().a);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>7</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>read()</code> runs while <code>b</code> still has the default <code>0</code>. The assignment <code>b = 7</code> comes later. Writing <code>int a = b</code> above the declaration of <code>b</code> would not compile.</p></div></section>
+<section class="q" id="chapter-2-questions-Q6" data-qid="chapter-2-questions-Q6" data-multi="0" data-key="C"><p><strong>Q6.</strong> What is the result of compiling this class?</p><pre><code class="language-java">public class Q6 {
+    final int n;
+    Q6() {}
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It compiles, and <code>n</code> is <code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It compiles, and <code>n</code> is <code>null</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown when <code>new Q6()</code> runs</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>n</code> is a blank <code>final</code> and this constructor never assigns it.</p></div></section>
+<section class="q" id="chapter-2-questions-Q7" data-qid="chapter-2-questions-Q7" data-multi="0" data-key="C"><p><strong>Q7.</strong> What is the result? The file name is <code>Q7.java</code>.</p><pre><code class="language-java">class Parent {
+    Parent(int n) {}
+}
+public class Q7 extends Parent {
+    Q7() {}
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It compiles</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It compiles, and <code>new Q7()</code> prints nothing</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>StackOverflowError</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>Parent</code> has no no-arg constructor. <code>Q7()</code> does not start with <code>super(...)</code>, so the compiler inserts <code>super()</code>, and that call matches nothing. Constructors are not inherited.</p></div></section>
+<section class="q" id="chapter-2-questions-Q8" data-qid="chapter-2-questions-Q8" data-multi="0" data-key="B"><p><strong>Q8.</strong> What is the output?</p><pre><code class="language-java">public class Q8 {
+    { System.out.print(&quot;X&quot;); }
+    Q8() { this(1); System.out.print(&quot;Y&quot;); }
+    Q8(int n) { System.out.print(&quot;Z&quot;); }
+    public static void main(String[] args) {
+        new Q8();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>XYZ</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>XZY</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>ZXY</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Q8()</code> delegates with <code>this(1)</code>. The instance block and <code>Z</code> run in <code>Q8(int)</code>. Control then returns and prints <code>Y</code>. The print is <code>XZY</code>.</p><hr></div></section>
+<h1 id="chapter-3-encapsulation">Chapter 3 — Encapsulation</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 5 章 “Applying Access Modifiers”，pp. 249–256。</p>
+<p><strong>唔使睇</strong>　第 7 章 “Understanding Encapsulation”（p. 387）係 record，留第 4 週。</p>
+</blockquote>
+<p><strong>Friday</strong> is this chapter, <code>OpenBox</code>, <code>BankAccount</code>, and questions Q1–Q6.</p>
+<h2 id="what-you-must-know_2">What you must know</h2>
+<p>Encapsulation means the data is private and every change goes through a method. Another class cannot assign a bad value to the field, because it cannot name the field.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Modifier</th>
+<th>Who can use the member</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>private</code></td>
+<td>The declaring class only</td>
+</tr>
+<tr>
+<td>no modifier</td>
+<td>Classes in the same package</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>The same package, and subclasses</td>
+</tr>
+<tr>
+<td><code>public</code></td>
+<td>Every class</td>
+</tr>
+</tbody>
+</table></div>
+<p>Week 4 practices a subclass that lives in another package. This week, fields of a bank account are <code>private</code>.</p>
+<p><code>private</code> still allows the class’s own <code>main</code> to read the field. The ban applies to other classes. A package-private member, the one with no modifier, is visible to another class in the same file, because that file is the same package.</p>
+<p>A getter that returns a <code>String</code> is safe. A <code>String</code> cannot be changed. A getter that returns a <code>StringBuilder</code>, an array, or a list hands the caller the object you stored. The caller can append or replace elements, and your field sees the change. Return a copy when the stored object is mutable.</p>
+<h3 id="openbox"><code>OpenBox</code></h3>
+<p>Type this. The file name is <code>OpenBox.java</code>.</p>
+<pre><code class="language-java">class Box {
+    int size = 2;
+    private int secret = 9;
+}
+
+public class OpenBox {
+    public static void main(String[] args) {
+        Box box = new Box();
+        System.out.println(box.size);
+        // box.secret = 1;
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">2
+</code></pre>
+<p><code>size</code> has no modifier, and <code>OpenBox</code> is in the same package, so the read is legal. Remove the comment from <code>box.secret</code> and the file does not compile. <code>secret</code> is <code>private</code> to <code>Box</code>.</p>
+<h3 id="bankaccount"><code>BankAccount</code></h3>
+<p>Type this. Both fields are private. <code>deposit</code> and <code>withdraw</code> change <code>cents</code> only when the amount is one the account can accept. A non-positive deposit is ignored. A withdrawal larger than the balance is ignored. Week 5 replaces that quiet ignore with an exception.</p>
+<pre><code class="language-java">public class BankAccount {
+    private String owner;
+    private int cents;
+
+    public BankAccount(String owner, int cents) {
+        this.owner = owner;
+        this.cents = cents;
+    }
+
+    public String owner() {
+        return owner;
+    }
+
+    public int cents() {
+        return cents;
+    }
+
+    public void deposit(int amount) {
+        if (amount &gt; 0) {
+            cents += amount;
+        }
+    }
+
+    public void withdraw(int amount) {
+        if (amount &gt; 0 &amp;&amp; amount &lt;= cents) {
+            cents -= amount;
+        }
+    }
+
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount(&quot;Ada&quot;, 100);
+        account.deposit(40);
+        account.withdraw(25);
+        account.withdraw(1000);
+        System.out.println(account.cents());
+    }
+}
+</code></pre>
+<p>Predict the balance, then run. The print is:</p>
+<pre><code class="language-text">115
+</code></pre>
+<p><code>100 + 40</code> is <code>140</code>, then <code>25</code> leaves <code>115</code>. The withdrawal of <code>1000</code> does not run, because <code>1000</code> is greater than <code>115</code>.</p>
+<p>Friday’s questions are Q1–Q6.</p>
+<h2 id="chapter-3-questions">Chapter 3 questions</h2>
+<section class="q" id="chapter-3-questions-Q1" data-qid="chapter-3-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> Which class is encapsulated?</p><pre><code class="language-java">class A {
+    public int cents;
+}
+class B {
+    private int cents;
+    public int cents() { return cents; }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>A</code> only</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>B</code> only</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Both</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Neither</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>A</code> exposes the field, so any class can set it. <code>B</code> keeps <code>cents</code> private and offers a method to read it.</p></div></section>
+<section class="q" id="chapter-3-questions-Q2" data-qid="chapter-3-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> What is the output?</p><pre><code class="language-java">public class Q2 {
+    private int cents;
+    public void setCents(int cents) { cents = cents; }
+    public int cents() { return cents; }
+    public static void main(String[] args) {
+        Q2 q = new Q2();
+        q.setCents(50);
+        System.out.println(q.cents());
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>50</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>cents = cents</code> assigns the parameter to itself. The field stays at the default <code>0</code>. The method is inside the class, so the <code>private</code> field is visible to <code>cents()</code>. The bug is the missing <code>this</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q3" data-qid="chapter-3-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What is the result? The file name is <code>Q3.java</code>.</p><pre><code class="language-java">class Secret {
+    private int n = 1;
+    int size = 2;
+}
+public class Q3 {
+    public static void main(String[] args) {
+        Secret s = new Secret();
+        System.out.println(s.n);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>Q3</code> is another class. <code>n</code> is <code>private</code> to <code>Secret</code>. <code>s.size</code> would print <code>2</code>, because <code>size</code> is package-private and the classes share a package. The printed expression is <code>s.n</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q4" data-qid="chapter-3-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> What is the output?</p><pre><code class="language-java">public class Q4 {
+    private final StringBuilder name = new StringBuilder(&quot;a&quot;);
+    public StringBuilder name() { return name; }
+    public static void main(String[] args) {
+        Q4 q = new Q4();
+        q.name().append(&quot;b&quot;);
+        System.out.println(q.name());
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>ab</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The field is <code>private</code> and <code>final</code>, and <code>name()</code> returns that same builder. <code>append("b")</code> changes the object the field points at. The print is <code>ab</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q5" data-qid="chapter-3-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> What is the output?</p><pre><code class="language-java">public class Q5 {
+    private int cents = 100;
+    public void deposit(int amount) {
+        if (amount &gt; 0) {
+            cents += amount;
+        }
+    }
+    public static void main(String[] args) {
+        Q5 q = new Q5();
+        q.deposit(-40);
+        System.out.println(q.cents);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>60</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>100</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>-40</code> fails the <code>amount &gt; 0</code> test, so <code>cents</code> stays <code>100</code>. <code>main</code> is inside the class, so reading the <code>private</code> field is legal.</p></div></section>
+<section class="q" id="chapter-3-questions-Q6" data-qid="chapter-3-questions-Q6" data-multi="0" data-key="A"><p><strong>Q6.</strong> Which assignment compiles, when the assignment is written in a third class?</p><pre><code class="language-java">class Account { public int cents; }
+class Safe { private int cents; }
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>new Account().cents = -1</code> only</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>new Safe().cents = -1</code> only</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Both</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Neither</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>Account.cents</code> is <code>public</code>. <code>Safe.cents</code> is <code>private</code>, so a third class cannot assign it.</p><hr></div></section>
+<h1 id="chapter-4-immutability-and-garbage-collection">Chapter 4 — Immutability and garbage collection</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 6 章 “Creating Immutable Objects”（在 “Creating Abstract Classes” 之後、Summary 之前，包括 defensive copy）。第 1 章 “Destroying Objects”（在該章 Summary 之前）。</p>
+<p><strong>唔使睇</strong>　“Creating Abstract Classes” 本身留第 4 週，呢個星期跳過。</p>
+</blockquote>
+<p><strong>Saturday</strong> is this chapter, <code>Money</code>, <code>CopyLab</code>, five diagrams, and questions Q1–Q6. Drawing the diagrams is a checklist item. Draw each one before you read its mark.</p>
+<h2 id="what-you-must-know_3">What you must know</h2>
+<p>An immutable object does not change after the constructor finishes. The usual shape is:</p>
+<ul>
+<li>the class is <code>final</code>, so a subclass cannot add mutable behavior</li>
+<li>every field is <code>private</code> and <code>final</code></li>
+<li>there is no setter</li>
+<li>a method that looks like a change returns a new object</li>
+<li>a field that points at a mutable object is a copy, both in the constructor and in the getter</li>
+</ul>
+<p><code>final</code> fixes the reference stored in the field. It does not freeze the <code>StringBuilder</code>, array, or list that the reference points at. A <code>String</code> or an <code>int</code> has nothing further to change, so a <code>final</code> field of that kind is safe to share.</p>
+<p>An object is eligible for collection when no live reference can reach it. Eligible means the collector is allowed to reclaim it. The exam asks about eligibility. It does not ask you to name the moment the collector actually runs.</p>
+<p>These references keep an object alive:</p>
+<ul>
+<li>a local variable that still holds it</li>
+<li>a field of a reachable object</li>
+<li>a <code>static</code> field</li>
+</ul>
+<p>Setting that variable to <code>null</code>, pointing it at a different object, or leaving the block where it was declared drops that one reference. The object becomes eligible only when the last reference is gone. Two objects that point at each other, with no reference from outside, are both eligible. That is an island.</p>
+<p><code>System.gc()</code> asks for a collection. A reachable object stays. The call returns without a promise that anything was collected.</p>
+<h3 id="money"><code>Money</code></h3>
+<p>Type this. The class is <code>final</code>. Both fields are <code>private final</code>. <code>plus</code> returns a new <code>Money</code> and leaves <code>price</code> alone. This lab uses the currency of the object you called <code>plus</code> on.</p>
+<pre><code class="language-java">public final class Money {
+    private final int cents;
+    private final String currency;
+
+    public Money(int cents, String currency) {
+        this.cents = cents;
+        this.currency = currency;
+    }
+
+    public int cents() {
+        return cents;
+    }
+
+    public String currency() {
+        return currency;
+    }
+
+    public Money plus(Money other) {
+        return new Money(this.cents + other.cents, this.currency);
+    }
+
+    public static void main(String[] args) {
+        Money price = new Money(100, &quot;USD&quot;);
+        Money total = price.plus(new Money(50, &quot;USD&quot;));
+        System.out.println(price.cents());
+        System.out.println(total.cents());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">100
+150
+</code></pre>
+<h3 id="copylab"><code>CopyLab</code></h3>
+<p>Predict the line, then type this. The file name is <code>CopyLab.java</code>. <code>Shared</code> stores the caller’s builder. <code>Copied</code> stores a new builder with the same characters.</p>
+<pre><code class="language-java">final class Shared {
+    private final StringBuilder name;
+    Shared(StringBuilder name) { this.name = name; }
+    public String toString() { return name.toString(); }
+}
+
+final class Copied {
+    private final StringBuilder name;
+    Copied(StringBuilder name) { this.name = new StringBuilder(name); }
+    public String toString() { return name.toString(); }
+}
+
+public class CopyLab {
+    public static void main(String[] args) {
+        StringBuilder raw = new StringBuilder(&quot;a&quot;);
+        Shared shared = new Shared(raw);
+        raw.append(&quot;b&quot;);
+        System.out.print(shared);
+        System.out.print(&quot; &quot;);
+
+        StringBuilder raw2 = new StringBuilder(&quot;a&quot;);
+        Copied copied = new Copied(raw2);
+        raw2.append(&quot;b&quot;);
+        System.out.println(copied);
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">ab a
+</code></pre>
+<p><code>Shared</code> changed because <code>raw</code> and the field are the same object. <code>Copied</code> still prints <code>a</code>.</p>
+<h3 id="five-diagrams">Five diagrams</h3>
+<p>A box is an object. An arrow is a reference. Draw all five on paper and mark which boxes are eligible. Then read the marks.</p>
+<p><strong>Diagram 1.</strong> A local variable.</p>
+<pre><code class="language-java">static void run() {
+    Object obj = new Object();
+}
+</code></pre>
+<p><strong>Diagram 2.</strong> Two names, then one is cleared.</p>
+<pre><code class="language-java">Object a = new Object();
+Object b = a;
+a = null;
+</code></pre>
+<p><strong>Diagram 3.</strong> One name is pointed at a new object.</p>
+<pre><code class="language-java">Object a = new Object();
+a = new Object();
+</code></pre>
+<p><strong>Diagram 4.</strong> An island.</p>
+<pre><code class="language-java">class Node { Node next; }
+Node a = new Node();
+Node b = new Node();
+a.next = b;
+b.next = a;
+a = null;
+b = null;
+</code></pre>
+<p><strong>Diagram 5.</strong> A <code>static</code> field.</p>
+<pre><code class="language-java">class Hold {
+    static Object kept;
+    static void run() {
+        kept = new Object();
+        Object local = kept;
+        local = null;
+    }
+}
+</code></pre>
+<p>Draw before the marks below.</p>
+<p><strong>Diagram 1 mark.</strong> Inside <code>run</code>, <code>obj</code> points at the box, so it is not eligible. After <code>run</code> returns, that local variable is gone. Nothing else was stored. The box is eligible.</p>
+<p><strong>Diagram 2 mark.</strong> After <code>a = null</code>, <code>b</code> still points at the box. The box is not eligible.</p>
+<p><strong>Diagram 3 mark.</strong> The first box has no arrow left. It is eligible. <code>a</code> points at the second box, so the second box is not eligible.</p>
+<p><strong>Diagram 4 mark.</strong> After <code>a = null</code> and <code>b = null</code>, the two boxes point at each other and nothing outside points in. Both are eligible.</p>
+<p><strong>Diagram 5 mark.</strong> After <code>run</code> returns, <code>local</code> is gone and <code>kept</code> still points at the box. The box is not eligible. It stays reachable until <code>kept</code> is changed.</p>
+<p>Saturday’s questions are Q1–Q6.</p>
+<h2 id="chapter-4-questions">Chapter 4 questions</h2>
+<section class="q" id="chapter-4-questions-Q1" data-qid="chapter-4-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What is the output? The file name is <code>Q1.java</code>.</p><pre><code class="language-java">final class Bag {
+    private final StringBuilder items;
+    Bag(StringBuilder items) { this.items = items; }
+    public String toString() { return items.toString(); }
+}
+public class Q1 {
+    public static void main(String[] args) {
+        StringBuilder items = new StringBuilder(&quot;a&quot;);
+        Bag bag = new Bag(items);
+        items.append(&quot;b&quot;);
+        System.out.println(bag);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>ab</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Bag</code> stores the same builder the caller still holds. <code>items.append("b")</code> changes that builder. <code>final</code> stopped the field from being pointed somewhere else. It did not stop <code>append</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q2" data-qid="chapter-4-questions-Q2" data-multi="0" data-key="A"><p><strong>Q2.</strong> What is the output? The file name is <code>Q2.java</code>.</p><pre><code class="language-java">final class Coin {
+    private final int cents;
+    Coin(int cents) { this.cents = cents; }
+    int cents() { return cents; }
+    Coin plus(Coin other) { return new Coin(cents + other.cents); }
+}
+public class Q2 {
+    public static void main(String[] args) {
+        Coin a = new Coin(100);
+        Coin b = a.plus(new Coin(50));
+        System.out.println(a.cents());
+        System.out.println(b.cents());
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>100</code> then <code>150</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>150</code> then <code>150</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>100</code> then <code>100</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>plus</code> returns a new <code>Coin</code>. <code>a</code> is still <code>100</code>. <code>b</code> is <code>150</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q3" data-qid="chapter-4-questions-Q3" data-multi="0" data-key="A"><p><strong>Q3.</strong> Which class is immutable?</p><pre><code class="language-java">final class A {
+    private final int cents;
+    A(int cents) { this.cents = cents; }
+    A plus(int more) { return new A(cents + more); }
+}
+final class B {
+    private final StringBuilder name;
+    B(StringBuilder name) { this.name = name; }
+    StringBuilder name() { return name; }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>A</code> only</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>B</code> only</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Both</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Neither</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>A</code> is <code>final</code>, the field is a <code>private final int</code>, and <code>plus</code> returns a new object. <code>B</code> returns the <code>StringBuilder</code> it stored, so a caller can change the characters.</p></div></section>
+<section class="q" id="chapter-4-questions-Q4" data-qid="chapter-4-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> After <code>a = null</code>, and before <code>main</code> returns, is the object eligible?</p><pre><code class="language-java">public class Q4 {
+    public static void main(String[] args) {
+        Object a = new Object();
+        Object b = a;
+        a = null;
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes, because <code>a</code> was set to <code>null</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">No, because <code>b</code> still points at it</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Yes, but only if the method calls <code>System.gc()</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>a</code> and <code>b</code> were two arrows to one box. Clearing <code>a</code> leaves the arrow from <code>b</code>. The box is not eligible while that arrow exists.</p></div></section>
+<section class="q" id="chapter-4-questions-Q5" data-qid="chapter-4-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> After both assignments to <code>null</code>, which objects are eligible? The file name is <code>Q5.java</code>.</p><pre><code class="language-java">class Node { Node next; }
+public class Q5 {
+    public static void main(String[] args) {
+        Node a = new Node();
+        Node b = new Node();
+        a.next = b;
+        b.next = a;
+        a = null;
+        b = null;
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Neither, because each <code>next</code> still points at a node</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Both</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">Only the node that <code>a</code> used to reference</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The two nodes point at each other, and <code>a</code> and <code>b</code> no longer point in from outside. Both are eligible.</p></div></section>
+<section class="q" id="chapter-4-questions-Q6" data-qid="chapter-4-questions-Q6" data-multi="0" data-key="B"><p><strong>Q6.</strong> What is true after <code>System.gc()</code> returns?</p><pre><code class="language-java">public class Q6 {
+    static Object kept;
+    public static void main(String[] args) {
+        kept = new Object();
+        System.gc();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">The object has been collected</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The object is still reachable through <code>kept</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>System.gc()</code> does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The call makes the object eligible</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>kept</code> is a <code>static</code> field and it still holds the object, so the object is reachable. <code>System.gc()</code> is a request. It does not make a reachable object eligible, and it does not promise a collection.</p><hr></div></section>
+<h1 id="sunday-chapter-questions">Sunday — chapter questions</h1>
+<blockquote>
+<p><strong>唔使睇</strong>　用手追溯 initializer 順序，然後用筆記計分。</p>
+</blockquote>
+<p>The first 20 minutes are Saturday’s misses.</p>
+<p>Then write the output of M1 on paper before you read the mixed answers. That tracing is the other half of the gate. Use the six steps from Chapter 2. The second <code>new</code> skips the static steps.</p>
+<p>Then do M2–M6. After that, score Chapter 1 (6), Chapter 2 (8), Chapter 3 (6), Chapter 4 (6), and the mixed set (6). <strong>23 or more</strong> of the 32 questions is the score half of the gate. The trace half is a correct M1, written before you check it.</p>
+<p>Every miss becomes one rule and a five-line program before Monday of Week 4.</p>
+<p>Say M4 out loud before you check it. Name the two objects, say which arrows remain after <code>first = second</code>, and say which object is eligible. A correct letter with no explanation does not finish the checklist item.</p>
+<h2 id="mixed-set">Mixed set</h2>
+<section class="q" id="mixed-set-M1" data-qid="mixed-set-M1" data-multi="0" data-key="A"><p><strong>M1.</strong> What is the output? Write it before you look at the answer. The file name is <code>M1.java</code>.</p><pre><code class="language-java">class Base {
+    static { System.out.print(&quot;A&quot;); }
+    { System.out.print(&quot;C&quot;); }
+    Base() { System.out.print(&quot;D&quot;); }
+}
+public class M1 extends Base {
+    static { System.out.print(&quot;B&quot;); }
+    { System.out.print(&quot;E&quot;); }
+    M1() { System.out.print(&quot;F&quot;); }
+    public static void main(String[] args) {
+        new M1();
+        new M1();
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>ABCDEFCDEF</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>ABCDEFABCDEF</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>CDEFCDEF</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The first object prints <code>ABCDEF</code>: parent static, child static, parent instance, parent constructor, child instance, child constructor. The second object prints <code>CDEF</code>. The static steps have already run. The whole line is <code>ABCDEFCDEF</code>.</p></div></section>
+<section class="q" id="mixed-set-M2" data-qid="mixed-set-M2" data-multi="0" data-key="A"><p><strong>M2.</strong> What is the output?</p><pre><code class="language-java">public class M2 {
+    static int made;
+    int n;
+    M2(int n) { this.n = n; made++; }
+    public static void main(String[] args) {
+        M2 a = new M2(1);
+        M2 b = new M2(2);
+        System.out.print(a.n);
+        System.out.print(made);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>12</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>22</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>11</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>this.n = n</code> stores the parameter on the object. <code>a.n</code> is <code>1</code>. <code>made</code> is <code>static</code>, so both constructors increment the same variable and it ends at <code>2</code>. The print is <code>12</code>.</p></div></section>
+<section class="q" id="mixed-set-M3" data-qid="mixed-set-M3" data-multi="0" data-key="A"><p><strong>M3.</strong> What is the output? The file name is <code>M3.java</code>.</p><pre><code class="language-java">final class Tag {
+    private final StringBuilder text;
+    Tag(StringBuilder text) { this.text = new StringBuilder(text); }
+    public String toString() { return text.toString(); }
+}
+public class M3 {
+    public static void main(String[] args) {
+        StringBuilder text = new StringBuilder(&quot;a&quot;);
+        Tag tag = new Tag(text);
+        text.append(&quot;b&quot;);
+        System.out.println(tag);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>a</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>ab</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The constructor copies the characters into a new builder. Appending to <code>text</code> changes the caller’s builder. <code>tag</code> still holds <code>a</code>.</p></div></section>
+<section class="q" id="mixed-set-M4" data-qid="mixed-set-M4" data-multi="0" data-key="B"><p><strong>M4.</strong> What is true after <code>first = second</code>? Explain this one out loud.</p><pre><code class="language-java">public class M4 {
+    public static void main(String[] args) {
+        Object first = new Object();
+        Object second = new Object();
+        first = second;
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Both objects are eligible</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The first object is eligible, and the second is not</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The second object is eligible, and the first is not</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Neither object is eligible</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> There are two boxes. <code>first = second</code> drops the only arrow to the first box, so that box is eligible. <code>first</code> and <code>second</code> both point at the second box, so that box is not eligible.</p></div></section>
+<section class="q" id="mixed-set-M5" data-qid="mixed-set-M5" data-multi="0" data-key="B"><p><strong>M5.</strong> What is the output?</p><pre><code class="language-java">public class M5 {
+    private int cents = 80;
+    public void withdraw(int amount) {
+        if (amount &gt; 0 &amp;&amp; amount &lt;= cents) {
+            cents -= amount;
+        }
+    }
+    public int cents() { return cents; }
+    public static void main(String[] args) {
+        M5 m = new M5();
+        m.withdraw(80);
+        m.withdraw(1);
+        System.out.println(m.cents());
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>80</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>-1</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>withdraw(80)</code> takes the balance to <code>0</code>. <code>withdraw(1)</code> fails the <code>amount &lt;= cents</code> test. The print is <code>0</code>.</p></div></section>
+<section class="q" id="mixed-set-M6" data-qid="mixed-set-M6" data-multi="0" data-key="B"><p><strong>M6.</strong> What is the output?</p><pre><code class="language-java">public class M6 {
+    final int n;
+    { n = 3; }
+    M6() {}
+    public static void main(String[] args) {
+        System.out.println(new M6().n);
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>3</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The instance block assigns the blank <code>final</code> before the constructor body. The constructor leaves <code>n</code> alone. The print is <code>3</code>.</p><hr></div></section>
+<h1 id="rules-to-copy-onto-one-card">Rules to copy onto one card</h1>
+<ul>
+<li>A constructor has the class name and no return type. A return type makes it a method. Any constructor you write removes the default no-arg constructor.</li>
+<li><code>this.field</code> is the field. A parameter of the same name hides the field.</li>
+<li><code>this(...)</code> is the first statement. Its arguments cannot be instance members. A cycle of constructors does not compile.</li>
+<li><code>static</code> is one per class and runs once, when the class is first used. A <code>static</code> method cannot use instance members.</li>
+<li>For one class: <code>static</code> fields and blocks in source order, then instance fields and blocks in source order, then the constructor body.</li>
+<li>Superclass, then subclass: parent static, child static, parent instance, parent constructor, child instance, child constructor. The second <code>new</code> skips the static steps.</li>
+<li><code>int a = read()</code> can see the default <code>0</code> when <code>b</code>’s initializer has not run. <code>int a = b</code> before <code>b</code> is declared does not compile.</li>
+<li>A blank <code>final</code> is assigned once on every constructor path. If the superclass has no no-arg constructor, the subclass starts with <code>super(...)</code>.</li>
+<li><code>private</code> is the class. No modifier is the package. <code>protected</code> is the package and subclasses. <code>public</code> is everywhere.</li>
+<li>Encapsulated fields are private. A getter that returns a mutable object lets the caller change it.</li>
+<li>An immutable class is <code>final</code>, with <code>private final</code> fields, no setters, and no shared mutable object. A change returns a new object.</li>
+<li>Eligible means unreachable. One live reference keeps the object, including a <code>static</code> field. An island with no outside reference is eligible. <code>System.gc()</code> is a request.</li>
+</ul>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-02-glossary.html"><small>上一篇</small>第 2 週 · 詞彙</a>
+<a class="next" href="Week-03-glossary.html"><small>下一篇</small>第 3 週 · 詞彙</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

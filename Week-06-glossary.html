@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 6 glossary — collections and generics · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html" aria-current="page">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 6 週 · 詞彙</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li><a href="#monday-list">Monday — List</a></li><li><a href="#wednesday-set-and-map">Wednesday — Set and Map</a></li><li><a href="#saturday-deque-sequenced-collections-sorting">Saturday — Deque , sequenced collections, sorting</a></li><li><a href="#sunday-generics">Sunday — generics</a></li></ul></details>
+<article>
+<h1 id="week-6-glossary-collections-and-generics">Week 6 glossary — collections and generics</h1>
+<p>Terms from <a href="Week-06-notes.html">Week-06-notes.md</a>. The exam words are English. Friday 1 Jan is off.</p>
+<h2 id="monday-list">Monday — <code>List</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>List</code></td>
+<td>An ordered collection that allows duplicates. <code>get</code> and the <code>int</code> form of <code>remove</code> use an index.</td>
+</tr>
+<tr>
+<td><code>remove(int)</code></td>
+<td>Deletes by index. On a <code>List&lt;Integer&gt;</code>, <code>remove(1)</code> deletes index 1.</td>
+</tr>
+<tr>
+<td><code>remove(Object)</code></td>
+<td>Deletes the first element that <code>equals</code> the argument. <code>remove(Integer.valueOf(1))</code> deletes the value 1.</td>
+</tr>
+<tr>
+<td><code>List.of</code></td>
+<td>An immutable list. It rejects <code>null</code>. <code>add</code> and <code>remove</code> throw <code>UnsupportedOperationException</code>.</td>
+</tr>
+<tr>
+<td><code>Arrays.asList</code></td>
+<td>A fixed-size list backed by the array. <code>set</code> works. <code>add</code> and <code>remove</code> throw <code>UnsupportedOperationException</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="wednesday-set-and-map">Wednesday — <code>Set</code> and <code>Map</code></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HashSet</code></td>
+<td>A set with no order you can rely on. Allows one <code>null</code>. Uses <code>hashCode</code> and <code>equals</code>.</td>
+</tr>
+<tr>
+<td><code>TreeSet</code></td>
+<td>A sorted set. Natural order rejects <code>null</code> with <code>NullPointerException</code>. Uses <code>Comparable</code> or a <code>Comparator</code>.</td>
+</tr>
+<tr>
+<td><code>HashMap</code></td>
+<td>A map with no key order you can rely on. One null key, and null values. Putting the same key again replaces the value.</td>
+</tr>
+<tr>
+<td><code>TreeMap</code></td>
+<td>A map with sorted keys. Natural order rejects a null key.</td>
+</tr>
+<tr>
+<td><code>get</code></td>
+<td>Returns the value, or <code>null</code> when the key is missing. A stored null value also returns <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>containsKey</code></td>
+<td>Tells a missing key from a key whose stored value is <code>null</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="saturday-deque-sequenced-collections-sorting">Saturday — <code>Deque</code>, sequenced collections, sorting</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Deque</code></td>
+<td>A double-ended queue. <code>ArrayDeque</code> does not allow null elements.</td>
+</tr>
+<tr>
+<td>Stack methods</td>
+<td><code>push</code> and <code>pop</code> use the front. The first <code>pop</code> returns the last <code>push</code>. <code>pop</code> on an empty deque throws <code>NoSuchElementException</code>.</td>
+</tr>
+<tr>
+<td>Queue methods</td>
+<td><code>offer</code> adds at the back. <code>poll</code> removes from the front. <code>poll</code> on an empty deque returns <code>null</code>.</td>
+</tr>
+<tr>
+<td>Sequenced collection</td>
+<td>Has <code>addFirst</code>, <code>addLast</code>, <code>getFirst</code>, <code>getLast</code>, <code>removeFirst</code>, <code>removeLast</code>, and <code>reversed</code>. <code>List</code>, <code>Deque</code>, <code>SortedSet</code>, and <code>LinkedHashSet</code> are sequenced. <code>HashSet</code> is not.</td>
+</tr>
+<tr>
+<td><code>reversed</code></td>
+<td>A reverse-ordered view of the same collection, not a new copy of the elements.</td>
+</tr>
+<tr>
+<td><code>Comparable</code></td>
+<td>A class’s natural order, through <code>compareTo</code>. A negative result sorts this object before the argument. Zero does not by itself prove <code>equals</code>.</td>
+</tr>
+<tr>
+<td><code>Comparator</code></td>
+<td>An order supplied from outside the class.</td>
+</tr>
+<tr>
+<td><code>comparing</code></td>
+<td>Builds a comparator from a method, such as <code>String::length</code>.</td>
+</tr>
+<tr>
+<td><code>thenComparing</code></td>
+<td>A second comparator used only when the first comparison is a tie.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sunday-generics">Sunday — generics</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generic type</td>
+<td>A type with a parameter, such as <code>List&lt;String&gt;</code>. The compiler checks it. At runtime the parameter is erased.</td>
+</tr>
+<tr>
+<td>Erasure</td>
+<td><code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code> are both <code>List</code> at runtime. Two methods that erase to the same signature do not compile.</td>
+</tr>
+<tr>
+<td>Invariant</td>
+<td><code>List&lt;String&gt;</code> is not a <code>List&lt;Object&gt;</code> and not a <code>List&lt;CharSequence&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>? extends</code></td>
+<td>A producer. <code>get</code> returns the upper bound. You cannot add an element, except <code>null</code>, because the list might be a more specific type.</td>
+</tr>
+<tr>
+<td><code>? super</code></td>
+<td>A consumer. You can add the lower bound. <code>get</code> returns <code>Object</code>.</td>
+</tr>
+<tr>
+<td>Unbounded <code>?</code></td>
+<td><code>get</code> returns <code>Object</code>. The only reference you may add is <code>null</code>.</td>
+</tr>
+</tbody>
+</table></div>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-06-notes.html"><small>上一篇</small>第 6 週 · 筆記</a>
+<a class="next" href="Week-07-notes.html"><small>下一篇</small>第 7 週 · 筆記</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>

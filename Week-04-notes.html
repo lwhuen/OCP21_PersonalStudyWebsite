@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
+<title>Week 4 notes — inheritance through pattern matching · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+<aside class="side">
+<div class="side-head">
+<a class="brand" href="index.html"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
+</div>
+<div id="week-progress" class="week-progress" hidden></div>
+<div id="place" class="place" hidden></div>
+<div id="nav">
+<label class="find">搜尋
+<input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
+</label>
+<div id="results" hidden></div>
+<nav aria-label="全部筆記">
+<section class="stack"><h2>開始</h2><div class="links"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></div></section><section class="pair"><h2>第 1 週</h2><div class="links"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 2 週</h2><div class="links"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 3 週</h2><div class="links"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 4 週</h2><div class="links"><a href="Week-04-notes.html" aria-current="page">筆記</a><a href="Week-04-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 5 週</h2><div class="links"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 6 週</h2><div class="links"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 7 週</h2><div class="links"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></div></section><section class="pair"><h2>第 8 週</h2><div class="links"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></div></section>
+</nav>
+</div>
+</aside>
+<main id="content">
+<div class="sheet">
+<p class="crumb">第 4 週 · 筆記</p>
+<details class="toc" id="page-toc" open><summary>本頁章節</summary><ul class="toc-list"><li class="chapter"><a href="#chapter-1-extends-super-and-overriding">Chapter 1 — extends , super , and overriding</a><ul><li><a href="#what-you-must-know">What you must know</a></li><li><a href="#monday-lab-zoo">Monday lab — Zoo</a></li><li><a href="#chapter-1-questions">Chapter 1 questions</a></li></ul></li><li class="chapter"><a href="#chapter-2-reference-type-and-object-type">Chapter 2 — Reference type and object type</a><ul><li><a href="#what-you-must-know_1">What you must know</a></li><li><a href="#chapter-2-questions">Chapter 2 questions</a></li></ul></li><li class="chapter"><a href="#chapter-3-equals-hashcode-interfaces-and-enums">Chapter 3 — equals , hashCode , interfaces, and enums</a><ul><li><a href="#what-you-must-know_2">What you must know</a></li><li><a href="#chapter-3-questions">Chapter 3 questions</a></li></ul></li><li class="chapter"><a href="#chapter-4-records-sealed-types-and-patterns">Chapter 4 — Records, sealed types, and patterns</a><ul><li><a href="#what-you-must-know_3">What you must know</a></li><li><a href="#chapter-4-questions">Chapter 4 questions</a></li></ul></li><li class="chapter"><a href="#sunday-nested-classes-then-the-questions">Sunday — nested classes, then the questions</a><ul><li><a href="#notebook-page-what-each-nested-class-can-see">Notebook page — what each nested class can see</a></li><li><a href="#mixed-set">Mixed set</a></li></ul></li><li class="chapter"><a href="#rules-to-copy-onto-one-card">Rules to copy onto one card</a><ul></ul></li></ul></details>
+<article>
+<h1 id="week-4-notes-inheritance-through-pattern-matching">Week 4 notes — inheritance through pattern matching</h1>
+<p><strong>14–20 Dec 2026. 25 hours.</strong> Weekend days are 8 hours. This file follows Week 4 of the study plan. The gate is the mixed OOP questions at <strong>70%</strong> (21 of the 30 questions in this file).</p>
+<p>Weekdays are Monday, Wednesday, and Friday, 3 hours each: 20 minutes on yesterday’s misses, 2 hours typing every listing, 40 minutes of questions and the notebook. Saturday and Sunday are 8 hours each. The extra two hours are questions. Monday’s first 20 minutes are the Week 3 misses.</p>
+<p>This is the heavy week before the holidays. The exam topic is inheritance, interfaces, records, sealed types, and patterns.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Day</th>
+<th>What the plan says</th>
+<th>Where it is in this file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td><code>extends</code>, <code>super</code>, overriding rules on one card</td>
+<td>Chapter 1, <code>Zoo</code>, the overriding card, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>Reference type versus object type, and field hiding</td>
+<td>Chapter 2, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Fri</td>
+<td><code>equals</code>, <code>hashCode</code>, interfaces, and enums</td>
+<td>Chapter 3, <code>Coins</code>, <code>Pets</code>, <code>Season</code>, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Sat (8 h)</td>
+<td>Records, sealed types, switch patterns, record patterns</td>
+<td>Chapter 4, <code>Coin</code>, <code>Shapes</code>, questions Q1–Q6</td>
+</tr>
+<tr>
+<td>Sun (8 h)</td>
+<td>Nested-class rules in the notebook, then a mixed OOP set</td>
+<td>The notebook page, the mixed set, then score all 30</td>
+</tr>
+</tbody>
+</table></div>
+<p>Same checklist as the study plan:</p>
+<ul>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> <code>Animal</code>, <code>Dog</code>, and <code>Cat</code>. Overriding rules on one card: signature, covariant return, access, checked exceptions.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> One example where a field is hidden, not overridden. The reference type decides what compiles; the object type decides which override runs.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A correct <code>equals</code> and <code>hashCode</code>, and one broken <code>equals</code>. If <code>equals</code> is true, the hash codes match.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> An interface with a default method and a static method, two implementers, and an enum with a field and a method.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> A sealed interface with an exhaustive switch, a record with a compact constructor, a record pattern, and a <code>when</code> guard. A general pattern above a specific one does not compile.</li>
+<li class="task"><button type="button" class="box" aria-pressed="false" aria-label="完成"></button> Mixed questions on inheritance, interfaces, records, and patterns at 70%. Nested classes: one notebook page on what each kind can see.</li>
+</ul>
+<p>Predict each listing before you run it. Each miss goes in the notebook as one rule and a five-line program.</p>
+<p>The questions are practice in the exam’s style. They are not copied from the real exam or from a book. Try each one before its answer key.</p>
+<hr>
+<h1 id="chapter-1-extends-super-and-overriding">Chapter 1 — <code>extends</code>, <code>super</code>, and overriding</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 6 章 pp. 292–296（“Understanding Inheritance”）、pp. 320–329（“Inheriting Members”），同 “Creating Abstract Classes”（緊接其後，到 “Creating Immutable Objects” 之前）。</p>
+<p><strong>唔使睇</strong>　第 7 章留到本章之後幾日。Review Questions 唔使做。</p>
+</blockquote>
+<p><strong>Monday</strong> is this chapter, <code>Zoo</code>, the overriding card, and questions Q1–Q6.</p>
+<h2 id="what-you-must-know">What you must know</h2>
+<p>A class <code>extends</code> one superclass. Constructors are not inherited. The first line of a child constructor is <code>super(...)</code> or <code>this(...)</code>. If you write neither, the compiler inserts <code>super()</code>.</p>
+<p>An override replaces an instance method for objects of the subclass. Copy this card into the notebook:</p>
+<ul>
+<li>The signature matches: the same name and the same parameter types. A different parameter list is an overload, not an override.</li>
+<li>The return type is the same, or a subtype of the parent’s return type. That is a covariant return.</li>
+<li>The access is the same or wider. <code>public</code> cannot become package-private.</li>
+<li>A checked exception is the same, a subtype, or absent. The child cannot throw a broader checked exception, and it cannot add a new one.</li>
+<li><code>private</code>, <code>static</code>, and <code>final</code> methods are not overridden. A <code>static</code> method with the same signature is hidden. A <code>final</code> method cannot be redeclared. A <code>private</code> method is not visible, so a child method of the same name is a new method.</li>
+</ul>
+<p><code>@Override</code> asks the compiler to check that a real override exists. Put it on every override you type this week.</p>
+<p><code>super.speak()</code> calls the parent version from inside the child.</p>
+<p>An <code>abstract</code> class can be extended and cannot be constructed with <code>new</code>. A method marked <code>abstract</code> has no body. The class that declares it must itself be <code>abstract</code>. A concrete subclass implements every abstract method, or that subclass is <code>abstract</code> too. An abstract class may still have fields, constructors, and ordinary methods. The child constructor still starts with <code>super(...)</code>. <code>abstract</code> cannot be combined with <code>final</code>, and an abstract method cannot be <code>private</code> or <code>static</code>.</p>
+<h2 id="monday-lab-zoo">Monday lab — <code>Zoo</code></h2>
+<p>Type this. The file name is <code>Zoo.java</code>.</p>
+<pre><code class="language-java">class Animal {
+    String kind = &quot;animal&quot;;
+    String speak() { return &quot;generic&quot;; }
+}
+class Dog extends Animal {
+    String kind = &quot;dog&quot;;
+    @Override String speak() { return &quot;woof&quot;; }
+}
+class Cat extends Animal {
+    String kind = &quot;cat&quot;;
+    @Override String speak() { return &quot;meow&quot;; }
+}
+public class Zoo {
+    public static void main(String[] args) {
+        Animal dog = new Dog();
+        Animal cat = new Cat();
+        System.out.println(dog.kind + &quot; &quot; + dog.speak());
+        System.out.println(cat.kind + &quot; &quot; + cat.speak());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">animal woof
+animal meow
+</code></pre>
+<p><code>kind</code> is a field, so it is hidden. The reference type <code>Animal</code> selects <code>animal</code>. <code>speak</code> is overridden. The object type selects <code>woof</code> or <code>meow</code>. Wednesday uses this listing again.</p>
+<p>Monday’s questions are Q1–Q6.</p>
+<h2 id="chapter-1-questions">Chapter 1 questions</h2>
+<section class="q" id="chapter-1-questions-Q1" data-qid="chapter-1-questions-Q1" data-multi="0" data-key="A"><p><strong>Q1.</strong> Does this compile?</p><pre><code class="language-java">class Animal { Animal create() { return new Animal(); } }
+class Dog extends Animal { @Override Dog create() { return new Dog(); } }
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes. The return type is covariant</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, but only if <code>create</code> is <code>static</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The return type must be identical</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. <code>Dog</code> cannot extend <code>Animal</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>Dog</code> is a subtype of <code>Animal</code>, so <code>Dog create()</code> is a legal covariant return.</p></div></section>
+<section class="q" id="chapter-1-questions-Q2" data-qid="chapter-1-questions-Q2" data-multi="0" data-key="C"><p><strong>Q2.</strong> Does this compile?</p><pre><code class="language-java">class Animal { public void speak() {} }
+class Dog extends Animal { void speak() {} }
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, because package access is the default</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The override is less accessible</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. <code>void</code> methods cannot be overridden</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> An override cannot narrow access. <code>public</code> in the parent cannot become package-private in the child.</p></div></section>
+<section class="q" id="chapter-1-questions-Q3" data-qid="chapter-1-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> Does this compile?</p><pre><code class="language-java">import java.io.*;
+class Animal { void speak() throws IOException {} }
+class Dog extends Animal { void speak() throws Exception {} }
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes. <code>Exception</code> includes <code>IOException</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, because the method is an override</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The checked exception is broader</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. <code>speak</code> must be <code>public</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>Exception</code> is broader than <code>IOException</code>. An override may throw <code>IOException</code>, a subtype such as <code>FileNotFoundException</code>, or no checked exception.</p></div></section>
+<section class="q" id="chapter-1-questions-Q4" data-qid="chapter-1-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> What is the output?</p><pre><code class="language-java">class Animal { static String speak() { return &quot;animal&quot;; } }
+class Dog extends Animal { static String speak() { return &quot;dog&quot;; } }
+public class Q4 {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        System.out.println(a.speak());
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>dog</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>animal</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> A <code>static</code> method is hidden, not overridden. The reference type <code>Animal</code> selects <code>animal</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q5" data-qid="chapter-1-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> What is the output? The file name is <code>Q5.java</code>.</p><pre><code class="language-java">class Animal {
+    private String speak() { return &quot;animal&quot;; }
+    String call() { return speak(); }
+}
+class Dog extends Animal {
+    public String speak() { return &quot;dog&quot;; }
+}
+public class Q5 {
+    public static void main(String[] args) {
+        System.out.println(new Dog().call());
+    }
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>dog</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>animal</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>Animal.speak</code> is <code>private</code>, so <code>Dog.speak</code> does not override it. <code>call</code> was compiled against the private method and returns <code>animal</code>.</p></div></section>
+<section class="q" id="chapter-1-questions-Q6" data-qid="chapter-1-questions-Q6" data-multi="0" data-key="C"><p><strong>Q6.</strong> Does this compile?</p><pre><code class="language-java">class Animal { void speak() {} }
+class Dog extends Animal { @Override void speak(int n) {} }
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes. <code>speak(int)</code> overrides <code>speak()</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes. <code>@Override</code> allows a new parameter</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The signature does not match, so this is not an override</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. A subclass cannot declare <code>speak</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>@Override</code> requires a matching signature. <code>speak(int)</code> overloads <code>speak()</code>. Without <code>@Override</code> the class would compile, and it still would not be an override.</p><hr></div></section>
+<h1 id="chapter-2-reference-type-and-object-type">Chapter 2 — Reference type and object type</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 7 章 “Understanding Polymorphism”，pp. 410–418。如果星期一未讀 “Hiding Variables”（p. 328），補嗰一頁。</p>
+<p><strong>唔使睇</strong>　唔好由第 7 章開頭順住讀。interfaces、enums、sealed、records、nested classes 係後面幾日。</p>
+</blockquote>
+<p><strong>Wednesday</strong> is this chapter and questions Q1–Q6. Use <code>Zoo</code> from Monday as the hiding example on the checklist.</p>
+<h2 id="what-you-must-know_1">What you must know</h2>
+<p>The reference type is the type on the left of the variable. The object type is the class after <code>new</code>.</p>
+<p>The reference type decides which names compile. If <code>fetch</code> is declared only on <code>Dog</code>, <code>Animal a = new Dog(); a.fetch()</code> does not compile. A cast compiles when the type is in the hierarchy. A cast to the wrong object throws <code>ClassCastException</code> at runtime.</p>
+<p>The object type decides which override runs. Fields do not work that way. A field in the subclass hides the parent field. The reference type selects the field, including through a cast: <code>((Dog) a).kind</code> reads <code>Dog</code>’s field.</p>
+<p><code>instanceof</code> tests the object type. <code>null instanceof Dog</code> is <code>false</code>. It does not throw. A pattern both tests and assigns:</p>
+<pre><code class="language-java">if (a instanceof Dog d) {
+    System.out.println(d.kind);
+}
+</code></pre>
+<p>Inside that block, <code>d</code> has type <code>Dog</code>.</p>
+<h2 id="chapter-2-questions">Chapter 2 questions</h2>
+<section class="q" id="chapter-2-questions-Q1" data-qid="chapter-2-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> Using <code>Animal</code>, <code>Dog</code>, and <code>Cat</code> from <code>Zoo</code>, what is the output?</p><pre><code class="language-java">Animal dog = new Dog();
+System.out.println(dog.kind + &quot; &quot; + dog.speak());
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>dog woof</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>animal woof</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>animal generic</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The field comes from the reference type. The override comes from the object type. The line is <code>animal woof</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q2" data-qid="chapter-2-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> What is the output?</p><pre><code class="language-java">Animal dog = new Dog();
+System.out.println(((Dog) dog).kind);
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>animal</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>dog</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>ClassCastException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The cast changes the reference type used for the field read. <code>Dog.kind</code> is <code>dog</code>. The object really is a <code>Dog</code>, so the cast succeeds.</p></div></section>
+<section class="q" id="chapter-2-questions-Q3" data-qid="chapter-2-questions-Q3" data-multi="0" data-key="B"><p><strong>Q3.</strong> <code>Dog</code> declares <code>void fetch()</code>. <code>Animal</code> does not. What is the result?</p><pre><code class="language-java">Animal a = new Dog();
+a.fetch();
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It runs <code>Dog.fetch</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">A <code>ClassCastException</code> is thrown</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The compiler looks at <code>Animal</code>. <code>fetch</code> is not a member of <code>Animal</code>, so the call does not compile. The cast <code>(Dog) a</code> would make the call legal.</p></div></section>
+<section class="q" id="chapter-2-questions-Q4" data-qid="chapter-2-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> What is the output?</p><pre><code class="language-java">System.out.println(null instanceof Dog);
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>true</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>false</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>instanceof</code> on <code>null</code> is <code>false</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q5" data-qid="chapter-2-questions-Q5" data-multi="0" data-key="B"><p><strong>Q5.</strong> What is the output? <code>Dog.kind</code> is <code>"dog"</code>.</p><pre><code class="language-java">Animal a = new Dog();
+if (a instanceof Dog d) {
+    System.out.println(d.kind);
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>animal</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>dog</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">Nothing is printed</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The pattern succeeds and <code>d</code> is a <code>Dog</code> reference, so <code>d.kind</code> is the hidden field <code>dog</code>.</p></div></section>
+<section class="q" id="chapter-2-questions-Q6" data-qid="chapter-2-questions-Q6" data-multi="0" data-key="C"><p><strong>Q6.</strong> What is the result?</p><pre><code class="language-java">Animal a = new Animal();
+Dog d = (Dog) a;
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>d</code> refers to an <code>Animal</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">A <code>ClassCastException</code> is thrown</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>d</code> is <code>null</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> The cast is legal to the compiler because <code>Dog</code> extends <code>Animal</code>. At runtime the object is not a <code>Dog</code>, so the cast throws <code>ClassCastException</code>.</p><hr></div></section>
+<h1 id="chapter-3-equals-hashcode-interfaces-and-enums">Chapter 3 — <code>equals</code>, <code>hashCode</code>, interfaces, and enums</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 4 章 “Understanding Equality”，pp. 186–188（第 2 週讀過 <code>String</code>，今日重讀 <code>equals</code> / <code>hashCode</code> 契約）。第 7 章 pp. 360–379：“Implementing Interfaces” 同 “Working with Enums”。private interface method 在 “Declaring Concrete Interface Methods”（p. 367）。</p>
+<p><strong>唔使睇</strong>　sealed 同 record 係星期六。</p>
+</blockquote>
+<p><strong>Friday</strong> is this chapter, three listings, and questions Q1–Q6.</p>
+<h2 id="what-you-must-know_2">What you must know</h2>
+<p><code>equals</code> is reflexive, symmetric, transitive, and consistent. <code>x.equals(null)</code> is <code>false</code>. If <code>a.equals(b)</code> is <code>true</code>, then <code>a.hashCode()</code> and <code>b.hashCode()</code> return the same <code>int</code>. The reverse is not required: equal hash codes do not mean <code>equals</code> is true.</p>
+<p>A broken <code>equals</code> overrides <code>equals</code> and leaves <code>hashCode</code> as the identity hash from <code>Object</code>. A <code>HashSet</code> may then hold two objects that say they are equal. This run’s broken set has size 2. The fixed pair has size 1.</p>
+<h3 id="coins"><code>Coins</code></h3>
+<p>Type this. The file name is <code>Coins.java</code>.</p>
+<pre><code class="language-java">import java.util.*;
+
+class Bad {
+    int n;
+    Bad(int n) { this.n = n; }
+    public boolean equals(Object o) { return o instanceof Bad b &amp;&amp; b.n == n; }
+}
+class Good {
+    int n;
+    Good(int n) { this.n = n; }
+    public boolean equals(Object o) { return o instanceof Good g &amp;&amp; g.n == n; }
+    public int hashCode() { return n; }
+}
+public class Coins {
+    public static void main(String[] args) {
+        Set&lt;Bad&gt; bad = new HashSet&lt;&gt;();
+        bad.add(new Bad(1));
+        bad.add(new Bad(1));
+        Set&lt;Good&gt; good = new HashSet&lt;&gt;();
+        good.add(new Good(1));
+        good.add(new Good(1));
+        System.out.println(bad.size() + &quot; &quot; + good.size());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">2 1
+</code></pre>
+<h3 id="pets"><code>Pets</code></h3>
+<p>An interface can have a default instance method and a static method. The static method is called on the interface name. It is not inherited.</p>
+<pre><code class="language-java">interface Pet {
+    String name();
+    default String speak() { return &quot;pet&quot;; }
+    static String home() { return &quot;home&quot;; }
+}
+class DogPet implements Pet {
+    public String name() { return &quot;Ada&quot;; }
+}
+class CatPet implements Pet {
+    public String name() { return &quot;Bea&quot;; }
+    @Override public String speak() { return &quot;meow&quot;; }
+}
+public class Pets {
+    public static void main(String[] args) {
+        Pet dog = new DogPet();
+        Pet cat = new CatPet();
+        System.out.println(dog.speak() + &quot; &quot; + cat.speak() + &quot; &quot; + Pet.home());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">pet meow home
+</code></pre>
+<p><code>DogPet.home()</code> does not compile. Two interfaces with the same default method force the class to override that method.</p>
+<p>A <code>private</code> method in an interface has a body and is visible only inside that interface. Implementing classes do not inherit it and cannot call it. A <code>private</code> instance method can be called from a default method. A <code>private static</code> method can be called from a static method or a default method. A static method cannot call a private instance method, because a static method has no instance.</p>
+<pre><code class="language-java">interface Steps {
+    private static String tag(String s) { return &quot;[&quot; + s + &quot;]&quot;; }
+    default String go() { return tag(&quot;go&quot;); }
+}
+class Walk implements Steps {}
+</code></pre>
+<p><code>new Walk().go()</code> returns <code>[go]</code>. <code>Steps.tag("go")</code> and <code>Walk.tag("go")</code> do not compile. The private method never leaves the interface.</p>
+<h3 id="season"><code>Season</code></h3>
+<p>An enum constant list ends before the other members. The constructor runs once for each constant and is private. <code>ordinal</code> starts at 0. <code>new Season()</code> does not compile.</p>
+<pre><code class="language-java">enum Season {
+    WINTER(&quot;cold&quot;), SUMMER(&quot;hot&quot;);
+    private final String feel;
+    Season(String feel) { this.feel = feel; }
+    String feel() { return feel; }
+}
+public class Seasons {
+    public static void main(String[] args) {
+        System.out.println(Season.WINTER.feel());
+        System.out.println(Season.SUMMER.ordinal());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">cold
+1
+</code></pre>
+<p>Friday’s questions are Q1–Q6.</p>
+<h2 id="chapter-3-questions">Chapter 3 questions</h2>
+<section class="q" id="chapter-3-questions-Q1" data-qid="chapter-3-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What is <code>new Good(1).equals(null)</code> using <code>Good</code> from <code>Coins</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>true</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>false</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>instanceof</code> on <code>null</code> fails, so this <code>equals</code> returns <code>false</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q2" data-qid="chapter-3-questions-Q2" data-multi="0" data-key="B"><p><strong>Q2.</strong> Which statement matches the contract?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Equal hash codes mean <code>equals</code> returns <code>true</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">If <code>equals</code> returns <code>true</code>, the hash codes match</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>hashCode</code> must return the field <code>n</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>equals</code> may return <code>true</code> for <code>null</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> Equal objects share a hash code. Matching hash codes do not imply <code>equals</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q3" data-qid="chapter-3-questions-Q3" data-multi="0" data-key="C"><p><strong>Q3.</strong> What does <code>Coins</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>1 1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>2 2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>2 1</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body"><code>1 2</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>Bad</code> does not override <code>hashCode</code>, so the two equal objects can both sit in the set. <code>Good</code> uses <code>n</code> as the hash code, and the set keeps one.</p></div></section>
+<section class="q" id="chapter-3-questions-Q4" data-qid="chapter-3-questions-Q4" data-multi="0" data-key="B"><p><strong>Q4.</strong> What does <code>Pets</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>pet pet home</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>pet meow home</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>meow meow home</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> <code>DogPet</code> inherits the default <code>pet</code>. <code>CatPet</code> overrides it with <code>meow</code>. <code>Pet.home()</code> is the static method.</p></div></section>
+<section class="q" id="chapter-3-questions-Q5" data-qid="chapter-3-questions-Q5" data-multi="0" data-key="C"><p><strong>Q5.</strong> Does <code>DogPet.home()</code> compile?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes, and it returns <code>home</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and it returns <code>pet</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. An interface static method is called on the interface</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. <code>Pet</code> has no static method</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> Static interface methods are not inherited. The call is <code>Pet.home()</code>.</p></div></section>
+<section class="q" id="chapter-3-questions-Q6" data-qid="chapter-3-questions-Q6" data-multi="0" data-key="B"><p><strong>Q6.</strong> What is the result of <code>new Season("warm")</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">A new constant named <code>warm</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>WINTER</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> An enum constructor is private. Code outside the enum cannot call <code>new Season(...)</code>. The constants are <code>WINTER</code> and <code>SUMMER</code>.</p><hr></div></section>
+<h1 id="chapter-4-records-sealed-types-and-patterns">Chapter 4 — Records, sealed types, and patterns</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 7 章 pp. 380–399：“Sealing Classes” 同 “Encapsulating Data with Records”。第 3 章第 1 週跳過嘅兩節：pp. 106–110（<code>instanceof</code> pattern）同 pp. 124–129（<code>switch</code> pattern）。</p>
+<p><strong>唔使睇</strong>　nested classes 係星期日。</p>
+</blockquote>
+<p><strong>Saturday</strong> is 8 hours: this chapter, three listings, and questions Q1–Q6.</p>
+<h2 id="what-you-must-know_3">What you must know</h2>
+<p>A record is a <code>final</code> class with one field per component, a canonical constructor, accessors named after the components, and generated <code>equals</code>, <code>hashCode</code>, and <code>toString</code>. The accessor is <code>cents()</code>, not <code>getCents()</code>.</p>
+<p>A compact constructor has the record’s name and no parameter list. You assign the component parameters. The canonical constructor then assigns the fields. Use it to check or fix the values.</p>
+<pre><code class="language-java">public Coin {
+    if (cents &lt; 0) cents = 0;
+}
+</code></pre>
+<p>A sealed type lists its permitted subtypes with <code>permits</code>. Each direct subtype is <code>final</code>, <code>sealed</code>, or <code>non-sealed</code>. A record that implements a sealed interface is implicitly <code>final</code>. A switch on a sealed type is exhaustive when every permitted type has a case. A <code>default</code> is then optional.</p>
+<p>A type pattern is <code>case String s</code>. A record pattern takes the components: <code>case Point(int x, int y)</code>. A <code>when</code> guard adds a boolean condition. Patterns are tested from top to bottom. A case that can never run, because an earlier case already covers it, does not compile. That is a dominated pattern. Put the specific pattern first.</p>
+<p><code>case null</code> handles a null selector. Without <code>case null</code>, a null selector throws <code>NullPointerException</code>.</p>
+<h3 id="coin"><code>Coin</code></h3>
+<pre><code class="language-java">public record Coin(int cents) {
+    public Coin {
+        if (cents &lt; 0) cents = 0;
+    }
+    public static void main(String[] args) {
+        System.out.println(new Coin(-5).cents());
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">0
+</code></pre>
+<h3 id="shapes"><code>Shapes</code></h3>
+<p>The file name is <code>Shapes.java</code>.</p>
+<pre><code class="language-java">sealed interface Shape permits Circle, Rect {}
+record Circle(int r) implements Shape {}
+record Rect(int w, int h) implements Shape {}
+
+public class Shapes {
+    static String describe(Shape s) {
+        return switch (s) {
+            case Circle c -&gt; &quot;circle&quot; + c.r();
+            case Rect r -&gt; &quot;rect&quot;;
+        };
+    }
+    public static void main(String[] args) {
+        System.out.println(describe(new Circle(3)));
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">circle3
+</code></pre>
+<p>There is no <code>default</code>. The sealed permits list makes the switch exhaustive.</p>
+<h3 id="record-pattern-and-when">Record pattern and <code>when</code></h3>
+<pre><code class="language-java">record Point(int x, int y) {}
+public class Points {
+    static String where(Object o) {
+        return switch (o) {
+            case Point(int x, int y) when x &gt; 0 -&gt; &quot;right&quot;;
+            case Point(int x, int y) -&gt; &quot;other&quot;;
+            case null -&gt; &quot;null&quot;;
+            default -&gt; &quot;no&quot;;
+        };
+    }
+    public static void main(String[] args) {
+        System.out.println(where(new Point(2, 1)));
+        System.out.println(where(new Point(-1, 4)));
+        System.out.println(where(&quot;no&quot;));
+    }
+}
+</code></pre>
+<p>The run prints:</p>
+<pre><code class="language-text">right
+other
+no
+</code></pre>
+<p>This dominated switch does not compile. The <code>String</code> case can never run:</p>
+<pre><code class="language-java">return switch (o) {
+    case CharSequence c -&gt; 1;
+    case String s -&gt; 2;
+    default -&gt; 3;
+};
+</code></pre>
+<p>Swap the two patterns and it compiles. <code>String</code> is more specific than <code>CharSequence</code>.</p>
+<p>Saturday’s questions are Q1–Q6.</p>
+<h2 id="chapter-4-questions">Chapter 4 questions</h2>
+<section class="q" id="chapter-4-questions-Q1" data-qid="chapter-4-questions-Q1" data-multi="0" data-key="B"><p><strong>Q1.</strong> What is <code>new Coin(-5).cents()</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>-5</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The compact constructor changes the parameter <code>cents</code> from <code>-5</code> to <code>0</code> before the field is stored.</p></div></section>
+<section class="q" id="chapter-4-questions-Q2" data-qid="chapter-4-questions-Q2" data-multi="0" data-key="C"><p><strong>Q2.</strong> <code>record Coin(int cents) {}</code>. Does <code>new Coin(1).getCents()</code> compile?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes, and it returns <code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and it returns <code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The accessor is <code>cents()</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. A record cannot have an <code>int</code> component</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> A record accessor uses the component name. <code>getCents</code> is not generated.</p></div></section>
+<section class="q" id="chapter-4-questions-Q3" data-qid="chapter-4-questions-Q3" data-multi="0" data-key="A"><p><strong>Q3.</strong> What does <code>Shapes</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>circle3</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>rect</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile, because the switch has no <code>default</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>Circle</code> and <code>Rect</code> cover the sealed type, so the switch is exhaustive without <code>default</code>. The circle’s <code>r</code> is <code>3</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q4" data-qid="chapter-4-questions-Q4" data-multi="0" data-key="C"><p><strong>Q4.</strong> Does the dominated switch in this chapter compile?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes, and a <code>String</code> selects case 2</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and a <code>String</code> selects case 1</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. <code>case String</code> is dominated by <code>case CharSequence</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. <code>switch</code> cannot use <code>CharSequence</code></span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> The compiler rejects a case label dominated by an earlier one. Put <code>case String s</code> above <code>case CharSequence c</code>.</p></div></section>
+<section class="q" id="chapter-4-questions-Q5" data-qid="chapter-4-questions-Q5" data-multi="0" data-key="A"><p><strong>Q5.</strong> What does <code>where(new Point(2, 1))</code> print?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>right</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>other</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>no</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The record pattern matches, and <code>when x &gt; 0</code> is true.</p></div></section>
+<section class="q" id="chapter-4-questions-Q6" data-qid="chapter-4-questions-Q6" data-multi="0" data-key="A"><p><strong>Q6.</strong> What does <code>where(null)</code> print in <code>Points</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>null</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>no</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">A <code>NullPointerException</code> is thrown</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> <code>case null</code> is present, so the selector <code>null</code> selects that case. Remove <code>case null</code> and the same call throws <code>NullPointerException</code>.</p><hr></div></section>
+<h1 id="sunday-nested-classes-then-the-questions">Sunday — nested classes, then the questions</h1>
+<blockquote>
+<p><strong>必睇</strong>　第 7 章 “Creating Nested Classes”，pp. 400–409。</p>
+<p><strong>唔使睇</strong>　第 7 章 Review Questions。混合題用筆記計分。</p>
+</blockquote>
+<p>The first 20 minutes are Saturday’s misses. Then copy this page into the notebook. Then do the mixed set and score all 30. <strong>21 or more</strong> is the gate.</p>
+<h2 id="notebook-page-what-each-nested-class-can-see">Notebook page — what each nested class can see</h2>
+<p><strong>Static nested class.</strong> Declared with <code>static</code> inside another class. It has no hidden outer instance. It can use the outer class’s private static members. It can use an instance member only through an outer object you pass in. Create it with <code>new Outer.Nested()</code>.</p>
+<p><strong>Inner class.</strong> A member class without <code>static</code>. Each inner object has a hidden reference to an outer object. Create it with <code>outer.new Inner()</code>, or with <code>new Inner()</code> inside an instance method of the outer class. It can read the outer class’s private instance members. <code>Outer.this</code> is the outer object. On Java 21 an inner class may declare static members.</p>
+<p><strong>Local class.</strong> Declared inside a method. It has no access modifier. It can use the enclosing class’s members, and it can use local variables and parameters that are final or effectively final.</p>
+<p><strong>Anonymous class.</strong> An expression with no name. It extends one class or implements one interface. It has no constructor of its own. An instance initializer is allowed. It can use effectively final locals, the same way a local class can.</p>
+<h2 id="mixed-set">Mixed set</h2>
+<section class="q" id="mixed-set-M1" data-qid="mixed-set-M1" data-multi="0" data-key="A"><p><strong>M1.</strong> An outer class has <code>private int n = 4</code>, and its inner class method returns <code>n</code>. Does the inner class compile, and what does a call return?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It compiles and returns <code>4</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It compiles and returns <code>0</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">It does not compile. Inner classes cannot read <code>private</code> members</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">It does not compile. Inner classes cannot have methods</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> An inner class can read the outer class’s private instance members. The returned value is <code>4</code>.</p></div></section>
+<section class="q" id="mixed-set-M2" data-qid="mixed-set-M2" data-multi="0" data-key="C"><p><strong>M2.</strong> Does this compile?</p><pre><code class="language-java">void run() {
+    int n = 1;
+    class Local { int value() { return n; } }
+    n = 2;
+    System.out.println(new Local().value());
+}
+</code></pre><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">It prints <code>1</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">It prints <code>2</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> <code>Local</code> uses <code>n</code>, and <code>n</code> is assigned again. A local variable used from a local class must be final or effectively final.</p></div></section>
+<section class="q" id="mixed-set-M3" data-qid="mixed-set-M3" data-multi="0" data-key="A"><p><strong>M3.</strong> What is the output?</p><pre><code class="language-java">Pet pet = new Pet() {
+    public String name() { return &quot;Cy&quot;; }
+};
+System.out.println(pet.speak() + &quot; &quot; + pet.name());
+</code></pre><p><code>Pet</code> is the interface from <code>Pets</code>.</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>pet Cy</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>meow Cy</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">The code does not compile</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">An exception is thrown at runtime</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：A。</strong> The anonymous class implements <code>Pet</code>, inherits the default <code>speak</code>, and supplies <code>name</code>. The print is <code>pet Cy</code>.</p></div></section>
+<section class="q" id="mixed-set-M4" data-qid="mixed-set-M4" data-multi="0" data-key="C"><p><strong>M4.</strong> <code>Fly</code> and <code>Swim</code> both declare <code>default String move() { return "go"; }</code>. <code>Duck</code> implements both and does not override <code>move</code>. Does <code>Duck</code> compile?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes, and <code>move</code> returns <code>go</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, and the call is ambiguous at runtime</span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. The class must override <code>move</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. An interface cannot have a default method</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> Two inherited default methods with the same signature conflict. <code>Duck</code> must override <code>move</code>.</p></div></section>
+<section class="q" id="mixed-set-M5" data-qid="mixed-set-M5" data-multi="0" data-key="C"><p><strong>M5.</strong> <code>sealed interface Shape permits Box {}</code> and <code>class Box implements Shape {}</code>. <code>Box</code> is not <code>final</code>, <code>sealed</code>, or <code>non-sealed</code>. Does this compile?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body">Yes</span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body">Yes, because <code>Box</code> is in <code>permits</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body">No. A permitted class must say how it continues the seal</span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">No. A sealed type cannot be an interface</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：C。</strong> Being listed in <code>permits</code> is not enough. The permitted class declares <code>final</code>, <code>sealed</code>, or <code>non-sealed</code>. A record is implicitly <code>final</code>, which is why <code>Circle</code> could implement <code>Shape</code> without writing <code>final</code>.</p></div></section>
+<section class="q" id="mixed-set-M6" data-qid="mixed-set-M6" data-multi="0" data-key="B"><p><strong>M6.</strong> <code>Animal a = new Dog()</code>, with the classes from <code>Zoo</code>. What is <code>(a instanceof Dog d) ? d.speak() : a.kind</code>?</p><div class="choices" role="group" aria-label="選一項"><button type="button" class="choice" data-letter="A" aria-pressed="false"><span class="letter">A</span><span class="choice-body"><code>animal</code></span></button><button type="button" class="choice" data-letter="B" aria-pressed="false"><span class="letter">B</span><span class="choice-body"><code>woof</code></span></button><button type="button" class="choice" data-letter="C" aria-pressed="false"><span class="letter">C</span><span class="choice-body"><code>dog</code></span></button><button type="button" class="choice" data-letter="D" aria-pressed="false"><span class="letter">D</span><span class="choice-body">The code does not compile</span></button></div><button type="button" class="reveal" aria-expanded="false" aria-label="揭曉答案"><svg class="icon-show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="icon-hide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></button><div class="answer" hidden><p><strong>答案：B。</strong> The pattern matches the <code>Dog</code> object. <code>d.speak()</code> runs the override and returns <code>woof</code>.</p><hr></div></section>
+<h1 id="rules-to-copy-onto-one-card">Rules to copy onto one card</h1>
+<ul>
+<li>An override matches the signature. The return may be covariant. Access stays the same or gets wider. Checked exceptions stay the same, get narrower, or disappear.</li>
+<li><code>static</code> hides. <code>private</code> is not overridden. <code>final</code> cannot be overridden. <code>@Override</code> checks that an override is real.</li>
+<li>The reference type decides what compiles and which field is read. The object type decides which override runs.</li>
+<li><code>instanceof</code> on <code>null</code> is <code>false</code>. A bad cast throws <code>ClassCastException</code>.</li>
+<li>If <code>equals</code> is true, the hash codes match. <code>equals(null)</code> is <code>false</code>.</li>
+<li>An interface static method is called on the interface. A default method is inherited. Two conflicting defaults must be overridden. A private interface method stays inside the interface.</li>
+<li>An abstract class cannot be constructed. A concrete subclass implements every abstract method. <code>abstract</code> is not <code>final</code>, and an abstract method is not <code>private</code> or <code>static</code>.</li>
+<li>A record accessor is the component name. A compact constructor assigns the parameters, and the fields are stored after that.</li>
+<li>A sealed switch is exhaustive when every permitted type has a case. A general pattern above a specific one does not compile. <code>when</code> guards a pattern. <code>case null</code> handles null.</li>
+<li>A static nested class has no outer instance. An inner class does. Local and anonymous classes see effectively final locals.</li>
+</ul>
+</article>
+<nav class="pager" aria-label="前後篇">
+<a class="prev" href="Week-03-glossary.html"><small>上一篇</small>第 3 週 · 詞彙</a>
+<a class="next" href="Week-04-glossary.html"><small>下一篇</small>第 4 週 · 詞彙</a>
+</nav>
+</div>
+</main>
+</div>
+<nav id="jump" class="jump" hidden aria-label="本頁章節"></nav>
+<script src="search.js"></script>
+</body>
+</html>
