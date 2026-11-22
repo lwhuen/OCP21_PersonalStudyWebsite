@@ -1366,10 +1366,11 @@ article ul:has(> .task) {
 }
 .day-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.75rem;
   margin: 0;
-  padding: 0.75rem 0.85rem;
+  min-height: 3.1rem;
+  padding: 0.7rem 0.85rem;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -1391,9 +1392,9 @@ article ul:has(> .task) {
 .day-body {
   flex: 1;
   min-width: 0;
-  font-size: 0.98rem;
-  line-height: 1.55;
-  padding-top: 0.05rem;
+  font-size: 0.95rem;
+  font-weight: 550;
+  line-height: 1.45;
 }
 .jump {
   position: fixed;
