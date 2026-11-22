@@ -29,7 +29,20 @@ if (fold && nav) {
       try { localStorage.setItem("ocp-nav", closed ? "0" : "1"); } catch (error) {}
     } else {
       nav.classList.toggle("open");
+      if (nav.classList.contains("open")) setJumpOpen(false);
     }
+    paintFold();
+  });
+  nav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (!wide() && nav.classList.contains("open")) {
+        nav.classList.remove("open");
+        paintFold();
+      }
+    });
+  });
+  matchMedia("(min-width: 861px)").addEventListener("change", () => {
+    if (wide()) nav.classList.remove("open");
     paintFold();
   });
 }
