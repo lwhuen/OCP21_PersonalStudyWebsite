@@ -711,11 +711,14 @@ main { flex: 1; min-width: 0; width: 100%; padding: clamp(0.85rem, 2vw, 1.75rem)
 .week-progress small { display: block; margin-top: 0.38rem; color: var(--muted); font-size: 0.75rem; line-height: 1.35; }
 .week-progress .where { display: block; color: var(--ink); font-weight: 650; }
 html.nav-collapsed .place, html.nav-collapsed .week-progress { display: none; }
-article :is(h1, h2, h3) { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
 .mark {
-  flex: none;
+  position: absolute;
+  left: -2.45rem;
+  top: 0.15rem;
+  z-index: 2;
   width: 1.85rem;
   height: 1.85rem;
+  margin: 0;
   padding: 0;
   display: inline-grid;
   place-items: center;
@@ -724,18 +727,39 @@ article :is(h1, h2, h3) { display: flex; align-items: baseline; justify-content:
   color: var(--ink);
   border-radius: 999px;
   cursor: pointer;
+  box-shadow: 0 1px 0 rgba(36, 32, 27, 0.04);
 }
-h3 .mark { width: 1.65rem; height: 1.65rem; }
-h3 .mark svg { width: 0.9rem; height: 0.9rem; }
+h1 .mark { top: 0.3rem; }
+h3 .mark, blockquote .mark { width: 1.65rem; height: 1.65rem; top: 0.1rem; }
+h3 .mark svg, blockquote .mark svg { width: 0.9rem; height: 0.9rem; }
+.q .mark { top: 0.45rem; }
 .mark svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .mark .icon-on { display: none; }
 .mark[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
 .mark[aria-pressed="true"] .icon-off { display: none; }
 .mark[aria-pressed="true"] .icon-on { display: block; fill: currentColor; stroke: none; }
-article :is(h1, h2, h3).reached { box-shadow: inset 3px 0 0 var(--accent); padding-left: 0.6rem; }
+article :is(h1, h2, h3),
+article .q,
+article > blockquote {
+  position: relative;
+}
+article :is(h1, h2, h3).reached,
+article .q.reached,
+article > blockquote.reached {
+  box-shadow: inset 3px 0 0 var(--accent);
+  padding-left: 0.55rem;
+}
+.place-item .place-snippet {
+  grid-column: 1 / -1;
+  display: block;
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
 .hero h1, article h1 { font-size: 1.85rem; line-height: 1.25; margin: 0 0 0.7rem; font-weight: 700; }
 .kicker { margin: 0 0 0.35rem; color: var(--accent); font-weight: 650; font-size: 0.92rem; }
-article { font-size: 1.0625rem; line-height: 1.8; text-wrap: pretty; }
+article { font-size: 1.0625rem; line-height: 1.8; text-wrap: pretty; padding-left: 2.55rem; }
 article p { margin: 1.05em 0; }
 article blockquote { margin: 0.2rem 0 1.15rem; padding: 0.1rem 0 0.1rem 0.85rem; border-left: 3px solid var(--accent); }
 article blockquote p { margin: 0.28em 0; }
@@ -748,7 +772,16 @@ article h1 + h2 { margin-top: 1.1rem; }
 article h3 { margin: 1.35rem 0 0.3rem; font-size: 1.05rem; line-height: 1.4; }
 a { color: var(--accent); }
 code, pre { font-family: Consolas, "Cascadia Mono", monospace; }
-p code, li code, td code { font-size: 0.92em; color: inherit; background: #f3eee6; padding: 0.04em 0.28em; border-radius: 4px; overflow-wrap: anywhere; }
+p code, li code, td code {
+  font-size: 0.92em;
+  color: inherit;
+  background: #f3eee6;
+  padding: 0.04em 0.28em;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
 pre {
   background: var(--code);
   color: var(--code-ink);
@@ -832,13 +865,19 @@ th, td { padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; border-
 tr:last-child td { border-bottom: 0; }
 th { background: #f6f1e8; font-weight: 650; }
 tbody tr:nth-child(even) { background: #fbf8f3; }
+article ul:has(> .task) {
+  list-style: none;
+  margin: 0.85em 0;
+  padding: 0;
+}
 .task {
   list-style: none;
   margin: 0.45em 0;
   padding: 0.42rem 0.55rem 0.42rem 0.35rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.7rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: 0.7rem;
   border-radius: 10px;
   transition: background 0.18s ease;
 }
@@ -1033,10 +1072,11 @@ tbody tr:nth-child(even) { background: #fbf8f3; }
   .sheet { padding: 1rem 0.95rem 1.2rem; border-radius: 12px; }
   .weeks { grid-template-columns: 1fr; }
   .hero h1, article h1 { font-size: 1.45rem; }
-  article { font-size: 1.05rem; }
-  article :is(h1, h2, h3) { gap: 0.45rem; }
-  .mark { width: 2.25rem; height: 2.25rem; }
-  h3 .mark { width: 2rem; height: 2rem; }
+  article { font-size: 1.05rem; padding-left: 2.35rem; }
+  .mark { width: 2rem; height: 2rem; left: -2.2rem; }
+  h3 .mark, blockquote .mark { width: 1.85rem; height: 1.85rem; }
+  .sheet { overflow-x: auto; }
+  .table-wrap { margin-left: -0.15rem; margin-right: -0.15rem; }
   .reveal {
     min-height: 2.7rem;
     padding: 0.55rem 1.1rem 0.55rem 0.9rem;
@@ -1208,37 +1248,95 @@ function fileName() {
   return decodeURIComponent(location.pathname.split("/").pop() || "index.html");
 }
 
-function headingText(heading) {
-  const copy = heading.cloneNode(true);
-  copy.querySelectorAll("button").forEach((button) => button.remove());
+function cleanText(node) {
+  const copy = node.cloneNode(true);
+  copy.querySelectorAll("button, .mark").forEach((button) => button.remove());
   return copy.textContent.replace(/\s+/g, " ").trim();
 }
 
-function placePath(heading) {
-  const heads = [...document.querySelectorAll("article :is(h1, h2, h3)[id]")];
-  const at = heads.indexOf(heading);
+function headingText(heading) {
+  return cleanText(heading);
+}
+
+function ensureId(el, base) {
+  if (el.id) return el.id;
+  let id = base.replace(/[^a-zA-Z0-9\u4e00-\u9fff\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || "spot";
+  let n = 2;
+  let candidate = id;
+  while (document.getElementById(candidate)) {
+    candidate = id + "-" + n;
+    n += 1;
+  }
+  el.id = candidate;
+  return candidate;
+}
+
+function headsBefore(el) {
+  return [...document.querySelectorAll("article :is(h1, h2, h3)[id]")].filter(
+    (heading) => heading === el || !!(heading.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)
+  );
+}
+
+function placePath(el) {
+  const before = headsBefore(el).filter((heading) => heading !== el);
   let chapter = "";
   let section = "";
-  for (let i = at - 1; i >= 0; i--) {
-    if (!section && heads[i].matches("h2")) section = headingText(heads[i]);
-    if (!chapter && heads[i].matches("h1")) {
-      chapter = headingText(heads[i]);
+  let topic = "";
+  for (let i = before.length - 1; i >= 0; i--) {
+    const heading = before[i];
+    if (!topic && heading.matches("h3")) topic = headingText(heading);
+    if (!section && heading.matches("h2")) section = headingText(heading);
+    if (!chapter && heading.matches("h1")) {
+      chapter = headingText(heading);
       break;
     }
   }
-  if (heading.matches("h1")) return "";
-  if (heading.matches("h2")) return chapter;
-  return [chapter, section].filter(Boolean).join(" · ");
+  if (el.matches("h1")) return "";
+  if (el.matches("h2")) return chapter;
+  if (el.matches("h3")) return [chapter, section].filter(Boolean).join(" · ");
+  return [chapter, section, topic].filter(Boolean).join(" · ");
+}
+
+function targetLabel(el) {
+  if (el.matches("h1, h2, h3")) return headingText(el);
+  if (el.matches(".q")) {
+    const line = el.querySelector(":scope > p")?.textContent || el.dataset.qid || "題目";
+    return line.replace(/\s+/g, " ").trim().slice(0, 72);
+  }
+  if (el.matches("blockquote")) {
+    const line = cleanText(el);
+    if (line.startsWith("必睇")) return "書 · 必睇";
+    if (line.startsWith("略讀")) return "書 · 略讀";
+    if (line.startsWith("唔使睇")) return "書 · 唔使睇";
+    return "書備註";
+  }
+  return el.id;
+}
+
+function targetSnippet(el) {
+  if (el.matches(".q")) {
+    const pre = el.querySelector(":scope > pre");
+    if (pre) return pre.textContent.replace(/\s+/g, " ").trim().slice(0, 88);
+    const p = el.querySelector(":scope > p");
+    return (p?.textContent || "").replace(/\s+/g, " ").trim().slice(0, 88);
+  }
+  if (el.matches("blockquote")) return cleanText(el).slice(0, 88);
+  let next = el.nextElementSibling;
+  while (next && next.matches("button, .mark")) next = next.nextElementSibling;
+  if (!next || next.matches("h1, h2, h3, .q")) return "";
+  return next.textContent.replace(/\s+/g, " ").trim().slice(0, 88);
 }
 
 function placeItemHtml(item) {
   const path = item.path ? `<small class="place-path">${esc(item.path)}</small>` : "";
+  const snippet = item.snippet ? `<small class="place-snippet">${esc(item.snippet)}</small>` : "";
   return `<li class="place-item" data-href="${esc(item.href)}">
     <a href="${esc(item.href)}">${esc(item.heading)}</a>
     <button type="button" class="place-item-clear" aria-label="移除收藏" title="移除">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     ${path}
+    ${snippet}
     <small class="place-where">${esc(item.where || "")}</small>
   </li>`;
 }
@@ -1269,34 +1367,42 @@ function paintPlace() {
   paintMarks();
 }
 
+function markHost(button) {
+  return button.closest("h1, h2, h3, .q, blockquote");
+}
+
 function paintMarks() {
   const hrefs = new Set(readPlaces().map((item) => item.href));
   document.querySelectorAll("article .mark").forEach((button) => {
-    const heading = button.closest("h1, h2, h3");
-    const on = hrefs.has(fileName() + "#" + heading.id);
-    heading.classList.toggle("reached", on);
+    const host = markHost(button);
+    if (!host || !host.id) return;
+    const on = hrefs.has(fileName() + "#" + host.id);
+    host.classList.toggle("reached", on);
     button.setAttribute("aria-label", on ? "已收藏，雙擊取消" : "收藏");
     button.setAttribute("aria-pressed", on ? "true" : "false");
     button.title = on ? "已收藏 · 雙擊取消" : "收藏";
   });
 }
 
-function saveMark(heading) {
-  const href = fileName() + "#" + heading.id;
+function saveMark(el) {
+  if (!el?.id) return;
+  const href = fileName() + "#" + el.id;
   const list = readPlaces().filter((item) => item.href !== href);
   const where = document.querySelector(".crumb")?.textContent?.trim() || document.title.replace(/ · OCP Java 21$/, "");
   list.unshift({
     href,
-    heading: headingText(heading),
-    path: placePath(heading),
+    heading: targetLabel(el),
+    path: placePath(el),
+    snippet: targetSnippet(el),
     where
   });
   writePlaces(list);
   paintPlace();
 }
 
-function clearMark(heading) {
-  const href = fileName() + "#" + heading.id;
+function clearMark(el) {
+  if (!el?.id) return;
+  const href = fileName() + "#" + el.id;
   const list = readPlaces();
   const next = list.filter((item) => item.href !== href);
   if (next.length === list.length) return;
@@ -1304,7 +1410,8 @@ function clearMark(heading) {
   paintPlace();
 }
 
-document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
+function attachMark(el) {
+  if (!el || el.querySelector(":scope > .mark")) return;
   const button = document.createElement("button");
   button.type = "button";
   button.className = "mark";
@@ -1320,7 +1427,7 @@ document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
     }
     clickTimer = setTimeout(() => {
       clickTimer = 0;
-      saveMark(heading);
+      saveMark(el);
     }, 280);
   });
   button.addEventListener("dblclick", (event) => {
@@ -1329,10 +1436,22 @@ document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
       clearTimeout(clickTimer);
       clickTimer = 0;
     }
-    clearMark(heading);
+    clearMark(el);
   });
-  heading.appendChild(button);
+  el.insertBefore(button, el.firstChild);
+}
+
+const markTargets = [
+  ...document.querySelectorAll("article :is(h1, h2, h3)[id]"),
+  ...document.querySelectorAll("article section.q[id]")
+];
+document.querySelectorAll("article > blockquote").forEach((quote, index) => {
+  const prev = quote.previousElementSibling;
+  const base = prev?.id ? prev.id + "-note" : "note-" + (index + 1);
+  ensureId(quote, base);
+  markTargets.push(quote);
 });
+markTargets.forEach(attachMark);
 
 paintPlace();
 

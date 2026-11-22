@@ -146,37 +146,95 @@ function fileName() {
   return decodeURIComponent(location.pathname.split("/").pop() || "index.html");
 }
 
-function headingText(heading) {
-  const copy = heading.cloneNode(true);
-  copy.querySelectorAll("button").forEach((button) => button.remove());
+function cleanText(node) {
+  const copy = node.cloneNode(true);
+  copy.querySelectorAll("button, .mark").forEach((button) => button.remove());
   return copy.textContent.replace(/\s+/g, " ").trim();
 }
 
-function placePath(heading) {
-  const heads = [...document.querySelectorAll("article :is(h1, h2, h3)[id]")];
-  const at = heads.indexOf(heading);
+function headingText(heading) {
+  return cleanText(heading);
+}
+
+function ensureId(el, base) {
+  if (el.id) return el.id;
+  let id = base.replace(/[^a-zA-Z0-9\u4e00-\u9fff\-]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || "spot";
+  let n = 2;
+  let candidate = id;
+  while (document.getElementById(candidate)) {
+    candidate = id + "-" + n;
+    n += 1;
+  }
+  el.id = candidate;
+  return candidate;
+}
+
+function headsBefore(el) {
+  return [...document.querySelectorAll("article :is(h1, h2, h3)[id]")].filter(
+    (heading) => heading === el || !!(heading.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)
+  );
+}
+
+function placePath(el) {
+  const before = headsBefore(el).filter((heading) => heading !== el);
   let chapter = "";
   let section = "";
-  for (let i = at - 1; i >= 0; i--) {
-    if (!section && heads[i].matches("h2")) section = headingText(heads[i]);
-    if (!chapter && heads[i].matches("h1")) {
-      chapter = headingText(heads[i]);
+  let topic = "";
+  for (let i = before.length - 1; i >= 0; i--) {
+    const heading = before[i];
+    if (!topic && heading.matches("h3")) topic = headingText(heading);
+    if (!section && heading.matches("h2")) section = headingText(heading);
+    if (!chapter && heading.matches("h1")) {
+      chapter = headingText(heading);
       break;
     }
   }
-  if (heading.matches("h1")) return "";
-  if (heading.matches("h2")) return chapter;
-  return [chapter, section].filter(Boolean).join(" · ");
+  if (el.matches("h1")) return "";
+  if (el.matches("h2")) return chapter;
+  if (el.matches("h3")) return [chapter, section].filter(Boolean).join(" · ");
+  return [chapter, section, topic].filter(Boolean).join(" · ");
+}
+
+function targetLabel(el) {
+  if (el.matches("h1, h2, h3")) return headingText(el);
+  if (el.matches(".q")) {
+    const line = el.querySelector(":scope > p")?.textContent || el.dataset.qid || "題目";
+    return line.replace(/\s+/g, " ").trim().slice(0, 72);
+  }
+  if (el.matches("blockquote")) {
+    const line = cleanText(el);
+    if (line.startsWith("必睇")) return "書 · 必睇";
+    if (line.startsWith("略讀")) return "書 · 略讀";
+    if (line.startsWith("唔使睇")) return "書 · 唔使睇";
+    return "書備註";
+  }
+  return el.id;
+}
+
+function targetSnippet(el) {
+  if (el.matches(".q")) {
+    const pre = el.querySelector(":scope > pre");
+    if (pre) return pre.textContent.replace(/\s+/g, " ").trim().slice(0, 88);
+    const p = el.querySelector(":scope > p");
+    return (p?.textContent || "").replace(/\s+/g, " ").trim().slice(0, 88);
+  }
+  if (el.matches("blockquote")) return cleanText(el).slice(0, 88);
+  let next = el.nextElementSibling;
+  while (next && next.matches("button, .mark")) next = next.nextElementSibling;
+  if (!next || next.matches("h1, h2, h3, .q")) return "";
+  return next.textContent.replace(/\s+/g, " ").trim().slice(0, 88);
 }
 
 function placeItemHtml(item) {
   const path = item.path ? `<small class="place-path">${esc(item.path)}</small>` : "";
+  const snippet = item.snippet ? `<small class="place-snippet">${esc(item.snippet)}</small>` : "";
   return `<li class="place-item" data-href="${esc(item.href)}">
     <a href="${esc(item.href)}">${esc(item.heading)}</a>
     <button type="button" class="place-item-clear" aria-label="移除收藏" title="移除">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     ${path}
+    ${snippet}
     <small class="place-where">${esc(item.where || "")}</small>
   </li>`;
 }
@@ -207,34 +265,42 @@ function paintPlace() {
   paintMarks();
 }
 
+function markHost(button) {
+  return button.closest("h1, h2, h3, .q, blockquote");
+}
+
 function paintMarks() {
   const hrefs = new Set(readPlaces().map((item) => item.href));
   document.querySelectorAll("article .mark").forEach((button) => {
-    const heading = button.closest("h1, h2, h3");
-    const on = hrefs.has(fileName() + "#" + heading.id);
-    heading.classList.toggle("reached", on);
+    const host = markHost(button);
+    if (!host || !host.id) return;
+    const on = hrefs.has(fileName() + "#" + host.id);
+    host.classList.toggle("reached", on);
     button.setAttribute("aria-label", on ? "已收藏，雙擊取消" : "收藏");
     button.setAttribute("aria-pressed", on ? "true" : "false");
     button.title = on ? "已收藏 · 雙擊取消" : "收藏";
   });
 }
 
-function saveMark(heading) {
-  const href = fileName() + "#" + heading.id;
+function saveMark(el) {
+  if (!el?.id) return;
+  const href = fileName() + "#" + el.id;
   const list = readPlaces().filter((item) => item.href !== href);
   const where = document.querySelector(".crumb")?.textContent?.trim() || document.title.replace(/ · OCP Java 21$/, "");
   list.unshift({
     href,
-    heading: headingText(heading),
-    path: placePath(heading),
+    heading: targetLabel(el),
+    path: placePath(el),
+    snippet: targetSnippet(el),
     where
   });
   writePlaces(list);
   paintPlace();
 }
 
-function clearMark(heading) {
-  const href = fileName() + "#" + heading.id;
+function clearMark(el) {
+  if (!el?.id) return;
+  const href = fileName() + "#" + el.id;
   const list = readPlaces();
   const next = list.filter((item) => item.href !== href);
   if (next.length === list.length) return;
@@ -242,7 +308,8 @@ function clearMark(heading) {
   paintPlace();
 }
 
-document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
+function attachMark(el) {
+  if (!el || el.querySelector(":scope > .mark")) return;
   const button = document.createElement("button");
   button.type = "button";
   button.className = "mark";
@@ -258,7 +325,7 @@ document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
     }
     clickTimer = setTimeout(() => {
       clickTimer = 0;
-      saveMark(heading);
+      saveMark(el);
     }, 280);
   });
   button.addEventListener("dblclick", (event) => {
@@ -267,10 +334,22 @@ document.querySelectorAll("article :is(h1, h2, h3)[id]").forEach((heading) => {
       clearTimeout(clickTimer);
       clickTimer = 0;
     }
-    clearMark(heading);
+    clearMark(el);
   });
-  heading.appendChild(button);
+  el.insertBefore(button, el.firstChild);
+}
+
+const markTargets = [
+  ...document.querySelectorAll("article :is(h1, h2, h3)[id]"),
+  ...document.querySelectorAll("article section.q[id]")
+];
+document.querySelectorAll("article > blockquote").forEach((quote, index) => {
+  const prev = quote.previousElementSibling;
+  const base = prev?.id ? prev.id + "-note" : "note-" + (index + 1);
+  ensureId(quote, base);
+  markTargets.push(quote);
 });
+markTargets.forEach(attachMark);
 
 paintPlace();
 
