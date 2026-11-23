@@ -1543,8 +1543,10 @@ article ul:has(> .task) {
 }
 @media (max-width: 860px) {
   html { scroll-padding-top: 5.5rem; }
-  html.nav-collapsed .place:not([hidden]),
   html.nav-collapsed .week-progress:not([hidden]) { display: block; }
+  .side .place { display: none; }
+  .side:has(#nav.open) .place:not([hidden]) { display: block; margin: 0.45rem 0 0; }
+  .side .place-list { max-height: 8rem; }
   body { overflow-x: clip; }
   .layout {
     display: block;
@@ -1690,11 +1692,12 @@ article ul:has(> .task) {
     overflow-wrap: anywhere;
     word-break: break-word;
   }
-  .mark { width: 2.05rem; height: 2.05rem; }
-  article :is(h1, h2, h3) .mark { opacity: 1; }
+  .mark { width: 1.6rem; height: 1.6rem; }
+  .mark svg { width: 0.8rem; height: 0.8rem; }
+  article .mark:not([aria-pressed="true"]) { opacity: 0.45; border-color: transparent; background: transparent; }
   .week-head .mark { margin-top: 0.1rem; }
   article .q,
-  article > blockquote { padding-right: 2.7rem; max-width: 100%; box-sizing: border-box; }
+  article > blockquote { padding-right: 2rem; max-width: 100%; box-sizing: border-box; }
   .table-wrap {
     margin: 1rem 0 1.2rem;
     width: 100%;
