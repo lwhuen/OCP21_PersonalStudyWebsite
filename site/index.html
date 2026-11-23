@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#0e4a48">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="OCP 21">
-<link rel="stylesheet" href="style.css?v=2fc8908505">
+<link rel="stylesheet" href="style.css?v=b7f5efbb81">
 </head>
 <body>
 <a class="skip" href="#content">跳到本文</a>
@@ -19,10 +19,12 @@
 <aside class="side">
 <div class="side-head">
 <a class="brand" href="index.html" aria-current="page"><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<div class="head-tools">
+<button type="button" class="place-btn" aria-expanded="false" aria-controls="place" aria-label="收藏" title="收藏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg><span class="place-badge" hidden></span></button>
 <button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
 </div>
+</div>
 <div id="week-progress" class="week-progress" hidden></div>
-<div id="place" class="place" hidden></div>
 <div id="nav">
 <label class="find">搜尋
 <input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
@@ -33,6 +35,7 @@
 </nav>
 </div>
 </aside>
+<div id="place" class="place" role="dialog" aria-label="收藏" hidden></div>
 <main id="content">
 <div class="home">
 <header class="hero">
@@ -44,7 +47,6 @@
 <a id="due" class="resume due-card" href="review.html" hidden></a>
 <div id="overall" class="overall" hidden></div>
 </div>
-<div id="place-home" class="place-home" hidden></div>
 </header>
 <ol class="weeks">
 <li><h2>開始<span class="done-badge" hidden>已完成</span></h2><p class="when">先看溫習方法，再對每一天</p><p class="go"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></p></li><li data-week="第 1 週"><h2>第 1 週<span class="done-badge" hidden>已完成</span></h2><p class="when">型別、運算、流程</p><p class="go"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></p></li><li data-week="第 2 週"><h2>第 2 週<span class="done-badge" hidden>已完成</span></h2><p class="when">方法、文字、陣列</p><p class="go"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></p></li><li data-week="第 3 週"><h2>第 3 週<span class="done-badge" hidden>已完成</span></h2><p class="when">類別與記憶體</p><p class="go"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></p></li><li data-week="第 4 週"><h2>第 4 週<span class="done-badge" hidden>已完成</span></h2><p class="when">繼承到模式比對</p><p class="go"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></p></li><li data-week="第 5 週"><h2>第 5 週<span class="done-badge" hidden>已完成</span></h2><p class="when">例外與日期時間 API</p><p class="go"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></p></li><li data-week="第 6 週"><h2>第 6 週<span class="done-badge" hidden>已完成</span></h2><p class="when">集合與泛型</p><p class="go"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></p></li><li data-week="第 7 週"><h2>第 7 週<span class="done-badge" hidden>已完成</span></h2><p class="when">lambda 與 stream</p><p class="go"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></p></li><li data-week="第 8 週"><h2>第 8 週<span class="done-badge" hidden>已完成</span></h2><p class="when">輸入輸出、模組、執行緒</p><p class="go"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></p></li>
@@ -52,6 +54,6 @@
 </div>
 </main>
 </div>
-<script src="search.js?v=2fc8908505"></script>
+<script src="search.js?v=b7f5efbb81"></script>
 </body>
 </html>

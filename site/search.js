@@ -246,7 +246,47 @@ paintDueBadges();
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
 const placeBox = document.querySelector("#place");
-const placeHome = document.querySelector("#place-home");
+const placeBtn = document.querySelector(".place-btn");
+
+function positionPlace() {
+  if (!placeBox || !placeBtn || placeBox.hidden) return;
+  const rect = placeBtn.getBoundingClientRect();
+  const width = Math.min(320, window.innerWidth - 16);
+  let left = rect.right - width;
+  if (left < 8) left = Math.min(rect.left, window.innerWidth - width - 8);
+  placeBox.style.width = width + "px";
+  placeBox.style.left = Math.max(8, left) + "px";
+  placeBox.style.top = rect.bottom + 8 + "px";
+}
+
+function setPlaceOpen(open) {
+  if (!placeBox || !placeBtn) return;
+  placeBox.hidden = !open;
+  placeBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  positionPlace();
+}
+
+if (placeBox && placeBtn) {
+  placeBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setPlaceOpen(placeBox.hidden);
+  });
+  placeBox.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setPlaceOpen(false);
+  });
+  document.addEventListener("click", (event) => {
+    const path = event.composedPath();
+    if (!placeBox.hidden && !path.includes(placeBox) && !path.includes(placeBtn)) setPlaceOpen(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !placeBox.hidden) {
+      setPlaceOpen(false);
+      placeBtn.focus();
+    }
+  });
+  window.addEventListener("resize", positionPlace);
+  window.addEventListener("scroll", positionPlace, { passive: true });
+}
 
 function readPlaces() {
   try {
@@ -363,14 +403,18 @@ function placeItemHtml(item) {
 
 function paintPlace() {
   const list = readPlaces();
-  [placeBox, placeHome].forEach((box) => {
+  const badge = placeBtn?.querySelector(".place-badge");
+  if (badge) {
+    badge.hidden = !list.length;
+    badge.textContent = list.length > 99 ? "99+" : String(list.length);
+  }
+  placeBtn?.classList.toggle("has", list.length > 0);
+  [placeBox].forEach((box) => {
     if (!box) return;
     if (!list.length) {
-      box.hidden = true;
-      box.innerHTML = "";
+      box.innerHTML = `<div class="place-head"><p>收藏</p></div><p class="place-empty">未有收藏。撳標題或者題目旁邊嘅書籤圖示就會收埋喺度。</p>`;
       return;
     }
-    box.hidden = false;
     const clearAll = list.length > 1
       ? `<button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`
       : "";

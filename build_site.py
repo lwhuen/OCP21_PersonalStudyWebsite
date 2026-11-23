@@ -595,10 +595,12 @@ def sidebar(current):
     return f"""<aside class="side">
 <div class="side-head">
 <a class="brand" href="index.html"{mark}><img src="favicon.svg" alt="" width="22" height="22">OCP Java 21</a>
+<div class="head-tools">
+<button type="button" class="place-btn" aria-expanded="false" aria-controls="place" aria-label="收藏" title="收藏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg><span class="place-badge" hidden></span></button>
 <button type="button" class="fold" aria-expanded="true" aria-controls="nav" aria-label="收起目錄"><svg class="icon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M14 9l-3 3 3 3"/></svg><svg class="icon-shut" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/><path d="M13 9l3 3-3 3"/></svg></button>
 </div>
+</div>
 <div id="week-progress" class="week-progress" hidden></div>
-<div id="place" class="place" hidden></div>
 <div id="nav">
 <label class="find">搜尋
 <input id="q" type="search" placeholder="詞、題目、規則" autocomplete="off">
@@ -608,7 +610,8 @@ def sidebar(current):
 {"".join(groups)}
 </nav>
 </div>
-</aside>"""
+</aside>
+<div id="place" class="place" role="dialog" aria-label="收藏" hidden></div>"""
 
 
 HOME_NOTE = {
@@ -646,7 +649,6 @@ def home():
 <a id="due" class="resume due-card" href="review.html" hidden></a>
 <div id="overall" class="overall" hidden></div>
 </div>
-<div id="place-home" class="place-home" hidden></div>
 </header>
 <ol class="weeks">
 {"".join(cards)}
@@ -927,18 +929,61 @@ main {
 }
 article { max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .crumb { margin: 0 0 0.85rem; color: var(--muted); font-size: 0.85rem; }
-.place, .place-home {
+.head-tools { display: flex; align-items: center; gap: 0.4rem; }
+html.nav-collapsed .head-tools { flex-direction: column; }
+.place-btn {
+  position: relative;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line);
   background: var(--paper);
-  border: 1px solid var(--accent-mid);
-  border-radius: 12px;
-  padding: 0.6rem 0.7rem;
-  box-shadow: var(--shadow);
+  color: var(--ink);
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 1px 0 rgba(36, 31, 28, 0.04);
 }
-.place { margin: 0.75rem 0.1rem 0; font-size: 0.82rem; }
-.place-home { margin: 1rem 0 0; max-width: 36rem; }
+.place-btn svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.place-btn.has svg { fill: currentColor; color: var(--accent); }
+.place-btn[aria-expanded="true"] { background: var(--accent-soft); border-color: var(--accent-mid); color: var(--accent); }
+.place-badge {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.25rem;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.62rem;
+  font-weight: 750;
+  line-height: 1;
+}
+.place {
+  position: fixed;
+  z-index: 80;
+  max-height: min(60vh, 26rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.65rem 0.7rem;
+  box-shadow: 0 14px 36px rgba(36, 31, 28, 0.16);
+  font-size: 0.82rem;
+}
 .place-head { display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; }
-.place p, .place-home p { margin: 0; color: var(--accent); font-weight: 650; font-size: 0.75rem; }
-.place-list { list-style: none; margin: 0.25rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.2rem; max-height: 11rem; overflow: auto; }
+.place p { margin: 0; color: var(--accent); font-weight: 650; font-size: 0.75rem; }
+.place .place-empty { margin-top: 0.35rem; color: var(--muted); font-weight: 500; font-size: 0.8rem; line-height: 1.5; }
+.place-list { list-style: none; margin: 0.35rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
 .place-item { display: flex; align-items: center; gap: 0.25rem; }
 .place-item a {
   flex: 1;
@@ -985,7 +1030,7 @@ article { max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .track span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #0d4845, #1a6b66); border-radius: inherit; }
 .week-progress small { display: block; margin-top: 0.22rem; color: var(--muted); font-size: 0.66rem; line-height: 1.3; }
 .week-progress .where { display: block; color: var(--ink); font-weight: 650; }
-html.nav-collapsed .place, html.nav-collapsed .week-progress { display: none; }
+html.nav-collapsed .week-progress { display: none; }
 .mark {
   width: 1.7rem;
   height: 1.7rem;
@@ -1834,9 +1879,6 @@ article ul:has(> .task) {
 @media (max-width: 860px) {
   html { scroll-padding-top: 5.5rem; }
   html.nav-collapsed .week-progress:not([hidden]) { display: block; }
-  .side .place { display: none; }
-  .side:has(#nav.open) .place:not([hidden]) { display: block; margin: 0.45rem 0 0; }
-  .side .place-list { max-height: 8rem; }
   body { overflow-x: clip; }
   .layout {
     display: block;
@@ -1900,7 +1942,7 @@ article ul:has(> .task) {
     text-overflow: ellipsis;
   }
   .week-progress .where::after { content: "·"; margin-left: 0.3rem; color: var(--muted); font-weight: 500; }
-  .fold { width: 2.5rem; height: 2.5rem; }
+  .fold, .place-btn { width: 2.5rem; height: 2.5rem; }
   #nav {
     display: none;
     max-height: min(70dvh, calc(100dvh - 5rem));
@@ -2274,7 +2316,47 @@ paintDueBadges();
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
 const placeBox = document.querySelector("#place");
-const placeHome = document.querySelector("#place-home");
+const placeBtn = document.querySelector(".place-btn");
+
+function positionPlace() {
+  if (!placeBox || !placeBtn || placeBox.hidden) return;
+  const rect = placeBtn.getBoundingClientRect();
+  const width = Math.min(320, window.innerWidth - 16);
+  let left = rect.right - width;
+  if (left < 8) left = Math.min(rect.left, window.innerWidth - width - 8);
+  placeBox.style.width = width + "px";
+  placeBox.style.left = Math.max(8, left) + "px";
+  placeBox.style.top = rect.bottom + 8 + "px";
+}
+
+function setPlaceOpen(open) {
+  if (!placeBox || !placeBtn) return;
+  placeBox.hidden = !open;
+  placeBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  positionPlace();
+}
+
+if (placeBox && placeBtn) {
+  placeBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setPlaceOpen(placeBox.hidden);
+  });
+  placeBox.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setPlaceOpen(false);
+  });
+  document.addEventListener("click", (event) => {
+    const path = event.composedPath();
+    if (!placeBox.hidden && !path.includes(placeBox) && !path.includes(placeBtn)) setPlaceOpen(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !placeBox.hidden) {
+      setPlaceOpen(false);
+      placeBtn.focus();
+    }
+  });
+  window.addEventListener("resize", positionPlace);
+  window.addEventListener("scroll", positionPlace, { passive: true });
+}
 
 function readPlaces() {
   try {
@@ -2391,14 +2473,18 @@ function placeItemHtml(item) {
 
 function paintPlace() {
   const list = readPlaces();
-  [placeBox, placeHome].forEach((box) => {
+  const badge = placeBtn?.querySelector(".place-badge");
+  if (badge) {
+    badge.hidden = !list.length;
+    badge.textContent = list.length > 99 ? "99+" : String(list.length);
+  }
+  placeBtn?.classList.toggle("has", list.length > 0);
+  [placeBox].forEach((box) => {
     if (!box) return;
     if (!list.length) {
-      box.hidden = true;
-      box.innerHTML = "";
+      box.innerHTML = `<div class="place-head"><p>收藏</p></div><p class="place-empty">未有收藏。撳標題或者題目旁邊嘅書籤圖示就會收埋喺度。</p>`;
       return;
     }
-    box.hidden = false;
     const clearAll = list.length > 1
       ? `<button type="button" class="place-clear" aria-label="清除全部收藏" title="清除全部"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`
       : "";

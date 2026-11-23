@@ -248,18 +248,61 @@ main {
 }
 article { max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .crumb { margin: 0 0 0.85rem; color: var(--muted); font-size: 0.85rem; }
-.place, .place-home {
+.head-tools { display: flex; align-items: center; gap: 0.4rem; }
+html.nav-collapsed .head-tools { flex-direction: column; }
+.place-btn {
+  position: relative;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line);
   background: var(--paper);
-  border: 1px solid var(--accent-mid);
-  border-radius: 12px;
-  padding: 0.6rem 0.7rem;
-  box-shadow: var(--shadow);
+  color: var(--ink);
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 1px 0 rgba(36, 31, 28, 0.04);
 }
-.place { margin: 0.75rem 0.1rem 0; font-size: 0.82rem; }
-.place-home { margin: 1rem 0 0; max-width: 36rem; }
+.place-btn svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.place-btn.has svg { fill: currentColor; color: var(--accent); }
+.place-btn[aria-expanded="true"] { background: var(--accent-soft); border-color: var(--accent-mid); color: var(--accent); }
+.place-badge {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.25rem;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.62rem;
+  font-weight: 750;
+  line-height: 1;
+}
+.place {
+  position: fixed;
+  z-index: 80;
+  max-height: min(60vh, 26rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.65rem 0.7rem;
+  box-shadow: 0 14px 36px rgba(36, 31, 28, 0.16);
+  font-size: 0.82rem;
+}
 .place-head { display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; }
-.place p, .place-home p { margin: 0; color: var(--accent); font-weight: 650; font-size: 0.75rem; }
-.place-list { list-style: none; margin: 0.25rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.2rem; max-height: 11rem; overflow: auto; }
+.place p { margin: 0; color: var(--accent); font-weight: 650; font-size: 0.75rem; }
+.place .place-empty { margin-top: 0.35rem; color: var(--muted); font-weight: 500; font-size: 0.8rem; line-height: 1.5; }
+.place-list { list-style: none; margin: 0.35rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
 .place-item { display: flex; align-items: center; gap: 0.25rem; }
 .place-item a {
   flex: 1;
@@ -306,7 +349,7 @@ article { max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .track span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #0d4845, #1a6b66); border-radius: inherit; }
 .week-progress small { display: block; margin-top: 0.22rem; color: var(--muted); font-size: 0.66rem; line-height: 1.3; }
 .week-progress .where { display: block; color: var(--ink); font-weight: 650; }
-html.nav-collapsed .place, html.nav-collapsed .week-progress { display: none; }
+html.nav-collapsed .week-progress { display: none; }
 .mark {
   width: 1.7rem;
   height: 1.7rem;
@@ -1155,9 +1198,6 @@ article ul:has(> .task) {
 @media (max-width: 860px) {
   html { scroll-padding-top: 5.5rem; }
   html.nav-collapsed .week-progress:not([hidden]) { display: block; }
-  .side .place { display: none; }
-  .side:has(#nav.open) .place:not([hidden]) { display: block; margin: 0.45rem 0 0; }
-  .side .place-list { max-height: 8rem; }
   body { overflow-x: clip; }
   .layout {
     display: block;
@@ -1221,7 +1261,7 @@ article ul:has(> .task) {
     text-overflow: ellipsis;
   }
   .week-progress .where::after { content: "·"; margin-left: 0.3rem; color: var(--muted); font-weight: 500; }
-  .fold { width: 2.5rem; height: 2.5rem; }
+  .fold, .place-btn { width: 2.5rem; height: 2.5rem; }
   #nav {
     display: none;
     max-height: min(70dvh, calc(100dvh - 5rem));
