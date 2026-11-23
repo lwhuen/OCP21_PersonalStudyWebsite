@@ -531,7 +531,7 @@ def shell(dest, title, body, lang):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>try{{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}}catch(e){{}}</script>
 <title>{html.escape(title)} · OCP Java 21</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+{head_links()}
 <link rel="stylesheet" href="style.css?v={ASSET_V}">
 </head>
 <body>
@@ -582,9 +582,11 @@ def sidebar(current):
         else:
             if name == "開始":
                 review_attr = ' aria-current="page"' if current == "review.html" else ""
+                stats_attr = ' aria-current="page"' if current == "stats.html" else ""
                 links.append(
                     f'<a href="review.html"{review_attr}>溫習題目<span class="due-count" hidden></span></a>'
                 )
+                links.append(f'<a href="stats.html"{stats_attr}>進度與錯題本</a>')
             groups.append(
                 f'<section class="{kind}"><h2>{html.escape(name)}</h2>'
                 f'<div class="links">{"".join(links)}</div></section>'
@@ -658,7 +660,7 @@ def home():
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>try{{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}}catch(e){{}}</script>
 <title>OCP Java 21</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+{head_links()}
 <link rel="stylesheet" href="style.css?v={ASSET_V}">
 </head>
 <body>
@@ -1248,7 +1250,153 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
 }
 kbd { font-family: inherit; font-size: 0.72rem; padding: 0.05rem 0.35rem; border-radius: 5px; background: rgba(255, 255, 255, 0.2); }
 .review-keys { color: var(--muted); font-size: 0.75rem; margin-top: 1.4rem; }
-@media (hover: none) { .review-keys, .next-q kbd { display: none; } }
+.q-actions { margin-left: auto; display: inline-flex; gap: 0.4rem; }
+.q-actions .redo { margin-left: 0; }
+.note-toggle, .self-ok, .self-bad {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--ink);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+}
+.note-toggle[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.self-ok { background: var(--accent); color: white; border-color: var(--accent); }
+.self-bad { color: #8a4b33; border-color: #e0c6b8; }
+.q-status kbd { background: rgba(0, 0, 0, 0.08); }
+.self-ok kbd { background: rgba(255, 255, 255, 0.22); }
+.q-note { flex-basis: 100%; display: flex; flex-direction: column; gap: 0.3rem; }
+.q-note textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 5.5rem;
+  resize: vertical;
+  font-family: Consolas, "Cascadia Mono", monospace;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: #fffef9;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+}
+.q-note textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(14, 74, 72, 0.12); }
+.q-note small { color: var(--muted); font-size: 0.72rem; }
+.card-q {
+  margin: 0.75rem 0 1.5rem;
+  padding: 1.1rem 1rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf9;
+}
+.card-label { margin: 0 0 0.6rem; color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em; }
+.card-term { font-size: 1.35rem; font-weight: 750; line-height: 1.35; margin-bottom: 0.9rem; overflow-wrap: anywhere; }
+.card-term code { font-size: 1em; background: #f3eee6; padding: 0.05em 0.3em; border-radius: 5px; white-space: normal; }
+.card-q .answer { font-size: 1rem; line-height: 1.7; }
+.review-deck.mock .reveal, .review-deck.mock .q-status { display: none !important; }
+.review-deck .q[data-mock-no]::before {
+  content: "第 " attr(data-mock-no) " 題";
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+.review-bar.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+  margin: 0 -0.25rem 0.5rem;
+  padding: 0.6rem 0.25rem;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.review-bar.sticky p { flex: 1; min-width: 12rem; }
+.review-bar.sticky .track { flex-basis: 100%; order: 3; margin-top: 0; }
+.review-bar.sticky .next-q { padding: 0.45rem 1.1rem; }
+.mock-clock { font-variant-numeric: tabular-nums; color: var(--accent); }
+.mock-clock.low { color: #b4532f; }
+.mock-result { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.9rem 1rem; border-radius: 12px; margin-bottom: 0.5rem; }
+.mock-result.pass { background: var(--accent-soft); }
+.mock-result.fail { background: #f6e7df; }
+.mock-result strong { font-size: 1.35rem; }
+.mock-result span { font-size: 0.85rem; color: var(--muted); }
+.only-wrong { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 650; margin-top: 0.3rem; cursor: pointer; }
+.review-empty .next-q { align-self: flex-start; margin-top: 0.5rem; }
+.gloss-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0.6rem 0 0.4rem; }
+.gloss-tools span { color: var(--muted); font-size: 0.8rem; display: none; }
+.gloss-hide .gloss-tools span { display: inline; }
+.gloss-quiz {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 650;
+  color: var(--ink);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.4rem 0.95rem;
+  cursor: pointer;
+}
+.gloss-quiz[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
+.gloss-hide article td:nth-child(2) { cursor: pointer; transition: filter 0.15s ease; }
+.gloss-hide article td:nth-child(2):not(.peek) { filter: blur(6px); user-select: none; }
+.stats h2 { margin: 2rem 0 0.7rem; font-size: 1.15rem; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); gap: 0.6rem; margin-top: 1rem; }
+.stat { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.8rem 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: #fbf8f3; }
+.stat small { color: var(--muted); font-size: 0.75rem; font-weight: 650; }
+.stat strong { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 0.75rem; }
+.week-rows { display: flex; flex-direction: column; gap: 0.45rem; }
+.week-row { display: grid; grid-template-columns: 4.2rem 1fr 3rem 5rem; align-items: center; gap: 0.6rem; font-size: 0.88rem; }
+.week-row .wk { font-weight: 700; }
+.week-row .track { margin: 0; height: 0.5rem; }
+.week-row.low .track span { background: linear-gradient(90deg, #c66a3d, #dd8d5f); }
+.week-row .num { font-weight: 750; text-align: right; font-variant-numeric: tabular-nums; }
+.week-row small { color: var(--muted); font-size: 0.75rem; }
+.week-row.none { opacity: 0.55; }
+.stats-hint { color: var(--muted); font-size: 0.85rem; margin: 0.5rem 0; }
+.weak-list { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.weak-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+.weak-list span { color: #8a4b33; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mock-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.mock-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; padding: 0.55rem 0.8rem; border: 1px solid var(--line); border-radius: 10px; background: #fbf8f3; font-size: 0.88rem; }
+.mock-list small { color: var(--muted); margin-left: auto; }
+.badge { font-size: 0.72rem; font-weight: 750; padding: 0.1rem 0.55rem; border-radius: 999px; }
+.badge.pass { color: var(--accent); background: var(--accent-soft); }
+.badge.fail { color: #8a4b33; background: #f6e7df; }
+.note-card { margin: 0 0 0.7rem; padding: 0.7rem 0.85rem; border: 1px solid var(--line); border-radius: 10px; background: #fffdf9; }
+.note-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 650; margin-bottom: 0.4rem; }
+.note-card pre { margin: 0; white-space: pre-wrap; font-size: 0.86rem; line-height: 1.55; padding: 0.55rem 0.7rem; }
+.sync { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.file-btn {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  color: var(--accent);
+  background: white;
+  border: 1px solid var(--accent-mid);
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+}
+.file-btn:hover { background: var(--accent-soft); }
+@media (max-width: 860px) {
+  .review-bar.sticky { top: 3.6rem; margin: 0 -1rem 0.5rem; padding: 0.55rem 1rem; }
+  .week-row { grid-template-columns: 3.8rem 1fr 2.6rem; }
+  .week-row small { display: none; }
+  .q-actions { margin-left: 0; }
+}
+@media (hover: none) { .review-keys, kbd { display: none; } }
 .table-wrap { overflow-x: auto; max-width: 100%; margin: 1rem 0 1.2rem; border: 1px solid var(--line); border-radius: 8px; }
 table { border-collapse: collapse; width: 100%; font-size: 0.95rem; line-height: 1.5; }
 th, td { padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
@@ -1909,11 +2057,25 @@ function srsCounts() {
   const until = dayStart(Date.now()) + DAY_MS;
   let due = 0;
   let wrong = 0;
+  let seen = 0;
   Object.values(map).forEach((entry) => {
+    if (entry.k === "p") return;
+    seen++;
     if (entry.d < until) due++;
     if (entry.w > 0) wrong++;
   });
-  return { due, wrong, seen: Object.keys(map).length };
+  return { due, wrong, seen };
+}
+
+function readNotes() {
+  try { return JSON.parse(localStorage.getItem("ocp-notes") || "{}") || {}; } catch (error) { return {}; }
+}
+
+function saveNote(id, text) {
+  const map = readNotes();
+  if (text.trim()) map[id] = text;
+  else delete map[id];
+  try { localStorage.setItem("ocp-notes", JSON.stringify(map)); } catch (error) {}
 }
 
 function paintDueBadges() {
@@ -2487,6 +2649,21 @@ function isCorrect(q) {
   return !!key && picks === key;
 }
 
+function isSelf(host) {
+  return !host.classList.contains("q");
+}
+
+function isOpen(host) {
+  const panel = host.querySelector(".answer");
+  return !!panel && !panel.hidden;
+}
+
+function hostKind(host) {
+  if (host.classList.contains("q")) return "q";
+  if (host.classList.contains("card-q")) return "c";
+  return "p";
+}
+
 function recordResult(q, ok) {
   const map = readSrs();
   const id = srsId(q);
@@ -2497,7 +2674,8 @@ function recordResult(q, ok) {
     d: dayStart(Date.now()) + SRS_GAPS[box] * DAY_MS,
     w: prev.w + (ok ? 0 : 1),
     r: ok ? 1 : 0,
-    n: prev.n + 1
+    n: prev.n + 1,
+    k: hostKind(q)
   };
   writeSrs(map);
   paintDueBadges();
@@ -2510,45 +2688,102 @@ function dueText(entry) {
   return days + " 日後再溫";
 }
 
-function paintStatus(q) {
-  let box = q.querySelector(":scope > .q-status");
-  const entry = readSrs()[srsId(q)];
-  if (!q.classList.contains("shown") || !entry) {
-    if (box) box.hidden = true;
-    return;
-  }
+function statusBox(host) {
+  let box = host.querySelector(":scope > .q-status");
   if (!box) {
     box = document.createElement("div");
     box.className = "q-status";
-    const anchor = q.querySelector(":scope > .reveal");
+    const anchor = host.querySelector(":scope > .reveal");
     if (anchor) anchor.after(box);
-    else q.append(box);
+    else host.append(box);
   }
-  const ok = entry.r === 1;
-  const miss = entry.w > 0 ? ` · 錯過 ${entry.w} 次` : "";
-  box.hidden = false;
-  box.className = "q-status " + (ok ? "ok" : "bad");
-  box.innerHTML = `<span class="verdict">${ok ? "答啱" : "答錯"}</span><span class="when-next">${dueText(entry)}${miss}</span><button type="button" class="redo">重做</button>`;
-  box.querySelector(".redo").addEventListener("click", () => resetQuestion(q));
+  return box;
 }
 
-function setAnswerOpen(host, show) {
+function fitArea(area) {
+  area.style.height = "auto";
+  area.style.height = Math.max(area.scrollHeight, 88) + "px";
+}
+
+function paintStatus(host, openNote) {
+  const existing = host.querySelector(":scope > .q-status");
+  if (!isOpen(host)) {
+    if (existing) existing.hidden = true;
+    return;
+  }
+  if (isSelf(host) && host.dataset.done !== "1") {
+    const box = statusBox(host);
+    box.hidden = false;
+    box.className = "q-status ask";
+    const prompt = host.classList.contains("card-q") ? "諗到嘅意思啱唔啱？" : "對完答案，自己評分：";
+    box.innerHTML = `<span class="when-next">${prompt}</span><span class="q-actions"><button type="button" class="self-ok">我答啱<kbd>1</kbd></button><button type="button" class="self-bad">我答錯<kbd>2</kbd></button></span>`;
+    box.querySelector(".self-ok").addEventListener("click", () => gradeSelf(host, true));
+    box.querySelector(".self-bad").addEventListener("click", () => gradeSelf(host, false));
+    return;
+  }
+  const entry = readSrs()[srsId(host)];
+  if (!entry) {
+    if (existing) existing.hidden = true;
+    return;
+  }
+  const box = statusBox(host);
+  const ok = entry.r === 1;
+  const miss = entry.w > 0 ? ` · 錯過 ${entry.w} 次` : "";
+  const note = readNotes()[srsId(host)] || "";
+  box.hidden = false;
+  box.className = "q-status " + (ok ? "ok" : "bad");
+  box.innerHTML = `<span class="verdict">${ok ? "答啱" : "答錯"}</span><span class="when-next">${dueText(entry)}${miss}</span><span class="q-actions"><button type="button" class="note-toggle" aria-expanded="false">${note ? "筆記 ✓" : "寫筆記"}</button><button type="button" class="redo">重做</button></span><div class="q-note" hidden><textarea rows="3" placeholder="規則（一句）：&#10;五行程式："></textarea><small>自動儲存 · 喺「進度與錯題本」睇晒所有筆記</small></div>`;
+  const area = box.querySelector("textarea");
+  const wrap = box.querySelector(".q-note");
+  const toggle = box.querySelector(".note-toggle");
+  area.value = note;
+  const showNote = (on) => {
+    wrap.hidden = !on;
+    toggle.setAttribute("aria-expanded", on ? "true" : "false");
+    if (on) fitArea(area);
+  };
+  if (note || openNote) showNote(true);
+  toggle.addEventListener("click", () => {
+    showNote(wrap.hidden);
+    if (!wrap.hidden) area.focus();
+  });
+  area.addEventListener("input", () => {
+    saveNote(srsId(host), area.value);
+    toggle.textContent = area.value.trim() ? "筆記 ✓" : "寫筆記";
+    fitArea(area);
+  });
+  box.querySelector(".redo").addEventListener("click", () => resetQuestion(host));
+}
+
+function gradeSelf(host, ok) {
+  if (host.dataset.done === "1") return;
+  host.dataset.done = "1";
+  recordResult(host, ok);
+  paintStatus(host, !ok);
+  saveQuestion(host);
+  host.dispatchEvent(new CustomEvent("q:graded", { bubbles: true, detail: { ok } }));
+}
+
+function setAnswerOpen(host, show, quiet) {
   const panel = host.querySelector(".answer");
   const button = host.querySelector(".reveal");
   if (!panel) return;
   panel.hidden = !show;
   if (button) paintReveal(button, show);
-  if (host.classList.contains("q")) {
+  if (!isSelf(host)) {
     host.classList.toggle("shown", show);
     grade(host);
     if (show && host.dataset.done !== "1") {
       host.dataset.done = "1";
       const ok = isCorrect(host);
       recordResult(host, ok);
+      paintStatus(host, !ok && !quiet);
+      saveQuestion(host);
       host.dispatchEvent(new CustomEvent("q:graded", { bubbles: true, detail: { ok } }));
+      return;
     }
-    paintStatus(host);
   }
+  paintStatus(host);
   saveQuestion(host);
 }
 
@@ -2616,7 +2851,7 @@ document.querySelectorAll(".q").forEach((q) => {
 });
 
 document.querySelectorAll(".reveal").forEach((button) => {
-  const host = button.closest(".q, .kept");
+  const host = button.closest(".q, .kept, .card-q");
   const panel = host ? host.querySelector(".answer") : null;
   if (!panel) return;
   paintReveal(button, !panel.hidden);
@@ -2625,7 +2860,7 @@ document.querySelectorAll(".reveal").forEach((button) => {
 
 const deck = document.querySelector("#review-deck");
 if (deck) {
-  const cards = [...deck.querySelectorAll(".q")];
+  const cards = [...deck.querySelectorAll(".q, .card-q")];
   const bar = document.querySelector("#review-bar");
   const empty = document.querySelector("#review-empty");
   const nextWrap = document.querySelector("#review-next");
@@ -2634,6 +2869,7 @@ if (deck) {
   let pos = 0;
   let right = 0;
   let mode = "";
+  let mock = null;
 
   const shuffle = (list) => {
     const copy = list.slice();
@@ -2651,26 +2887,40 @@ if (deck) {
     cards.forEach((q) => {
       if (localStorage.getItem("ocp-week-done:" + q.dataset.week) === "1" || map[srsId(q)]) weeks.add(q.dataset.week);
     });
+    const questions = cards.filter((q) => q.classList.contains("q"));
+    const mix = questions.filter((q) => weeks.has(q.dataset.week));
     return {
       due: cards.filter((q) => map[srsId(q)] && map[srsId(q)].d < until),
       wrong: cards.filter((q) => map[srsId(q)] && map[srsId(q)].w > 0),
-      mix: cards.filter((q) => weeks.has(q.dataset.week))
+      mix,
+      flash: cards.filter((q) => q.classList.contains("card-q") && weeks.has(q.dataset.week)),
+      mock: mix
     };
   }
 
   function paintModes() {
     const sets = pools();
     modes.forEach((button) => {
-      const count = sets[button.dataset.mode].length;
+      const name = button.dataset.mode;
+      const count = name === "mock" ? Math.min(50, sets.mock.length) : sets[name].length;
       button.querySelector("span").textContent = count;
       button.disabled = !count;
-      button.setAttribute("aria-selected", button.dataset.mode === mode ? "true" : "false");
+      button.setAttribute("aria-selected", name === mode ? "true" : "false");
     });
     return sets;
   }
 
+  function hideAll() {
+    cards.forEach((q) => {
+      q.hidden = true;
+      delete q.dataset.mockNo;
+    });
+    deck.classList.remove("mock");
+    bar.classList.remove("sticky");
+  }
+
   function showMessage(text) {
-    cards.forEach((q) => { q.hidden = true; });
+    hideAll();
     bar.hidden = true;
     nextWrap.hidden = true;
     empty.innerHTML = text;
@@ -2678,7 +2928,7 @@ if (deck) {
   }
 
   function show(index) {
-    cards.forEach((q) => { q.hidden = true; });
+    hideAll();
     empty.hidden = true;
     nextWrap.hidden = true;
     if (index >= queue.length) {
@@ -2690,17 +2940,31 @@ if (deck) {
     resetQuestion(q);
     q.hidden = false;
     const pct = Math.round((index / queue.length) * 100);
-    bar.innerHTML = `<p><span>${index + 1} / ${queue.length}</span><a href="${esc(q.dataset.href)}#${esc(q.dataset.qid)}">${esc(q.dataset.where)}</a></p><div class="track"><span style="width:${pct}%"></span></div>`;
+    const href = q.classList.contains("q") ? `${q.dataset.href}#${q.dataset.qid}` : q.dataset.href;
+    bar.innerHTML = `<p><span>${index + 1} / ${queue.length}</span><a href="${esc(href)}">${esc(q.dataset.where)}</a></p><div class="track"><span style="width:${pct}%"></span></div>`;
     bar.hidden = false;
     if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function stopMock() {
+    if (!mock) return;
+    clearInterval(mock.timer);
+    mock = null;
+  }
+
   function start(next) {
+    if (mock && mock.timer && !confirm("放棄今次模擬考？")) return;
+    stopMock();
     mode = next;
     const sets = paintModes();
+    if (mode === "mock") {
+      mockIntro(sets.mock);
+      return;
+    }
     let list = shuffle(sets[mode] || []);
     if (mode === "mix") list = list.slice(0, 10);
+    if (mode === "flash") list = list.slice(0, 20);
     queue = list;
     pos = 0;
     right = 0;
@@ -2710,6 +2974,90 @@ if (deck) {
     }
     show(0);
   }
+
+  function mockIntro(pool) {
+    queue = [];
+    const list = shuffle(pool).slice(0, 50);
+    if (!list.length) {
+      showMessage("<strong>未有題目</strong><span>喺目錄標記完成一週，或者喺筆記做幾題，就可以考模擬試。</span>");
+      return;
+    }
+    const minutes = Math.max(1, Math.round(list.length * 2.4));
+    const short = list.length < 50 ? `<span>已學範圍得 ${list.length} 題，時間按真考試比例計。</span>` : "";
+    showMessage(`<strong>模擬考：${list.length} 題，${minutes} 分鐘</strong><span>題目由已學範圍抽。中途唔顯示答案，交卷先一次過改分。合格線係 68%。</span>${short}<button type="button" class="next-q mock-go">開始計時</button>`);
+    empty.querySelector(".mock-go").addEventListener("click", () => runMock(list, minutes));
+  }
+
+  function runMock(list, minutes) {
+    hideAll();
+    empty.hidden = true;
+    nextWrap.hidden = true;
+    deck.classList.add("mock");
+    list.forEach((q, index) => {
+      resetQuestion(q);
+      q.dataset.mockNo = String(index + 1);
+      q.hidden = false;
+      deck.append(q);
+    });
+    mock = { list, end: Date.now() + minutes * 60000, started: Date.now(), timer: 0 };
+    bar.innerHTML = `<p><span class="mock-clock"></span><span class="mock-count"></span></p><div class="track"><span></span></div><button type="button" class="next-q mock-submit">交卷</button>`;
+    bar.classList.add("sticky");
+    bar.hidden = false;
+    bar.querySelector(".mock-submit").addEventListener("click", () => submitMock(false));
+    mock.tick = () => {
+      if (!mock || !mock.timer) return;
+      const left = Math.max(0, mock.end - Date.now());
+      const answered = mock.list.filter((q) => q.querySelector('.choice[aria-pressed="true"]')).length;
+      const clock = bar.querySelector(".mock-clock");
+      clock.textContent = `剩餘 ${Math.floor(left / 60000)}:${String(Math.floor((left % 60000) / 1000)).padStart(2, "0")}`;
+      clock.classList.toggle("low", left < 300000);
+      bar.querySelector(".mock-count").textContent = `已答 ${answered} / ${mock.list.length}`;
+      bar.querySelector(".track span").style.width = Math.round((answered / mock.list.length) * 100) + "%";
+      if (!left) submitMock(true);
+    };
+    mock.timer = setInterval(mock.tick, 1000);
+    mock.tick();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function submitMock(auto) {
+    if (!mock || !mock.timer) return;
+    const unanswered = mock.list.filter((q) => !q.querySelector('.choice[aria-pressed="true"]')).length;
+    if (!auto && unanswered && !confirm(`仲有 ${unanswered} 題未答，確定交卷？`)) return;
+    clearInterval(mock.timer);
+    mock.timer = 0;
+    deck.classList.remove("mock");
+    bar.classList.remove("sticky");
+    let score = 0;
+    mock.list.forEach((q) => {
+      if (isCorrect(q)) score++;
+      setAnswerOpen(q, true, true);
+    });
+    const total = mock.list.length;
+    const rate = Math.round((score / total) * 100);
+    const pass = score / total >= 0.68;
+    const used = Math.max(1, Math.round((Date.now() - mock.started) / 60000));
+    let history = [];
+    try { history = JSON.parse(localStorage.getItem("ocp-mocks") || "[]"); } catch (error) {}
+    history.push({ t: Date.now(), s: score, n: total, m: used });
+    try { localStorage.setItem("ocp-mocks", JSON.stringify(history)); } catch (error) {}
+    const need = Math.ceil(total * 0.68);
+    bar.innerHTML = `<div class="mock-result ${pass ? "pass" : "fail"}"><strong>${score} / ${total}（${rate}%）</strong><span>${pass ? "過咗 68% 合格線" : `未過 68% 合格線，要 ${need} 題`} · 用咗 ${used} 分鐘${auto ? " · 時間到自動交卷" : ""}</span><label class="only-wrong"><input type="checkbox"> 只睇錯題</label></div>`;
+    const list = mock.list;
+    bar.querySelector(".only-wrong input").addEventListener("change", (event) => {
+      list.forEach((q) => { q.hidden = event.target.checked && isCorrect(q); });
+    });
+    paintModes();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  deck.addEventListener("click", () => { if (mock && mock.tick) mock.tick(); });
+  window.addEventListener("beforeunload", (event) => {
+    if (mock && mock.timer) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  });
 
   deck.addEventListener("q:graded", (event) => {
     if (event.target !== queue[pos]) return;
@@ -2729,11 +3077,14 @@ if (deck) {
     const q = queue[pos];
     if (!q || q.hidden) return;
     const key = event.key.toUpperCase();
-    if (/^[A-H]$/.test(key) && !q.classList.contains("shown")) {
+    if (isSelf(q) && isOpen(q) && q.dataset.done !== "1" && (event.key === "1" || event.key === "2")) {
+      gradeSelf(q, event.key === "1");
+      event.preventDefault();
+    } else if (/^[A-H]$/.test(key) && !isOpen(q)) {
       q.querySelector(`.choice[data-letter="${key}"]`)?.click();
       event.preventDefault();
-    } else if (event.key === "Enter" && !event.target.closest(".mode, .next-q, .redo, a")) {
-      if (!q.classList.contains("shown")) q.querySelector(".reveal")?.click();
+    } else if (event.key === "Enter" && !event.target.closest(".mode, .next-q, .redo, .note-toggle, .self-ok, .self-bad, a")) {
+      if (!isOpen(q)) q.querySelector(".reveal")?.click();
       else if (!nextWrap.hidden) nextWrap.querySelector(".next-q").click();
       event.preventDefault();
     } else if (event.key === "ArrowRight" && !nextWrap.hidden) {
@@ -2743,7 +3094,7 @@ if (deck) {
   });
 
   const sets = paintModes();
-  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : "mix");
+  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : sets.mix.length ? "mix" : "flash");
 }
 
 document.querySelectorAll(".kept").forEach((host) => {
@@ -2754,7 +3105,147 @@ document.querySelectorAll(".kept").forEach((host) => {
   const button = host.querySelector(".reveal");
   if (panel) panel.hidden = false;
   if (button) paintReveal(button, true);
+  if (readSrs()[srsId(host)]) host.dataset.done = "1";
+  paintStatus(host);
 });
+
+if (/-glossary\.html$/.test(fileName())) {
+  const firstHead = document.querySelector("article h2");
+  if (firstHead) {
+    const tools = document.createElement("div");
+    tools.className = "gloss-tools";
+    tools.innerHTML = `<button type="button" class="gloss-quiz" aria-pressed="false"></button><span>撳一格解釋就睇到，再撳收返</span>`;
+    firstHead.before(tools);
+    const button = tools.querySelector("button");
+    const root = document.documentElement;
+    const paint = (on) => {
+      root.classList.toggle("gloss-hide", on);
+      button.setAttribute("aria-pressed", on ? "true" : "false");
+      button.textContent = on ? "顯示全部解釋" : "遮住解釋自測";
+      document.querySelectorAll("article td.peek").forEach((cell) => cell.classList.remove("peek"));
+    };
+    paint(localStorage.getItem("ocp-gloss-hide") === "1");
+    button.addEventListener("click", () => {
+      const on = !root.classList.contains("gloss-hide");
+      try { localStorage.setItem("ocp-gloss-hide", on ? "1" : "0"); } catch (error) {}
+      paint(on);
+    });
+    document.querySelector("article").addEventListener("click", (event) => {
+      if (!root.classList.contains("gloss-hide")) return;
+      const cell = event.target.closest("td:nth-child(2)");
+      if (cell) cell.classList.toggle("peek");
+    });
+  }
+}
+
+const statsMeta = window.STATS_META;
+if (statsMeta && document.querySelector("#stats-overview")) {
+  const map = readSrs();
+  const notes = readNotes();
+  const qs = statsMeta.filter((item) => item.k === "q");
+  const flash = statsMeta.filter((item) => item.k === "c");
+  const tried = qs.filter((item) => map[item.id]);
+  const right = tried.filter((item) => map[item.id].r === 1);
+  const flashTried = flash.filter((item) => map[item.id]);
+  const flashRight = flashTried.filter((item) => map[item.id].r === 1);
+  const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
+  const { due, wrong } = srsCounts();
+  const tile = (label, value, sub) => `<div class="stat"><small>${label}</small><strong>${value}</strong><span>${sub}</span></div>`;
+  document.querySelector("#stats-overview").innerHTML = [
+    tile("做過題目", `${tried.length} / ${qs.length}`, `覆蓋 ${pct(tried.length, qs.length)}%`),
+    tile("最近正確率", tried.length ? pct(right.length, tried.length) + "%" : "—", "每題計最近一次"),
+    tile("今日到期", String(due), `錯過嘅題 ${wrong} 題`),
+    tile("詞彙卡", `${flashTried.length} / ${flash.length}`, flashTried.length ? `識 ${pct(flashRight.length, flashTried.length)}%` : "未開始")
+  ].join("");
+
+  const weeks = [...new Set(qs.map((item) => item.w))];
+  document.querySelector("#stats-weeks").innerHTML = `<div class="week-rows">${weeks.map((week) => {
+    const all = qs.filter((item) => item.w === week);
+    const done = all.filter((item) => map[item.id]);
+    const ok = done.filter((item) => map[item.id].r === 1);
+    const rate = pct(ok.length, done.length);
+    const cls = !done.length ? "none" : rate >= 70 ? "good" : "low";
+    return `<div class="week-row ${cls}"><span class="wk">${esc(week)}</span><div class="track"><span style="width:${done.length ? rate : 0}%"></span></div><span class="num">${done.length ? rate + "%" : "—"}</span><small>${done.length} / ${all.length} 題</small></div>`;
+  }).join("")}</div><p class="stats-hint">綠色係到咗每週 70% 門檻，橙色係未到。</p>`;
+
+  const groups = new Map();
+  qs.forEach((item) => {
+    if (!map[item.id]) return;
+    const key = item.w + " · " + item.c;
+    const group = groups.get(key) || { key, href: item.h.split("#")[0], n: 0, ok: 0 };
+    group.n++;
+    if (map[item.id].r === 1) group.ok++;
+    groups.set(key, group);
+  });
+  const weak = [...groups.values()].filter((group) => group.n >= 3).sort((a, b) => a.ok / a.n - b.ok / b.n || b.n - a.n).slice(0, 3);
+  document.querySelector("#stats-weak").innerHTML = weak.length
+    ? `<ol class="weak-list">${weak.map((group) => `<li><a href="${esc(group.href)}">${esc(group.key)}</a><span>${group.ok} / ${group.n}（${pct(group.ok, group.n)}%）</span></li>`).join("")}</ol>`
+    : `<p class="stats-hint">每章做夠 3 題先有排名。</p>`;
+
+  let mocks = [];
+  try { mocks = JSON.parse(localStorage.getItem("ocp-mocks") || "[]"); } catch (error) {}
+  document.querySelector("#stats-mocks").innerHTML = mocks.length
+    ? `<ul class="mock-list">${mocks.slice().reverse().map((item) => {
+        const rate = pct(item.s, item.n);
+        const pass = item.s / item.n >= 0.68;
+        return `<li><span>${new Date(item.t).toLocaleDateString("zh-HK")}</span><strong>${item.s} / ${item.n}（${rate}%）</strong><span class="badge ${pass ? "pass" : "fail"}">${pass ? "合格" : "未合格"}</span><small>${item.m} 分鐘</small></li>`;
+      }).join("")}</ul>`
+    : `<p class="stats-hint">未做過。去「溫習題目」揀「模擬考」。</p>`;
+
+  const known = new Map(statsMeta.map((item) => [item.id, item]));
+  const noteIds = Object.keys(notes).sort((a, b) => {
+    const ia = statsMeta.findIndex((item) => item.id === a);
+    const ib = statsMeta.findIndex((item) => item.id === b);
+    return (ia < 0 ? 1e9 : ia) - (ib < 0 ? 1e9 : ib);
+  });
+  document.querySelector("#stats-notes").innerHTML = noteIds.length
+    ? noteIds.map((id) => {
+        const item = known.get(id);
+        const label = item ? `<a href="${esc(item.h)}">${esc(item.l)}</a>` : esc(id);
+        const entry = map[id];
+        const miss = entry && entry.w ? `<span class="badge fail">錯過 ${entry.w} 次</span>` : "";
+        return `<div class="note-card"><div class="note-head">${label}${miss}</div><pre>${esc(notes[id])}</pre></div>`;
+      }).join("")
+    : `<p class="stats-hint">答錯一題之後喺題目下面撳「寫筆記」，筆記會集中喺呢度。</p>`;
+}
+
+document.querySelector("#export")?.addEventListener("click", () => {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith("ocp-")) data[key] = localStorage.getItem(key);
+  }
+  const blob = new Blob([JSON.stringify({ app: "ocp21", v: 1, at: new Date().toISOString(), data })], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "ocp21-progress-" + new Date().toISOString().slice(0, 10) + ".json";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(link.href), 2000);
+});
+
+document.querySelector("#import")?.addEventListener("change", async (event) => {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  try {
+    const json = JSON.parse(await file.text());
+    if (!json || json.app !== "ocp21" || !json.data) throw new Error("bad file");
+    if (confirm("匯入會用檔案入面嘅記錄覆蓋呢部機嘅記錄，確定？")) {
+      Object.keys(localStorage).filter((key) => key.startsWith("ocp-")).forEach((key) => localStorage.removeItem(key));
+      Object.entries(json.data).forEach(([key, value]) => localStorage.setItem(key, value));
+      alert("匯入完成");
+      location.reload();
+    }
+  } catch (error) {
+    alert("唔係有效嘅進度檔");
+  }
+  event.target.value = "";
+});
+
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
 """
 
 
@@ -2774,6 +3265,7 @@ def extract_questions(dest, body):
         for match in re.finditer(r'<h1 id="[^"]+">(.*?)</h1>', body, flags=re.S)
     ]
     found = []
+    meta = []
     for match in re.finditer(r'<section class="q" id="([^"]+)"(.*?)</section>', body, flags=re.S):
         chapter = ""
         for start, title in heads:
@@ -2782,43 +3274,84 @@ def extract_questions(dest, body):
         chapter = re.sub(r"^Chapter\s+\d+\s*[—–-]\s*", "", chapter)
         qid = match.group(1)
         number = qid.rsplit("-", 1)[-1]
+        where = f"{week} · {chapter} · {number}"
         section = (
             f'<section class="q" id="r-{html.escape(dest[:-5])}-{html.escape(qid)}" '
             f'data-href="{html.escape(dest)}" data-week="{html.escape(week)}" '
-            f'data-where="{html.escape(f"{week} · {chapter} · {number}")}"'
+            f'data-where="{html.escape(where)}"'
             f"{match.group(2)}</section>"
         )
         found.append(section)
-    return found
+        meta.append({"id": f"{dest}|{qid}", "k": "q", "w": week, "c": chapter, "h": f"{dest}#{qid}", "l": where})
+    for match in re.finditer(r'<h3 id="([^"]+)">(.*?)</h3><div class="kept" data-qid="([^"]+)"', body, flags=re.S):
+        meta.append({
+            "id": f"{dest}|{match.group(3)}",
+            "k": "p",
+            "w": week,
+            "c": "練習",
+            "h": f"{dest}#{match.group(1)}",
+            "l": f"{week} · {plain_text(match.group(2))}",
+        })
+    return found, meta
 
 
-def review_page(questions):
-    nav = sidebar("review.html")
-    body = f"""<div class="sheet review">
-<p class="crumb">開始 · 溫習題目</p>
-<h1>溫習題目</h1>
-<p class="review-lead">一次一題。先揀答案，再揭曉。答錯嘅題聽日再出，答啱就隔耐啲先再出。</p>
-<div class="review-modes" role="tablist" aria-label="溫習模式">
-<button type="button" class="mode" data-mode="due">今日到期<span></span></button>
-<button type="button" class="mode" data-mode="wrong">錯題<span></span></button>
-<button type="button" class="mode" data-mode="mix">已學範圍隨機<span></span></button>
-</div>
-<div id="review-bar" class="review-bar" hidden></div>
-<div id="review-empty" class="review-empty" hidden></div>
-<div id="review-deck" class="review-deck">
-{"".join(questions)}
-</div>
-<div id="review-next" class="review-next" hidden><button type="button" class="next-q">下一題<kbd>→</kbd></button></div>
-<p class="review-keys">鍵盤：A–H 揀答案 · Enter 揭曉 · → 下一題</p>
-</div>"""
+def extract_cards(dest, body):
+    week = place_name(dest).split(" · ")[0]
+    token = re.compile(
+        r'<h2 id="[^"]+">(.*?)</h2>|<tr>\s*<td>(.*?)</td>\s*<td>(.*?)</td>\s*</tr>',
+        flags=re.S,
+    )
+    section = ""
+    seen = set()
+    found = []
+    meta = []
+    for match in token.finditer(body):
+        if match.group(1) is not None:
+            section = plain_text(match.group(1))
+            continue
+        term_html, meaning = match.group(2), match.group(3)
+        term = plain_text(term_html)
+        base = "term-" + slugify(term, "-")
+        slug = base
+        count = 2
+        while slug in seen:
+            slug = f"{base}-{count}"
+            count += 1
+        seen.add(slug)
+        where = f"{week} · 詞彙 · {term}"
+        found.append(
+            f'<section class="card-q" id="r-{html.escape(dest[:-5])}-{html.escape(slug)}" '
+            f'data-href="{html.escape(dest)}" data-qid="{html.escape(slug)}" '
+            f'data-week="{html.escape(week)}" data-where="{html.escape(where)}">'
+            f'<p class="card-label">詞彙卡 · {html.escape(section)}</p>'
+            f'<div class="card-term">{term_html}</div>'
+            f'{reveal_button()}<div class="answer" hidden><p>{meaning}</p></div></section>'
+        )
+        meta.append({"id": f"{dest}|{slug}", "k": "c", "w": week, "c": "詞彙", "h": dest, "l": where})
+    return found, meta
+
+
+def head_links():
+    return (
+        '<link rel="icon" href="favicon.svg" type="image/svg+xml">\n'
+        '<link rel="manifest" href="manifest.webmanifest">\n'
+        '<link rel="apple-touch-icon" href="icon-192.png">\n'
+        '<meta name="theme-color" content="#0e4a48">\n'
+        '<meta name="apple-mobile-web-app-capable" content="yes">\n'
+        '<meta name="apple-mobile-web-app-title" content="OCP 21">'
+    )
+
+
+def plain_page(dest, title, body, extra=""):
+    nav = sidebar(dest)
     return f"""<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>try{{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}}catch(e){{}}</script>
-<title>溫習題目 · OCP Java 21</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>{html.escape(title)} · OCP Java 21</title>
+{head_links()}
 <link rel="stylesheet" href="style.css?v={ASSET_V}">
 </head>
 <body>
@@ -2829,10 +3362,55 @@ def review_page(questions):
 {body}
 </main>
 </div>
-<script src="search.js?v={ASSET_V}"></script>
+{extra}<script src="search.js?v={ASSET_V}"></script>
 </body>
 </html>
 """
+
+
+def stats_page(meta):
+    import json
+    body = """<div class="sheet stats">
+<p class="crumb">開始 · 進度與錯題本</p>
+<h1>進度與錯題本</h1>
+<div id="stats-overview" class="stat-grid"></div>
+<h2>按週正確率</h2>
+<div id="stats-weeks"></div>
+<h2>最弱三個章節</h2>
+<div id="stats-weak"></div>
+<h2>模擬考紀錄</h2>
+<div id="stats-mocks"></div>
+<h2>錯題本</h2>
+<div id="stats-notes"></div>
+<h2>備份同搬機</h2>
+<p class="stats-hint">記錄只儲喺呢個瀏覽器。匯出成檔案，再喺另一部機匯入，就可以搬記錄。清瀏覽器資料之前記得匯出。</p>
+<div class="sync"><button type="button" id="export" class="next-q">匯出進度</button><label class="file-btn">匯入進度<input id="import" type="file" accept="application/json,.json" hidden></label></div>
+</div>"""
+    data = json.dumps(meta, ensure_ascii=False).replace("</", "<\\/")
+    return plain_page("stats.html", "進度與錯題本", body, f"<script>window.STATS_META = {data};</script>\n")
+
+
+def review_page(questions):
+    body = f"""<div class="sheet review">
+<p class="crumb">開始 · 溫習題目</p>
+<h1>溫習題目</h1>
+<p class="review-lead">一次一題。先揀答案，再揭曉。答錯嘅題聽日再出，答啱就隔耐啲先再出。</p>
+<div class="review-modes" role="tablist" aria-label="溫習模式">
+<button type="button" class="mode" data-mode="due">今日到期<span></span></button>
+<button type="button" class="mode" data-mode="wrong">錯題<span></span></button>
+<button type="button" class="mode" data-mode="mix">已學範圍隨機<span></span></button>
+<button type="button" class="mode" data-mode="flash">詞彙卡<span></span></button>
+<button type="button" class="mode" data-mode="mock">模擬考<span></span></button>
+</div>
+<div id="review-bar" class="review-bar" hidden></div>
+<div id="review-empty" class="review-empty" hidden></div>
+<div id="review-deck" class="review-deck">
+{"".join(questions)}
+</div>
+<div id="review-next" class="review-next" hidden><button type="button" class="next-q">下一題<kbd>→</kbd></button></div>
+<p class="review-keys">鍵盤：A–H 揀答案 · Enter 揭曉 · 1／2 自評 · → 下一題</p>
+</div>"""
+    return plain_page("review.html", "溫習題目", body)
 
 
 def notes_outline(body):
@@ -2861,7 +3439,8 @@ def notes_outline(body):
 
 def main():
     global ASSET_V
-    ASSET_V = hashlib.sha1((CSS + SEARCH_JS).encode("utf-8")).hexdigest()[:10]
+    sources = "".join((ROOT / src).read_text(encoding="utf-8") for _, _, src in FLAT)
+    ASSET_V = hashlib.sha1((CSS + SEARCH_JS + sources).encode("utf-8")).hexdigest()[:10]
     OUT.mkdir(exist_ok=True)
     (OUT / "favicon.svg").write_text(FAVICON, encoding="utf-8")
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
@@ -2869,11 +3448,19 @@ def main():
     index = []
     outline = []
     questions = []
+    flashcards = []
+    meta = []
     for dest, label, src in FLAT:
         text = (ROOT / src).read_text(encoding="utf-8")
         body = render_markdown(text)
         if dest.endswith("-notes.html"):
-            questions.extend(extract_questions(dest, body))
+            found, found_meta = extract_questions(dest, body)
+            questions.extend(found)
+            meta.extend(found_meta)
+        if dest.endswith("-glossary.html"):
+            found, found_meta = extract_cards(dest, body)
+            flashcards.extend(found)
+            meta.extend(found_meta)
         title = title_of(body, label)
         lang = "zh-Hant" if dest == "strategy.html" else "en"
         (OUT / dest).write_text(shell(dest, title, body, lang), encoding="utf-8")
@@ -2904,9 +3491,101 @@ def main():
         encoding="utf-8",
     )
     (OUT / "index.html").write_text(home(), encoding="utf-8")
-    (OUT / "review.html").write_text(review_page(questions), encoding="utf-8")
-    print("questions", len(questions))
-    print("pages", len(FLAT) + 2)
+    (OUT / "review.html").write_text(review_page(questions + flashcards), encoding="utf-8")
+    (OUT / "stats.html").write_text(stats_page(meta), encoding="utf-8")
+    write_app_files()
+    print("questions", len(questions), "cards", len(flashcards))
+    print("pages", len(FLAT) + 3)
+
+
+def write_icons():
+    from PIL import Image, ImageDraw
+
+    for size in (192, 512):
+        scale = 4
+        big = size * scale
+        image = Image.new("RGB", (big, big), "#0e4a48")
+        draw = ImageDraw.Draw(image)
+        unit = big / 32 * 0.95
+
+        def at(x, y):
+            return (big / 2 + (x - 16) * unit, big / 2 + (y - 16.9) * unit)
+
+        draw.polygon([at(8, 8), at(18, 8), at(24, 14), at(24, 25.8), at(8, 25.8)], fill="#fffdf8")
+        draw.polygon([at(18, 8), at(18, 14), at(24, 14)], fill="#d5e6e2")
+        width = max(1, round(1.4 * unit))
+        draw.line([at(11.2, 17.2), at(19.6, 17.2)], fill="#0e4a48", width=width)
+        draw.line([at(11.2, 20.4), at(16.6, 20.4)], fill="#0e4a48", width=width)
+        image.resize((size, size), Image.LANCZOS).save(OUT / f"icon-{size}.png")
+
+
+def write_app_files():
+    import json
+
+    write_icons()
+    manifest = {
+        "name": "OCP Java 21 溫習站",
+        "short_name": "OCP 21",
+        "start_url": "./index.html",
+        "scope": "./",
+        "display": "standalone",
+        "background_color": "#f4f0e8",
+        "theme_color": "#0e4a48",
+        "lang": "zh-Hant",
+        "icons": [
+            {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+            {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+        ],
+    }
+    (OUT / "manifest.webmanifest").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
+    pages = sorted(path.name for path in OUT.glob("*.html"))
+    assets = ["./", *pages, f"style.css?v={ASSET_V}", f"search.js?v={ASSET_V}",
+              "favicon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"]
+    digest = hashlib.sha1()
+    for name in pages + ["search.js", "style.css"]:
+        digest.update((OUT / name).read_bytes())
+    worker = SW_JS.replace("__CACHE__", "ocp21-" + digest.hexdigest()[:10]).replace(
+        "__ASSETS__", json.dumps(assets, ensure_ascii=False)
+    )
+    (OUT / "sw.js").write_text(worker, encoding="utf-8")
+
+
+SW_JS = r"""const CACHE = "__CACHE__";
+const ASSETS = __ASSETS__;
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
+  if (request.method !== "GET" || new URL(request.url).origin !== location.origin) return;
+  const keep = (response) => {
+    if (response.ok) {
+      const copy = response.clone();
+      caches.open(CACHE).then((cache) => cache.put(request, copy));
+    }
+    return response;
+  };
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request).then(keep).catch(() =>
+        caches.match(request, { ignoreSearch: true }).then((hit) => hit || caches.match("index.html"))
+      )
+    );
+    return;
+  }
+  event.respondWith(caches.match(request).then((hit) => hit || fetch(request).then(keep)));
+});
+"""
 
 
 if __name__ == "__main__":

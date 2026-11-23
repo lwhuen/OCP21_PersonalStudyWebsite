@@ -29,11 +29,25 @@ function srsCounts() {
   const until = dayStart(Date.now()) + DAY_MS;
   let due = 0;
   let wrong = 0;
+  let seen = 0;
   Object.values(map).forEach((entry) => {
+    if (entry.k === "p") return;
+    seen++;
     if (entry.d < until) due++;
     if (entry.w > 0) wrong++;
   });
-  return { due, wrong, seen: Object.keys(map).length };
+  return { due, wrong, seen };
+}
+
+function readNotes() {
+  try { return JSON.parse(localStorage.getItem("ocp-notes") || "{}") || {}; } catch (error) { return {}; }
+}
+
+function saveNote(id, text) {
+  const map = readNotes();
+  if (text.trim()) map[id] = text;
+  else delete map[id];
+  try { localStorage.setItem("ocp-notes", JSON.stringify(map)); } catch (error) {}
 }
 
 function paintDueBadges() {
@@ -607,6 +621,21 @@ function isCorrect(q) {
   return !!key && picks === key;
 }
 
+function isSelf(host) {
+  return !host.classList.contains("q");
+}
+
+function isOpen(host) {
+  const panel = host.querySelector(".answer");
+  return !!panel && !panel.hidden;
+}
+
+function hostKind(host) {
+  if (host.classList.contains("q")) return "q";
+  if (host.classList.contains("card-q")) return "c";
+  return "p";
+}
+
 function recordResult(q, ok) {
   const map = readSrs();
   const id = srsId(q);
@@ -617,7 +646,8 @@ function recordResult(q, ok) {
     d: dayStart(Date.now()) + SRS_GAPS[box] * DAY_MS,
     w: prev.w + (ok ? 0 : 1),
     r: ok ? 1 : 0,
-    n: prev.n + 1
+    n: prev.n + 1,
+    k: hostKind(q)
   };
   writeSrs(map);
   paintDueBadges();
@@ -630,45 +660,102 @@ function dueText(entry) {
   return days + " 日後再溫";
 }
 
-function paintStatus(q) {
-  let box = q.querySelector(":scope > .q-status");
-  const entry = readSrs()[srsId(q)];
-  if (!q.classList.contains("shown") || !entry) {
-    if (box) box.hidden = true;
-    return;
-  }
+function statusBox(host) {
+  let box = host.querySelector(":scope > .q-status");
   if (!box) {
     box = document.createElement("div");
     box.className = "q-status";
-    const anchor = q.querySelector(":scope > .reveal");
+    const anchor = host.querySelector(":scope > .reveal");
     if (anchor) anchor.after(box);
-    else q.append(box);
+    else host.append(box);
   }
-  const ok = entry.r === 1;
-  const miss = entry.w > 0 ? ` · 錯過 ${entry.w} 次` : "";
-  box.hidden = false;
-  box.className = "q-status " + (ok ? "ok" : "bad");
-  box.innerHTML = `<span class="verdict">${ok ? "答啱" : "答錯"}</span><span class="when-next">${dueText(entry)}${miss}</span><button type="button" class="redo">重做</button>`;
-  box.querySelector(".redo").addEventListener("click", () => resetQuestion(q));
+  return box;
 }
 
-function setAnswerOpen(host, show) {
+function fitArea(area) {
+  area.style.height = "auto";
+  area.style.height = Math.max(area.scrollHeight, 88) + "px";
+}
+
+function paintStatus(host, openNote) {
+  const existing = host.querySelector(":scope > .q-status");
+  if (!isOpen(host)) {
+    if (existing) existing.hidden = true;
+    return;
+  }
+  if (isSelf(host) && host.dataset.done !== "1") {
+    const box = statusBox(host);
+    box.hidden = false;
+    box.className = "q-status ask";
+    const prompt = host.classList.contains("card-q") ? "諗到嘅意思啱唔啱？" : "對完答案，自己評分：";
+    box.innerHTML = `<span class="when-next">${prompt}</span><span class="q-actions"><button type="button" class="self-ok">我答啱<kbd>1</kbd></button><button type="button" class="self-bad">我答錯<kbd>2</kbd></button></span>`;
+    box.querySelector(".self-ok").addEventListener("click", () => gradeSelf(host, true));
+    box.querySelector(".self-bad").addEventListener("click", () => gradeSelf(host, false));
+    return;
+  }
+  const entry = readSrs()[srsId(host)];
+  if (!entry) {
+    if (existing) existing.hidden = true;
+    return;
+  }
+  const box = statusBox(host);
+  const ok = entry.r === 1;
+  const miss = entry.w > 0 ? ` · 錯過 ${entry.w} 次` : "";
+  const note = readNotes()[srsId(host)] || "";
+  box.hidden = false;
+  box.className = "q-status " + (ok ? "ok" : "bad");
+  box.innerHTML = `<span class="verdict">${ok ? "答啱" : "答錯"}</span><span class="when-next">${dueText(entry)}${miss}</span><span class="q-actions"><button type="button" class="note-toggle" aria-expanded="false">${note ? "筆記 ✓" : "寫筆記"}</button><button type="button" class="redo">重做</button></span><div class="q-note" hidden><textarea rows="3" placeholder="規則（一句）：&#10;五行程式："></textarea><small>自動儲存 · 喺「進度與錯題本」睇晒所有筆記</small></div>`;
+  const area = box.querySelector("textarea");
+  const wrap = box.querySelector(".q-note");
+  const toggle = box.querySelector(".note-toggle");
+  area.value = note;
+  const showNote = (on) => {
+    wrap.hidden = !on;
+    toggle.setAttribute("aria-expanded", on ? "true" : "false");
+    if (on) fitArea(area);
+  };
+  if (note || openNote) showNote(true);
+  toggle.addEventListener("click", () => {
+    showNote(wrap.hidden);
+    if (!wrap.hidden) area.focus();
+  });
+  area.addEventListener("input", () => {
+    saveNote(srsId(host), area.value);
+    toggle.textContent = area.value.trim() ? "筆記 ✓" : "寫筆記";
+    fitArea(area);
+  });
+  box.querySelector(".redo").addEventListener("click", () => resetQuestion(host));
+}
+
+function gradeSelf(host, ok) {
+  if (host.dataset.done === "1") return;
+  host.dataset.done = "1";
+  recordResult(host, ok);
+  paintStatus(host, !ok);
+  saveQuestion(host);
+  host.dispatchEvent(new CustomEvent("q:graded", { bubbles: true, detail: { ok } }));
+}
+
+function setAnswerOpen(host, show, quiet) {
   const panel = host.querySelector(".answer");
   const button = host.querySelector(".reveal");
   if (!panel) return;
   panel.hidden = !show;
   if (button) paintReveal(button, show);
-  if (host.classList.contains("q")) {
+  if (!isSelf(host)) {
     host.classList.toggle("shown", show);
     grade(host);
     if (show && host.dataset.done !== "1") {
       host.dataset.done = "1";
       const ok = isCorrect(host);
       recordResult(host, ok);
+      paintStatus(host, !ok && !quiet);
+      saveQuestion(host);
       host.dispatchEvent(new CustomEvent("q:graded", { bubbles: true, detail: { ok } }));
+      return;
     }
-    paintStatus(host);
   }
+  paintStatus(host);
   saveQuestion(host);
 }
 
@@ -736,7 +823,7 @@ document.querySelectorAll(".q").forEach((q) => {
 });
 
 document.querySelectorAll(".reveal").forEach((button) => {
-  const host = button.closest(".q, .kept");
+  const host = button.closest(".q, .kept, .card-q");
   const panel = host ? host.querySelector(".answer") : null;
   if (!panel) return;
   paintReveal(button, !panel.hidden);
@@ -745,7 +832,7 @@ document.querySelectorAll(".reveal").forEach((button) => {
 
 const deck = document.querySelector("#review-deck");
 if (deck) {
-  const cards = [...deck.querySelectorAll(".q")];
+  const cards = [...deck.querySelectorAll(".q, .card-q")];
   const bar = document.querySelector("#review-bar");
   const empty = document.querySelector("#review-empty");
   const nextWrap = document.querySelector("#review-next");
@@ -754,6 +841,7 @@ if (deck) {
   let pos = 0;
   let right = 0;
   let mode = "";
+  let mock = null;
 
   const shuffle = (list) => {
     const copy = list.slice();
@@ -771,26 +859,40 @@ if (deck) {
     cards.forEach((q) => {
       if (localStorage.getItem("ocp-week-done:" + q.dataset.week) === "1" || map[srsId(q)]) weeks.add(q.dataset.week);
     });
+    const questions = cards.filter((q) => q.classList.contains("q"));
+    const mix = questions.filter((q) => weeks.has(q.dataset.week));
     return {
       due: cards.filter((q) => map[srsId(q)] && map[srsId(q)].d < until),
       wrong: cards.filter((q) => map[srsId(q)] && map[srsId(q)].w > 0),
-      mix: cards.filter((q) => weeks.has(q.dataset.week))
+      mix,
+      flash: cards.filter((q) => q.classList.contains("card-q") && weeks.has(q.dataset.week)),
+      mock: mix
     };
   }
 
   function paintModes() {
     const sets = pools();
     modes.forEach((button) => {
-      const count = sets[button.dataset.mode].length;
+      const name = button.dataset.mode;
+      const count = name === "mock" ? Math.min(50, sets.mock.length) : sets[name].length;
       button.querySelector("span").textContent = count;
       button.disabled = !count;
-      button.setAttribute("aria-selected", button.dataset.mode === mode ? "true" : "false");
+      button.setAttribute("aria-selected", name === mode ? "true" : "false");
     });
     return sets;
   }
 
+  function hideAll() {
+    cards.forEach((q) => {
+      q.hidden = true;
+      delete q.dataset.mockNo;
+    });
+    deck.classList.remove("mock");
+    bar.classList.remove("sticky");
+  }
+
   function showMessage(text) {
-    cards.forEach((q) => { q.hidden = true; });
+    hideAll();
     bar.hidden = true;
     nextWrap.hidden = true;
     empty.innerHTML = text;
@@ -798,7 +900,7 @@ if (deck) {
   }
 
   function show(index) {
-    cards.forEach((q) => { q.hidden = true; });
+    hideAll();
     empty.hidden = true;
     nextWrap.hidden = true;
     if (index >= queue.length) {
@@ -810,17 +912,31 @@ if (deck) {
     resetQuestion(q);
     q.hidden = false;
     const pct = Math.round((index / queue.length) * 100);
-    bar.innerHTML = `<p><span>${index + 1} / ${queue.length}</span><a href="${esc(q.dataset.href)}#${esc(q.dataset.qid)}">${esc(q.dataset.where)}</a></p><div class="track"><span style="width:${pct}%"></span></div>`;
+    const href = q.classList.contains("q") ? `${q.dataset.href}#${q.dataset.qid}` : q.dataset.href;
+    bar.innerHTML = `<p><span>${index + 1} / ${queue.length}</span><a href="${esc(href)}">${esc(q.dataset.where)}</a></p><div class="track"><span style="width:${pct}%"></span></div>`;
     bar.hidden = false;
     if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function stopMock() {
+    if (!mock) return;
+    clearInterval(mock.timer);
+    mock = null;
+  }
+
   function start(next) {
+    if (mock && mock.timer && !confirm("放棄今次模擬考？")) return;
+    stopMock();
     mode = next;
     const sets = paintModes();
+    if (mode === "mock") {
+      mockIntro(sets.mock);
+      return;
+    }
     let list = shuffle(sets[mode] || []);
     if (mode === "mix") list = list.slice(0, 10);
+    if (mode === "flash") list = list.slice(0, 20);
     queue = list;
     pos = 0;
     right = 0;
@@ -830,6 +946,90 @@ if (deck) {
     }
     show(0);
   }
+
+  function mockIntro(pool) {
+    queue = [];
+    const list = shuffle(pool).slice(0, 50);
+    if (!list.length) {
+      showMessage("<strong>未有題目</strong><span>喺目錄標記完成一週，或者喺筆記做幾題，就可以考模擬試。</span>");
+      return;
+    }
+    const minutes = Math.max(1, Math.round(list.length * 2.4));
+    const short = list.length < 50 ? `<span>已學範圍得 ${list.length} 題，時間按真考試比例計。</span>` : "";
+    showMessage(`<strong>模擬考：${list.length} 題，${minutes} 分鐘</strong><span>題目由已學範圍抽。中途唔顯示答案，交卷先一次過改分。合格線係 68%。</span>${short}<button type="button" class="next-q mock-go">開始計時</button>`);
+    empty.querySelector(".mock-go").addEventListener("click", () => runMock(list, minutes));
+  }
+
+  function runMock(list, minutes) {
+    hideAll();
+    empty.hidden = true;
+    nextWrap.hidden = true;
+    deck.classList.add("mock");
+    list.forEach((q, index) => {
+      resetQuestion(q);
+      q.dataset.mockNo = String(index + 1);
+      q.hidden = false;
+      deck.append(q);
+    });
+    mock = { list, end: Date.now() + minutes * 60000, started: Date.now(), timer: 0 };
+    bar.innerHTML = `<p><span class="mock-clock"></span><span class="mock-count"></span></p><div class="track"><span></span></div><button type="button" class="next-q mock-submit">交卷</button>`;
+    bar.classList.add("sticky");
+    bar.hidden = false;
+    bar.querySelector(".mock-submit").addEventListener("click", () => submitMock(false));
+    mock.tick = () => {
+      if (!mock || !mock.timer) return;
+      const left = Math.max(0, mock.end - Date.now());
+      const answered = mock.list.filter((q) => q.querySelector('.choice[aria-pressed="true"]')).length;
+      const clock = bar.querySelector(".mock-clock");
+      clock.textContent = `剩餘 ${Math.floor(left / 60000)}:${String(Math.floor((left % 60000) / 1000)).padStart(2, "0")}`;
+      clock.classList.toggle("low", left < 300000);
+      bar.querySelector(".mock-count").textContent = `已答 ${answered} / ${mock.list.length}`;
+      bar.querySelector(".track span").style.width = Math.round((answered / mock.list.length) * 100) + "%";
+      if (!left) submitMock(true);
+    };
+    mock.timer = setInterval(mock.tick, 1000);
+    mock.tick();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function submitMock(auto) {
+    if (!mock || !mock.timer) return;
+    const unanswered = mock.list.filter((q) => !q.querySelector('.choice[aria-pressed="true"]')).length;
+    if (!auto && unanswered && !confirm(`仲有 ${unanswered} 題未答，確定交卷？`)) return;
+    clearInterval(mock.timer);
+    mock.timer = 0;
+    deck.classList.remove("mock");
+    bar.classList.remove("sticky");
+    let score = 0;
+    mock.list.forEach((q) => {
+      if (isCorrect(q)) score++;
+      setAnswerOpen(q, true, true);
+    });
+    const total = mock.list.length;
+    const rate = Math.round((score / total) * 100);
+    const pass = score / total >= 0.68;
+    const used = Math.max(1, Math.round((Date.now() - mock.started) / 60000));
+    let history = [];
+    try { history = JSON.parse(localStorage.getItem("ocp-mocks") || "[]"); } catch (error) {}
+    history.push({ t: Date.now(), s: score, n: total, m: used });
+    try { localStorage.setItem("ocp-mocks", JSON.stringify(history)); } catch (error) {}
+    const need = Math.ceil(total * 0.68);
+    bar.innerHTML = `<div class="mock-result ${pass ? "pass" : "fail"}"><strong>${score} / ${total}（${rate}%）</strong><span>${pass ? "過咗 68% 合格線" : `未過 68% 合格線，要 ${need} 題`} · 用咗 ${used} 分鐘${auto ? " · 時間到自動交卷" : ""}</span><label class="only-wrong"><input type="checkbox"> 只睇錯題</label></div>`;
+    const list = mock.list;
+    bar.querySelector(".only-wrong input").addEventListener("change", (event) => {
+      list.forEach((q) => { q.hidden = event.target.checked && isCorrect(q); });
+    });
+    paintModes();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  deck.addEventListener("click", () => { if (mock && mock.tick) mock.tick(); });
+  window.addEventListener("beforeunload", (event) => {
+    if (mock && mock.timer) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  });
 
   deck.addEventListener("q:graded", (event) => {
     if (event.target !== queue[pos]) return;
@@ -849,11 +1049,14 @@ if (deck) {
     const q = queue[pos];
     if (!q || q.hidden) return;
     const key = event.key.toUpperCase();
-    if (/^[A-H]$/.test(key) && !q.classList.contains("shown")) {
+    if (isSelf(q) && isOpen(q) && q.dataset.done !== "1" && (event.key === "1" || event.key === "2")) {
+      gradeSelf(q, event.key === "1");
+      event.preventDefault();
+    } else if (/^[A-H]$/.test(key) && !isOpen(q)) {
       q.querySelector(`.choice[data-letter="${key}"]`)?.click();
       event.preventDefault();
-    } else if (event.key === "Enter" && !event.target.closest(".mode, .next-q, .redo, a")) {
-      if (!q.classList.contains("shown")) q.querySelector(".reveal")?.click();
+    } else if (event.key === "Enter" && !event.target.closest(".mode, .next-q, .redo, .note-toggle, .self-ok, .self-bad, a")) {
+      if (!isOpen(q)) q.querySelector(".reveal")?.click();
       else if (!nextWrap.hidden) nextWrap.querySelector(".next-q").click();
       event.preventDefault();
     } else if (event.key === "ArrowRight" && !nextWrap.hidden) {
@@ -863,7 +1066,7 @@ if (deck) {
   });
 
   const sets = paintModes();
-  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : "mix");
+  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : sets.mix.length ? "mix" : "flash");
 }
 
 document.querySelectorAll(".kept").forEach((host) => {
@@ -874,4 +1077,144 @@ document.querySelectorAll(".kept").forEach((host) => {
   const button = host.querySelector(".reveal");
   if (panel) panel.hidden = false;
   if (button) paintReveal(button, true);
+  if (readSrs()[srsId(host)]) host.dataset.done = "1";
+  paintStatus(host);
 });
+
+if (/-glossary\.html$/.test(fileName())) {
+  const firstHead = document.querySelector("article h2");
+  if (firstHead) {
+    const tools = document.createElement("div");
+    tools.className = "gloss-tools";
+    tools.innerHTML = `<button type="button" class="gloss-quiz" aria-pressed="false"></button><span>撳一格解釋就睇到，再撳收返</span>`;
+    firstHead.before(tools);
+    const button = tools.querySelector("button");
+    const root = document.documentElement;
+    const paint = (on) => {
+      root.classList.toggle("gloss-hide", on);
+      button.setAttribute("aria-pressed", on ? "true" : "false");
+      button.textContent = on ? "顯示全部解釋" : "遮住解釋自測";
+      document.querySelectorAll("article td.peek").forEach((cell) => cell.classList.remove("peek"));
+    };
+    paint(localStorage.getItem("ocp-gloss-hide") === "1");
+    button.addEventListener("click", () => {
+      const on = !root.classList.contains("gloss-hide");
+      try { localStorage.setItem("ocp-gloss-hide", on ? "1" : "0"); } catch (error) {}
+      paint(on);
+    });
+    document.querySelector("article").addEventListener("click", (event) => {
+      if (!root.classList.contains("gloss-hide")) return;
+      const cell = event.target.closest("td:nth-child(2)");
+      if (cell) cell.classList.toggle("peek");
+    });
+  }
+}
+
+const statsMeta = window.STATS_META;
+if (statsMeta && document.querySelector("#stats-overview")) {
+  const map = readSrs();
+  const notes = readNotes();
+  const qs = statsMeta.filter((item) => item.k === "q");
+  const flash = statsMeta.filter((item) => item.k === "c");
+  const tried = qs.filter((item) => map[item.id]);
+  const right = tried.filter((item) => map[item.id].r === 1);
+  const flashTried = flash.filter((item) => map[item.id]);
+  const flashRight = flashTried.filter((item) => map[item.id].r === 1);
+  const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
+  const { due, wrong } = srsCounts();
+  const tile = (label, value, sub) => `<div class="stat"><small>${label}</small><strong>${value}</strong><span>${sub}</span></div>`;
+  document.querySelector("#stats-overview").innerHTML = [
+    tile("做過題目", `${tried.length} / ${qs.length}`, `覆蓋 ${pct(tried.length, qs.length)}%`),
+    tile("最近正確率", tried.length ? pct(right.length, tried.length) + "%" : "—", "每題計最近一次"),
+    tile("今日到期", String(due), `錯過嘅題 ${wrong} 題`),
+    tile("詞彙卡", `${flashTried.length} / ${flash.length}`, flashTried.length ? `識 ${pct(flashRight.length, flashTried.length)}%` : "未開始")
+  ].join("");
+
+  const weeks = [...new Set(qs.map((item) => item.w))];
+  document.querySelector("#stats-weeks").innerHTML = `<div class="week-rows">${weeks.map((week) => {
+    const all = qs.filter((item) => item.w === week);
+    const done = all.filter((item) => map[item.id]);
+    const ok = done.filter((item) => map[item.id].r === 1);
+    const rate = pct(ok.length, done.length);
+    const cls = !done.length ? "none" : rate >= 70 ? "good" : "low";
+    return `<div class="week-row ${cls}"><span class="wk">${esc(week)}</span><div class="track"><span style="width:${done.length ? rate : 0}%"></span></div><span class="num">${done.length ? rate + "%" : "—"}</span><small>${done.length} / ${all.length} 題</small></div>`;
+  }).join("")}</div><p class="stats-hint">綠色係到咗每週 70% 門檻，橙色係未到。</p>`;
+
+  const groups = new Map();
+  qs.forEach((item) => {
+    if (!map[item.id]) return;
+    const key = item.w + " · " + item.c;
+    const group = groups.get(key) || { key, href: item.h.split("#")[0], n: 0, ok: 0 };
+    group.n++;
+    if (map[item.id].r === 1) group.ok++;
+    groups.set(key, group);
+  });
+  const weak = [...groups.values()].filter((group) => group.n >= 3).sort((a, b) => a.ok / a.n - b.ok / b.n || b.n - a.n).slice(0, 3);
+  document.querySelector("#stats-weak").innerHTML = weak.length
+    ? `<ol class="weak-list">${weak.map((group) => `<li><a href="${esc(group.href)}">${esc(group.key)}</a><span>${group.ok} / ${group.n}（${pct(group.ok, group.n)}%）</span></li>`).join("")}</ol>`
+    : `<p class="stats-hint">每章做夠 3 題先有排名。</p>`;
+
+  let mocks = [];
+  try { mocks = JSON.parse(localStorage.getItem("ocp-mocks") || "[]"); } catch (error) {}
+  document.querySelector("#stats-mocks").innerHTML = mocks.length
+    ? `<ul class="mock-list">${mocks.slice().reverse().map((item) => {
+        const rate = pct(item.s, item.n);
+        const pass = item.s / item.n >= 0.68;
+        return `<li><span>${new Date(item.t).toLocaleDateString("zh-HK")}</span><strong>${item.s} / ${item.n}（${rate}%）</strong><span class="badge ${pass ? "pass" : "fail"}">${pass ? "合格" : "未合格"}</span><small>${item.m} 分鐘</small></li>`;
+      }).join("")}</ul>`
+    : `<p class="stats-hint">未做過。去「溫習題目」揀「模擬考」。</p>`;
+
+  const known = new Map(statsMeta.map((item) => [item.id, item]));
+  const noteIds = Object.keys(notes).sort((a, b) => {
+    const ia = statsMeta.findIndex((item) => item.id === a);
+    const ib = statsMeta.findIndex((item) => item.id === b);
+    return (ia < 0 ? 1e9 : ia) - (ib < 0 ? 1e9 : ib);
+  });
+  document.querySelector("#stats-notes").innerHTML = noteIds.length
+    ? noteIds.map((id) => {
+        const item = known.get(id);
+        const label = item ? `<a href="${esc(item.h)}">${esc(item.l)}</a>` : esc(id);
+        const entry = map[id];
+        const miss = entry && entry.w ? `<span class="badge fail">錯過 ${entry.w} 次</span>` : "";
+        return `<div class="note-card"><div class="note-head">${label}${miss}</div><pre>${esc(notes[id])}</pre></div>`;
+      }).join("")
+    : `<p class="stats-hint">答錯一題之後喺題目下面撳「寫筆記」，筆記會集中喺呢度。</p>`;
+}
+
+document.querySelector("#export")?.addEventListener("click", () => {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith("ocp-")) data[key] = localStorage.getItem(key);
+  }
+  const blob = new Blob([JSON.stringify({ app: "ocp21", v: 1, at: new Date().toISOString(), data })], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "ocp21-progress-" + new Date().toISOString().slice(0, 10) + ".json";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(link.href), 2000);
+});
+
+document.querySelector("#import")?.addEventListener("change", async (event) => {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  try {
+    const json = JSON.parse(await file.text());
+    if (!json || json.app !== "ocp21" || !json.data) throw new Error("bad file");
+    if (confirm("匯入會用檔案入面嘅記錄覆蓋呢部機嘅記錄，確定？")) {
+      Object.keys(localStorage).filter((key) => key.startsWith("ocp-")).forEach((key) => localStorage.removeItem(key));
+      Object.entries(json.data).forEach(([key, value]) => localStorage.setItem(key, value));
+      alert("匯入完成");
+      location.reload();
+    }
+  } catch (error) {
+    alert("唔係有效嘅進度檔");
+  }
+  event.target.value = "";
+});
+
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
