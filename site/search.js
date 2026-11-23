@@ -133,9 +133,55 @@ try {
       const on = button.getAttribute("aria-pressed") !== "true";
       localStorage.setItem(key, on ? "1" : "0");
       paint(on);
+      paintHome();
     });
   });
 } catch (error) {}
+
+const LAST_KEY = "ocp-last";
+
+function saveLast(hash, where) {
+  const label = document.querySelector(".crumb")?.textContent?.trim();
+  if (!label) return;
+  try {
+    localStorage.setItem(LAST_KEY, JSON.stringify({
+      href: decodeURIComponent(location.pathname.split("/").pop() || "index.html") + (hash ? "#" + hash : ""),
+      label,
+      where: where || ""
+    }));
+  } catch (error) {}
+}
+
+function paintHome() {
+  const resume = document.querySelector("#resume");
+  const overall = document.querySelector("#overall");
+  if (!resume && !overall) return;
+  try {
+    const last = JSON.parse(localStorage.getItem(LAST_KEY) || "null");
+    if (resume && last && last.href) {
+      resume.href = last.href;
+      resume.innerHTML = `<small>繼續上次</small><strong>${esc(last.label)}</strong>${last.where ? `<span>${esc(last.where)}</span>` : ""}`;
+      resume.hidden = false;
+    }
+  } catch (error) {}
+  const cards = [...document.querySelectorAll(".weeks li[data-week]")];
+  let done = 0;
+  cards.forEach((card) => {
+    const on = localStorage.getItem("ocp-week-done:" + card.dataset.week) === "1";
+    if (on) done++;
+    card.classList.toggle("done", on);
+    const badge = card.querySelector(".done-badge");
+    if (badge) badge.hidden = !on;
+  });
+  if (overall && cards.length) {
+    const pct = Math.round((done / cards.length) * 100);
+    overall.innerHTML = `<p><span>八週進度</span><span class="pct">${done} / ${cards.length}</span></p><div class="track"><span style="width:${pct}%"></span></div><small>${done === cards.length ? "八週溫完，入 mock 月" : done ? "仲有 " + (cards.length - done) + " 週" : "喺目錄撳每週嘅圓圈標記完成"}</small>`;
+    overall.hidden = false;
+  }
+}
+
+saveLast("", "");
+paintHome();
 
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
@@ -420,6 +466,7 @@ function paintProgress() {
   const key = week.file + "|" + at + "|" + pct + "|" + where + "|" + status;
   if (key === progressKey && !box.hidden) return;
   progressKey = key;
+  saveLast(spot ? spot.id : "", spot ? spot.title : "");
   const whereHtml = where ? `<span class="where">${esc(where)}</span>` : "";
   box.hidden = false;
   box.innerHTML = `<p><span>${esc(week.week)}</span><span class="pct">${pct}%</span></p><div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${esc(week.week)}進度"><span></span></div><small>${whereHtml}${esc(status)}</small>`;

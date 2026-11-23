@@ -481,9 +481,12 @@ def page_toc(body):
     if open_chapter:
         parts.append("</ul></li>")
     parts.append("</ul>")
+    chapters = sum(1 for level, _, title in heads if level == "1" and re.match(r"Chapter \d", title))
+    sections = sum(1 for level, _, _ in heads if level != "3")
+    count = f"{chapters} 章" if chapters else f"{sections} 節"
     return (
-        '<details class="toc" id="page-toc" open>'
-        '<summary>本頁章節</summary>'
+        '<details class="toc" id="page-toc">'
+        f'<summary>本頁章節<span class="toc-count">{count}</span></summary>'
         f'{"".join(parts)}'
         "</details>"
     )
@@ -621,14 +624,20 @@ def home():
             f'<a href="{dest}">{html.escape(label)}</a>' for dest, label, _ in pages
         )
         note = html.escape(HOME_NOTE.get(name, ""))
+        week_attr = f' data-week="{html.escape(name)}"' if name.startswith("第") else ""
         cards.append(
-            f"<li><h2>{html.escape(name)}</h2><p class=\"when\">{note}</p><p class=\"go\">{links}</p></li>"
+            f"<li{week_attr}><h2>{html.escape(name)}<span class=\"done-badge\" hidden>已完成</span></h2>"
+            f"<p class=\"when\">{note}</p><p class=\"go\">{links}</p></li>"
         )
     body = f"""<div class="home">
 <header class="hero">
 <p class="kicker">1Z0-830 · 個人溫習站</p>
 <h1>八週筆記，放在同一頁裡看</h1>
 <p>日程同考試日只寫在 <a href="study-plan.html">15 週計劃</a>。先讀溫習策略，再打開當週筆記。詞彙只在忘記一個詞的時候查。未到的星期先不要翻。</p>
+<div class="home-status">
+<a id="resume" class="resume" hidden></a>
+<div id="overall" class="overall" hidden></div>
+</div>
 <div id="place-home" class="place-home" hidden></div>
 </header>
 <ol class="weeks">
@@ -898,7 +907,7 @@ main {
 .home { width: min(100%, 68rem); max-width: 100%; }
 .sheet {
   width: 100%;
-  max-width: 100%;
+  max-width: min(100%, 54rem);
   min-width: 0;
   box-sizing: border-box;
   overflow-x: hidden;
@@ -1255,6 +1264,10 @@ article ul:has(> .task) {
   vertical-align: 0.1rem;
 }
 .toc:not([open]) summary::before { transform: rotate(-45deg) translate(0.05rem, -0.05rem); }
+.toc:not([open]) { padding: 0.7rem 1.05rem; box-shadow: none; }
+.toc:not([open]) summary { padding-bottom: 0.15rem; }
+.toc summary:hover { color: var(--accent); }
+.toc-count { margin-left: 0.5rem; font-weight: 600; color: var(--muted); opacity: 0.75; }
 .toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
 .toc li { margin: 0; line-height: 1.45; }
 .toc .chapter > ul {
@@ -1537,6 +1550,41 @@ article ul:has(> .task) {
 .go { margin: auto 0 0; padding-top: 0.85rem; display: flex; gap: 0.4rem; }
 .weeks a { text-decoration: none; background: #f1ebe2; color: var(--ink); border-radius: 999px; padding: 0.28rem 0.78rem; font-size: 0.88rem; font-weight: 650; }
 .weeks a:hover, .weeks a:focus { background: var(--accent); color: white; }
+.weeks h2 { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.done-badge { font-size: 0.7rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 0.15rem 0.55rem; }
+.weeks li.done { border-color: var(--accent-mid); background: linear-gradient(180deg, #f3f9f8 0%, var(--paper) 60%); }
+.home-status { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem; }
+.home-status:not(:has(:not([hidden]))) { display: none; }
+.resume {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: min(100%, 16rem);
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+.resume small { font-size: 0.72rem; opacity: 0.8; font-weight: 650; letter-spacing: 0.03em; }
+.resume strong { font-size: 0.98rem; }
+.resume span { font-size: 0.8rem; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.resume:hover, .resume:focus { background: #0b3d3b; }
+.overall {
+  flex: 1;
+  min-width: min(100%, 14rem);
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.overall p { margin: 0; display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; }
+.overall .pct { color: var(--accent); font-variant-numeric: tabular-nums; }
+.overall .track { height: 0.32rem; margin-top: 0.45rem; }
+.overall small { display: block; margin-top: 0.35rem; color: var(--muted); font-size: 0.75rem; }
 @media (max-width: 1100px) {
   :root { --side: 13.5rem; }
   .pair .links { padding: 0 0.15rem 0.1rem; }
@@ -1642,15 +1690,18 @@ article ul:has(> .task) {
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    padding: 0.9rem max(0.75rem, env(safe-area-inset-right)) calc(4.25rem + env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left));
+    padding: 0 0 calc(4.25rem + env(safe-area-inset-bottom));
     box-sizing: border-box;
   }
+  .home { padding: 1rem max(0.85rem, env(safe-area-inset-right)) 0 max(0.85rem, env(safe-area-inset-left)); box-sizing: border-box; }
   .sheet {
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    padding: 1.15rem 1rem 1.35rem;
-    border-radius: 14px;
+    padding: 1rem max(1rem, env(safe-area-inset-right)) 1.35rem max(1rem, env(safe-area-inset-left));
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
     overflow-x: hidden;
   }
   .weeks { grid-template-columns: 1fr; }
@@ -1868,9 +1919,55 @@ try {
       const on = button.getAttribute("aria-pressed") !== "true";
       localStorage.setItem(key, on ? "1" : "0");
       paint(on);
+      paintHome();
     });
   });
 } catch (error) {}
+
+const LAST_KEY = "ocp-last";
+
+function saveLast(hash, where) {
+  const label = document.querySelector(".crumb")?.textContent?.trim();
+  if (!label) return;
+  try {
+    localStorage.setItem(LAST_KEY, JSON.stringify({
+      href: decodeURIComponent(location.pathname.split("/").pop() || "index.html") + (hash ? "#" + hash : ""),
+      label,
+      where: where || ""
+    }));
+  } catch (error) {}
+}
+
+function paintHome() {
+  const resume = document.querySelector("#resume");
+  const overall = document.querySelector("#overall");
+  if (!resume && !overall) return;
+  try {
+    const last = JSON.parse(localStorage.getItem(LAST_KEY) || "null");
+    if (resume && last && last.href) {
+      resume.href = last.href;
+      resume.innerHTML = `<small>繼續上次</small><strong>${esc(last.label)}</strong>${last.where ? `<span>${esc(last.where)}</span>` : ""}`;
+      resume.hidden = false;
+    }
+  } catch (error) {}
+  const cards = [...document.querySelectorAll(".weeks li[data-week]")];
+  let done = 0;
+  cards.forEach((card) => {
+    const on = localStorage.getItem("ocp-week-done:" + card.dataset.week) === "1";
+    if (on) done++;
+    card.classList.toggle("done", on);
+    const badge = card.querySelector(".done-badge");
+    if (badge) badge.hidden = !on;
+  });
+  if (overall && cards.length) {
+    const pct = Math.round((done / cards.length) * 100);
+    overall.innerHTML = `<p><span>八週進度</span><span class="pct">${done} / ${cards.length}</span></p><div class="track"><span style="width:${pct}%"></span></div><small>${done === cards.length ? "八週溫完，入 mock 月" : done ? "仲有 " + (cards.length - done) + " 週" : "喺目錄撳每週嘅圓圈標記完成"}</small>`;
+    overall.hidden = false;
+  }
+}
+
+saveLast("", "");
+paintHome();
 
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
@@ -2155,6 +2252,7 @@ function paintProgress() {
   const key = week.file + "|" + at + "|" + pct + "|" + where + "|" + status;
   if (key === progressKey && !box.hidden) return;
   progressKey = key;
+  saveLast(spot ? spot.id : "", spot ? spot.title : "");
   const whereHtml = where ? `<span class="where">${esc(where)}</span>` : "";
   box.hidden = false;
   box.innerHTML = `<p><span>${esc(week.week)}</span><span class="pct">${pct}%</span></p><div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${esc(week.week)}進度"><span></span></div><small>${whereHtml}${esc(status)}</small>`;

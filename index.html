@@ -6,7 +6,7 @@
 <script>try{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}catch(e){}</script>
 <title>OCP Java 21</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=7f4d765752">
+<link rel="stylesheet" href="style.css?v=1643e4bf0a">
 </head>
 <body>
 <a class="skip" href="#content">跳到本文</a>
@@ -34,14 +34,18 @@
 <p class="kicker">1Z0-830 · 個人溫習站</p>
 <h1>八週筆記，放在同一頁裡看</h1>
 <p>日程同考試日只寫在 <a href="study-plan.html">15 週計劃</a>。先讀溫習策略，再打開當週筆記。詞彙只在忘記一個詞的時候查。未到的星期先不要翻。</p>
+<div class="home-status">
+<a id="resume" class="resume" hidden></a>
+<div id="overall" class="overall" hidden></div>
+</div>
 <div id="place-home" class="place-home" hidden></div>
 </header>
 <ol class="weeks">
-<li><h2>開始</h2><p class="when">先看溫習方法，再對每一天</p><p class="go"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></p></li><li><h2>第 1 週</h2><p class="when">型別、運算、流程</p><p class="go"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></p></li><li><h2>第 2 週</h2><p class="when">方法、文字、陣列</p><p class="go"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></p></li><li><h2>第 3 週</h2><p class="when">類別與記憶體</p><p class="go"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></p></li><li><h2>第 4 週</h2><p class="when">繼承到模式比對</p><p class="go"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></p></li><li><h2>第 5 週</h2><p class="when">例外與日期時間 API</p><p class="go"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></p></li><li><h2>第 6 週</h2><p class="when">集合與泛型</p><p class="go"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></p></li><li><h2>第 7 週</h2><p class="when">lambda 與 stream</p><p class="go"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></p></li><li><h2>第 8 週</h2><p class="when">輸入輸出、模組、執行緒</p><p class="go"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></p></li>
+<li><h2>開始<span class="done-badge" hidden>已完成</span></h2><p class="when">先看溫習方法，再對每一天</p><p class="go"><a href="strategy.html">溫習策略</a><a href="study-plan.html">15 週計劃</a></p></li><li data-week="第 1 週"><h2>第 1 週<span class="done-badge" hidden>已完成</span></h2><p class="when">型別、運算、流程</p><p class="go"><a href="Week-01-notes.html">筆記</a><a href="Week-01-glossary.html">詞彙</a></p></li><li data-week="第 2 週"><h2>第 2 週<span class="done-badge" hidden>已完成</span></h2><p class="when">方法、文字、陣列</p><p class="go"><a href="Week-02-notes.html">筆記</a><a href="Week-02-glossary.html">詞彙</a></p></li><li data-week="第 3 週"><h2>第 3 週<span class="done-badge" hidden>已完成</span></h2><p class="when">類別與記憶體</p><p class="go"><a href="Week-03-notes.html">筆記</a><a href="Week-03-glossary.html">詞彙</a></p></li><li data-week="第 4 週"><h2>第 4 週<span class="done-badge" hidden>已完成</span></h2><p class="when">繼承到模式比對</p><p class="go"><a href="Week-04-notes.html">筆記</a><a href="Week-04-glossary.html">詞彙</a></p></li><li data-week="第 5 週"><h2>第 5 週<span class="done-badge" hidden>已完成</span></h2><p class="when">例外與日期時間 API</p><p class="go"><a href="Week-05-notes.html">筆記</a><a href="Week-05-glossary.html">詞彙</a></p></li><li data-week="第 6 週"><h2>第 6 週<span class="done-badge" hidden>已完成</span></h2><p class="when">集合與泛型</p><p class="go"><a href="Week-06-notes.html">筆記</a><a href="Week-06-glossary.html">詞彙</a></p></li><li data-week="第 7 週"><h2>第 7 週<span class="done-badge" hidden>已完成</span></h2><p class="when">lambda 與 stream</p><p class="go"><a href="Week-07-notes.html">筆記</a><a href="Week-07-glossary.html">詞彙</a></p></li><li data-week="第 8 週"><h2>第 8 週<span class="done-badge" hidden>已完成</span></h2><p class="when">輸入輸出、模組、執行緒</p><p class="go"><a href="Week-08-notes.html">筆記</a><a href="Week-08-glossary.html">詞彙</a></p></li>
 </ol>
 </div>
 </main>
 </div>
-<script src="search.js?v=7f4d765752"></script>
+<script src="search.js?v=1643e4bf0a"></script>
 </body>
 </html>
