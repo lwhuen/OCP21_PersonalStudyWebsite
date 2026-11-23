@@ -580,6 +580,11 @@ def sidebar(current):
                 f'<div class="links">{"".join(links)}</div></section>'
             )
         else:
+            if name == "開始":
+                review_attr = ' aria-current="page"' if current == "review.html" else ""
+                links.append(
+                    f'<a href="review.html"{review_attr}>溫習題目<span class="due-count" hidden></span></a>'
+                )
             groups.append(
                 f'<section class="{kind}"><h2>{html.escape(name)}</h2>'
                 f'<div class="links">{"".join(links)}</div></section>'
@@ -636,6 +641,7 @@ def home():
 <p>日程同考試日只寫在 <a href="study-plan.html">15 週計劃</a>。先讀溫習策略，再打開當週筆記。詞彙只在忘記一個詞的時候查。未到的星期先不要翻。</p>
 <div class="home-status">
 <a id="resume" class="resume" hidden></a>
+<a id="due" class="resume due-card" href="review.html" hidden></a>
 <div id="overall" class="overall" hidden></div>
 </div>
 <div id="place-home" class="place-home" hidden></div>
@@ -1155,6 +1161,94 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
 .q.shown .choice.wrong .letter,
 .q.shown .choice.wrong[aria-pressed="true"] .letter { background: #f3e6de; color: #6b5348; border-color: #d9c2b6; }
 .kept { margin: 0.35rem 0 1.2rem; }
+[hidden] { display: none !important; }
+.q-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: -0.5rem 0 0.75rem;
+  font-size: 0.85rem;
+}
+.q-status .verdict { font-weight: 750; padding: 0.15rem 0.6rem; border-radius: 999px; }
+.q-status.ok .verdict { color: var(--accent); background: var(--accent-soft); }
+.q-status.bad .verdict { color: #8a4b33; background: #f6e7df; }
+.q-status .when-next { color: var(--muted); }
+.redo {
+  margin-left: auto;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--ink);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+}
+.redo:hover, .redo:focus-visible { border-color: var(--accent); color: var(--accent); }
+.due-count {
+  margin-left: 0.45rem;
+  min-width: 1.25rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 750;
+  text-align: center;
+  line-height: 1.4;
+}
+.due-count[hidden] { display: none; }
+.due-card { background: #2c5f5a; }
+.due-card.quiet { background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
+.due-card.quiet:hover, .due-card.quiet:focus { background: var(--accent-soft); }
+.review h1 { margin-bottom: 0.4rem; }
+.review-lead { color: var(--muted); margin: 0 0 1rem; }
+.review-modes { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1rem; }
+.mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--ink);
+  background: #f1ebe2;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+}
+.mode span { font-size: 0.75rem; font-variant-numeric: tabular-nums; color: var(--muted); }
+.mode[aria-selected="true"] { background: var(--accent); color: white; }
+.mode[aria-selected="true"] span { color: rgba(255, 255, 255, 0.8); }
+.mode:disabled { opacity: 0.45; cursor: default; }
+.review-bar { margin-bottom: 0.4rem; }
+.review-bar p { display: flex; justify-content: space-between; gap: 0.75rem; margin: 0; font-size: 0.8rem; font-weight: 700; }
+.review-bar a { color: var(--muted); font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.review-bar a:hover { color: var(--accent); }
+.review-bar .track { height: 0.28rem; }
+.review-deck .q { margin-top: 0.75rem; padding-right: 0.85rem; }
+.review-empty { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.4rem 1.2rem; border: 1px dashed var(--line); border-radius: 12px; background: #fbf8f3; }
+.review-empty span { color: var(--muted); font-size: 0.9rem; }
+.review-next { display: flex; justify-content: flex-end; margin: -0.6rem 0 1rem; }
+.next-q {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: inherit;
+  font-weight: 700;
+  color: white;
+  background: var(--accent);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+}
+kbd { font-family: inherit; font-size: 0.72rem; padding: 0.05rem 0.35rem; border-radius: 5px; background: rgba(255, 255, 255, 0.2); }
+.review-keys { color: var(--muted); font-size: 0.75rem; margin-top: 1.4rem; }
+@media (hover: none) { .review-keys, .next-q kbd { display: none; } }
 .table-wrap { overflow-x: auto; max-width: 100%; margin: 1rem 0 1.2rem; border: 1px solid var(--line); border-radius: 8px; }
 table { border-collapse: collapse; width: 100%; font-size: 0.95rem; line-height: 1.5; }
 th, td { padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
@@ -1793,6 +1887,42 @@ const fold = document.querySelector(".fold");
 const nav = document.querySelector("#nav");
 const wide = () => matchMedia("(min-width: 861px)").matches;
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const DAY_MS = 86400000;
+const SRS_GAPS = [1, 3, 7, 14, 30];
+
+function readSrs() {
+  try { return JSON.parse(localStorage.getItem("ocp-srs") || "{}") || {}; } catch (error) { return {}; }
+}
+
+function writeSrs(map) {
+  try { localStorage.setItem("ocp-srs", JSON.stringify(map)); } catch (error) {}
+}
+
+function dayStart(time) {
+  const date = new Date(time);
+  date.setHours(0, 0, 0, 0);
+  return date.getTime();
+}
+
+function srsCounts() {
+  const map = readSrs();
+  const until = dayStart(Date.now()) + DAY_MS;
+  let due = 0;
+  let wrong = 0;
+  Object.values(map).forEach((entry) => {
+    if (entry.d < until) due++;
+    if (entry.w > 0) wrong++;
+  });
+  return { due, wrong, seen: Object.keys(map).length };
+}
+
+function paintDueBadges() {
+  const { due } = srsCounts();
+  document.querySelectorAll(".due-count").forEach((badge) => {
+    badge.hidden = !due;
+    badge.textContent = due ? String(due) : "";
+  });
+}
 
 function paintFold() {
   if (!fold) return;
@@ -1928,7 +2058,7 @@ const LAST_KEY = "ocp-last";
 
 function saveLast(hash, where) {
   const label = document.querySelector(".crumb")?.textContent?.trim();
-  if (!label) return;
+  if (!label || document.querySelector("#review-deck")) return;
   try {
     localStorage.setItem(LAST_KEY, JSON.stringify({
       href: decodeURIComponent(location.pathname.split("/").pop() || "index.html") + (hash ? "#" + hash : ""),
@@ -1959,6 +2089,15 @@ function paintHome() {
     const badge = card.querySelector(".done-badge");
     if (badge) badge.hidden = !on;
   });
+  const dueCard = document.querySelector("#due");
+  if (dueCard) {
+    const { due, wrong, seen } = srsCounts();
+    if (seen) {
+      dueCard.innerHTML = `<small>今日溫習</small><strong>${due ? due + " 題到期" : "今日冇到期題目"}</strong><span>錯過嘅題 ${wrong} 題 · 做過 ${seen} 題</span>`;
+      dueCard.classList.toggle("quiet", !due);
+      dueCard.hidden = false;
+    }
+  }
   if (overall && cards.length) {
     const pct = Math.round((done / cards.length) * 100);
     overall.innerHTML = `<p><span>八週進度</span><span class="pct">${done} / ${cards.length}</span></p><div class="track"><span style="width:${pct}%"></span></div><small>${done === cards.length ? "八週溫完，入 mock 月" : done ? "仲有 " + (cards.length - done) + " 週" : "喺目錄撳每週嘅圓圈標記完成"}</small>`;
@@ -1968,6 +2107,7 @@ function paintHome() {
 
 saveLast("", "");
 paintHome();
+paintDueBadges();
 
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
@@ -2333,7 +2473,90 @@ window.addEventListener("resize", queueProgress);
 paintProgress();
 
 function questionStore(host) {
-  return "ocp-q:" + location.pathname + ":" + host.dataset.qid;
+  const path = host.dataset.href ? location.pathname.replace(/[^/]*$/, host.dataset.href) : location.pathname;
+  return "ocp-q:" + path + ":" + host.dataset.qid;
+}
+
+function srsId(host) {
+  return (host.dataset.href || fileName()) + "|" + host.dataset.qid;
+}
+
+function isCorrect(q) {
+  const key = (q.dataset.key || "").split(",").filter(Boolean).sort().join(",");
+  const picks = [...q.querySelectorAll('.choice[aria-pressed="true"]')].map((button) => button.dataset.letter).sort().join(",");
+  return !!key && picks === key;
+}
+
+function recordResult(q, ok) {
+  const map = readSrs();
+  const id = srsId(q);
+  const prev = map[id] || { b: 0, w: 0, n: 0 };
+  const box = ok ? Math.min(prev.n ? prev.b + 1 : 1, SRS_GAPS.length - 1) : 0;
+  map[id] = {
+    b: box,
+    d: dayStart(Date.now()) + SRS_GAPS[box] * DAY_MS,
+    w: prev.w + (ok ? 0 : 1),
+    r: ok ? 1 : 0,
+    n: prev.n + 1
+  };
+  writeSrs(map);
+  paintDueBadges();
+}
+
+function dueText(entry) {
+  const days = Math.round((entry.d - dayStart(Date.now())) / DAY_MS);
+  if (days <= 0) return "今日再溫";
+  if (days === 1) return "聽日再溫";
+  return days + " 日後再溫";
+}
+
+function paintStatus(q) {
+  let box = q.querySelector(":scope > .q-status");
+  const entry = readSrs()[srsId(q)];
+  if (!q.classList.contains("shown") || !entry) {
+    if (box) box.hidden = true;
+    return;
+  }
+  if (!box) {
+    box = document.createElement("div");
+    box.className = "q-status";
+    const anchor = q.querySelector(":scope > .reveal");
+    if (anchor) anchor.after(box);
+    else q.append(box);
+  }
+  const ok = entry.r === 1;
+  const miss = entry.w > 0 ? ` · 錯過 ${entry.w} 次` : "";
+  box.hidden = false;
+  box.className = "q-status " + (ok ? "ok" : "bad");
+  box.innerHTML = `<span class="verdict">${ok ? "答啱" : "答錯"}</span><span class="when-next">${dueText(entry)}${miss}</span><button type="button" class="redo">重做</button>`;
+  box.querySelector(".redo").addEventListener("click", () => resetQuestion(q));
+}
+
+function setAnswerOpen(host, show) {
+  const panel = host.querySelector(".answer");
+  const button = host.querySelector(".reveal");
+  if (!panel) return;
+  panel.hidden = !show;
+  if (button) paintReveal(button, show);
+  if (host.classList.contains("q")) {
+    host.classList.toggle("shown", show);
+    grade(host);
+    if (show && host.dataset.done !== "1") {
+      host.dataset.done = "1";
+      const ok = isCorrect(host);
+      recordResult(host, ok);
+      host.dispatchEvent(new CustomEvent("q:graded", { bubbles: true, detail: { ok } }));
+    }
+    paintStatus(host);
+  }
+  saveQuestion(host);
+}
+
+function resetQuestion(q) {
+  q.querySelectorAll(".choice").forEach((button) => button.setAttribute("aria-pressed", "false"));
+  q.dataset.done = "";
+  setAnswerOpen(q, false);
+  q.dataset.done = "";
 }
 
 function grade(q) {
@@ -2384,27 +2607,144 @@ document.querySelectorAll(".q").forEach((q) => {
   });
   if (saved && saved.open) {
     q.classList.add("shown");
+    q.dataset.done = "1";
     const panel = q.querySelector(".answer");
     if (panel) panel.hidden = false;
   }
   grade(q);
+  paintStatus(q);
 });
 
 document.querySelectorAll(".reveal").forEach((button) => {
   const host = button.closest(".q, .kept");
   const panel = host ? host.querySelector(".answer") : null;
   if (!panel) return;
-  const open = !panel.hidden;
-  paintReveal(button, open);
-  button.addEventListener("click", () => {
-    const show = panel.hidden;
-    panel.hidden = !show;
-    if (host && host.classList.contains("q")) host.classList.toggle("shown", show);
-    paintReveal(button, show);
-    if (host && host.classList.contains("q")) grade(host);
-    saveQuestion(host);
-  });
+  paintReveal(button, !panel.hidden);
+  button.addEventListener("click", () => setAnswerOpen(host, panel.hidden));
 });
+
+const deck = document.querySelector("#review-deck");
+if (deck) {
+  const cards = [...deck.querySelectorAll(".q")];
+  const bar = document.querySelector("#review-bar");
+  const empty = document.querySelector("#review-empty");
+  const nextWrap = document.querySelector("#review-next");
+  const modes = [...document.querySelectorAll(".review-modes .mode")];
+  let queue = [];
+  let pos = 0;
+  let right = 0;
+  let mode = "";
+
+  const shuffle = (list) => {
+    const copy = list.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  function pools() {
+    const map = readSrs();
+    const until = dayStart(Date.now()) + DAY_MS;
+    const weeks = new Set();
+    cards.forEach((q) => {
+      if (localStorage.getItem("ocp-week-done:" + q.dataset.week) === "1" || map[srsId(q)]) weeks.add(q.dataset.week);
+    });
+    return {
+      due: cards.filter((q) => map[srsId(q)] && map[srsId(q)].d < until),
+      wrong: cards.filter((q) => map[srsId(q)] && map[srsId(q)].w > 0),
+      mix: cards.filter((q) => weeks.has(q.dataset.week))
+    };
+  }
+
+  function paintModes() {
+    const sets = pools();
+    modes.forEach((button) => {
+      const count = sets[button.dataset.mode].length;
+      button.querySelector("span").textContent = count;
+      button.disabled = !count;
+      button.setAttribute("aria-selected", button.dataset.mode === mode ? "true" : "false");
+    });
+    return sets;
+  }
+
+  function showMessage(text) {
+    cards.forEach((q) => { q.hidden = true; });
+    bar.hidden = true;
+    nextWrap.hidden = true;
+    empty.innerHTML = text;
+    empty.hidden = false;
+  }
+
+  function show(index) {
+    cards.forEach((q) => { q.hidden = true; });
+    empty.hidden = true;
+    nextWrap.hidden = true;
+    if (index >= queue.length) {
+      paintModes();
+      showMessage(`<strong>完成一輪：答啱 ${right} / ${queue.length}</strong><span>答錯嘅題已排喺聽日。揀上面一個模式再嚟。</span>`);
+      return;
+    }
+    const q = queue[index];
+    resetQuestion(q);
+    q.hidden = false;
+    const pct = Math.round((index / queue.length) * 100);
+    bar.innerHTML = `<p><span>${index + 1} / ${queue.length}</span><a href="${esc(q.dataset.href)}#${esc(q.dataset.qid)}">${esc(q.dataset.where)}</a></p><div class="track"><span style="width:${pct}%"></span></div>`;
+    bar.hidden = false;
+    if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function start(next) {
+    mode = next;
+    const sets = paintModes();
+    let list = shuffle(sets[mode] || []);
+    if (mode === "mix") list = list.slice(0, 10);
+    queue = list;
+    pos = 0;
+    right = 0;
+    if (!queue.length) {
+      showMessage("<strong>未有題目</strong><span>喺筆記做幾題，或者喺目錄標記完成一週，呢度就會有題目。</span>");
+      return;
+    }
+    show(0);
+  }
+
+  deck.addEventListener("q:graded", (event) => {
+    if (event.target !== queue[pos]) return;
+    if (event.detail.ok) right++;
+    nextWrap.hidden = false;
+  });
+
+  nextWrap.querySelector(".next-q").addEventListener("click", () => {
+    pos++;
+    show(pos);
+  });
+
+  modes.forEach((button) => button.addEventListener("click", () => start(button.dataset.mode)));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.target.closest("input, textarea") || event.metaKey || event.ctrlKey || event.altKey) return;
+    const q = queue[pos];
+    if (!q || q.hidden) return;
+    const key = event.key.toUpperCase();
+    if (/^[A-H]$/.test(key) && !q.classList.contains("shown")) {
+      q.querySelector(`.choice[data-letter="${key}"]`)?.click();
+      event.preventDefault();
+    } else if (event.key === "Enter" && !event.target.closest(".mode, .next-q, .redo, a")) {
+      if (!q.classList.contains("shown")) q.querySelector(".reveal")?.click();
+      else if (!nextWrap.hidden) nextWrap.querySelector(".next-q").click();
+      event.preventDefault();
+    } else if (event.key === "ArrowRight" && !nextWrap.hidden) {
+      nextWrap.querySelector(".next-q").click();
+      event.preventDefault();
+    }
+  });
+
+  const sets = paintModes();
+  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : "mix");
+}
 
 document.querySelectorAll(".kept").forEach((host) => {
   let saved = null;
@@ -2424,6 +2764,74 @@ FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <path fill="#d5e6e2" d="M18 8v6h6z"/>
   <path fill="none" stroke="#0e4a48" stroke-width="1.4" stroke-linecap="round" d="M11.2 17.2h8.4M11.2 20.4h5.4"/>
 </svg>
+"""
+
+
+def extract_questions(dest, body):
+    week = place_name(dest).split(" · ")[0]
+    heads = [
+        (match.start(), plain_text(match.group(1)))
+        for match in re.finditer(r'<h1 id="[^"]+">(.*?)</h1>', body, flags=re.S)
+    ]
+    found = []
+    for match in re.finditer(r'<section class="q" id="([^"]+)"(.*?)</section>', body, flags=re.S):
+        chapter = ""
+        for start, title in heads:
+            if start < match.start():
+                chapter = title
+        chapter = re.sub(r"^Chapter\s+\d+\s*[—–-]\s*", "", chapter)
+        qid = match.group(1)
+        number = qid.rsplit("-", 1)[-1]
+        section = (
+            f'<section class="q" id="r-{html.escape(dest[:-5])}-{html.escape(qid)}" '
+            f'data-href="{html.escape(dest)}" data-week="{html.escape(week)}" '
+            f'data-where="{html.escape(f"{week} · {chapter} · {number}")}"'
+            f"{match.group(2)}</section>"
+        )
+        found.append(section)
+    return found
+
+
+def review_page(questions):
+    nav = sidebar("review.html")
+    body = f"""<div class="sheet review">
+<p class="crumb">開始 · 溫習題目</p>
+<h1>溫習題目</h1>
+<p class="review-lead">一次一題。先揀答案，再揭曉。答錯嘅題聽日再出，答啱就隔耐啲先再出。</p>
+<div class="review-modes" role="tablist" aria-label="溫習模式">
+<button type="button" class="mode" data-mode="due">今日到期<span></span></button>
+<button type="button" class="mode" data-mode="wrong">錯題<span></span></button>
+<button type="button" class="mode" data-mode="mix">已學範圍隨機<span></span></button>
+</div>
+<div id="review-bar" class="review-bar" hidden></div>
+<div id="review-empty" class="review-empty" hidden></div>
+<div id="review-deck" class="review-deck">
+{"".join(questions)}
+</div>
+<div id="review-next" class="review-next" hidden><button type="button" class="next-q">下一題<kbd>→</kbd></button></div>
+<p class="review-keys">鍵盤：A–H 揀答案 · Enter 揭曉 · → 下一題</p>
+</div>"""
+    return f"""<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>try{{if(localStorage.getItem("ocp-nav")==="0"&&matchMedia("(min-width:861px)").matches)document.documentElement.classList.add("nav-collapsed")}}catch(e){{}}</script>
+<title>溫習題目 · OCP Java 21</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css?v={ASSET_V}">
+</head>
+<body>
+<a class="skip" href="#content">跳到本文</a>
+<div class="layout">
+{nav}
+<main id="content">
+{body}
+</main>
+</div>
+<script src="search.js?v={ASSET_V}"></script>
+</body>
+</html>
 """
 
 
@@ -2460,9 +2868,12 @@ def main():
     (OUT / "style.css").write_text(CSS, encoding="utf-8")
     index = []
     outline = []
+    questions = []
     for dest, label, src in FLAT:
         text = (ROOT / src).read_text(encoding="utf-8")
         body = render_markdown(text)
+        if dest.endswith("-notes.html"):
+            questions.extend(extract_questions(dest, body))
         title = title_of(body, label)
         lang = "zh-Hant" if dest == "strategy.html" else "en"
         (OUT / dest).write_text(shell(dest, title, body, lang), encoding="utf-8")
@@ -2493,7 +2904,9 @@ def main():
         encoding="utf-8",
     )
     (OUT / "index.html").write_text(home(), encoding="utf-8")
-    print("pages", len(FLAT) + 1)
+    (OUT / "review.html").write_text(review_page(questions), encoding="utf-8")
+    print("questions", len(questions))
+    print("pages", len(FLAT) + 2)
 
 
 if __name__ == "__main__":

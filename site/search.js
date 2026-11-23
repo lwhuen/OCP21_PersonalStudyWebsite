@@ -7,6 +7,42 @@ const fold = document.querySelector(".fold");
 const nav = document.querySelector("#nav");
 const wide = () => matchMedia("(min-width: 861px)").matches;
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const DAY_MS = 86400000;
+const SRS_GAPS = [1, 3, 7, 14, 30];
+
+function readSrs() {
+  try { return JSON.parse(localStorage.getItem("ocp-srs") || "{}") || {}; } catch (error) { return {}; }
+}
+
+function writeSrs(map) {
+  try { localStorage.setItem("ocp-srs", JSON.stringify(map)); } catch (error) {}
+}
+
+function dayStart(time) {
+  const date = new Date(time);
+  date.setHours(0, 0, 0, 0);
+  return date.getTime();
+}
+
+function srsCounts() {
+  const map = readSrs();
+  const until = dayStart(Date.now()) + DAY_MS;
+  let due = 0;
+  let wrong = 0;
+  Object.values(map).forEach((entry) => {
+    if (entry.d < until) due++;
+    if (entry.w > 0) wrong++;
+  });
+  return { due, wrong, seen: Object.keys(map).length };
+}
+
+function paintDueBadges() {
+  const { due } = srsCounts();
+  document.querySelectorAll(".due-count").forEach((badge) => {
+    badge.hidden = !due;
+    badge.textContent = due ? String(due) : "";
+  });
+}
 
 function paintFold() {
   if (!fold) return;
@@ -142,7 +178,7 @@ const LAST_KEY = "ocp-last";
 
 function saveLast(hash, where) {
   const label = document.querySelector(".crumb")?.textContent?.trim();
-  if (!label) return;
+  if (!label || document.querySelector("#review-deck")) return;
   try {
     localStorage.setItem(LAST_KEY, JSON.stringify({
       href: decodeURIComponent(location.pathname.split("/").pop() || "index.html") + (hash ? "#" + hash : ""),
@@ -173,6 +209,15 @@ function paintHome() {
     const badge = card.querySelector(".done-badge");
     if (badge) badge.hidden = !on;
   });
+  const dueCard = document.querySelector("#due");
+  if (dueCard) {
+    const { due, wrong, seen } = srsCounts();
+    if (seen) {
+      dueCard.innerHTML = `<small>今日溫習</small><strong>${due ? due + " 題到期" : "今日冇到期題目"}</strong><span>錯過嘅題 ${wrong} 題 · 做過 ${seen} 題</span>`;
+      dueCard.classList.toggle("quiet", !due);
+      dueCard.hidden = false;
+    }
+  }
   if (overall && cards.length) {
     const pct = Math.round((done / cards.length) * 100);
     overall.innerHTML = `<p><span>八週進度</span><span class="pct">${done} / ${cards.length}</span></p><div class="track"><span style="width:${pct}%"></span></div><small>${done === cards.length ? "八週溫完，入 mock 月" : done ? "仲有 " + (cards.length - done) + " 週" : "喺目錄撳每週嘅圓圈標記完成"}</small>`;
@@ -182,6 +227,7 @@ function paintHome() {
 
 saveLast("", "");
 paintHome();
+paintDueBadges();
 
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
@@ -547,7 +593,90 @@ window.addEventListener("resize", queueProgress);
 paintProgress();
 
 function questionStore(host) {
-  return "ocp-q:" + location.pathname + ":" + host.dataset.qid;
+  const path = host.dataset.href ? location.pathname.replace(/[^/]*$/, host.dataset.href) : location.pathname;
+  return "ocp-q:" + path + ":" + host.dataset.qid;
+}
+
+function srsId(host) {
+  return (host.dataset.href || fileName()) + "|" + host.dataset.qid;
+}
+
+function isCorrect(q) {
+  const key = (q.dataset.key || "").split(",").filter(Boolean).sort().join(",");
+  const picks = [...q.querySelectorAll('.choice[aria-pressed="true"]')].map((button) => button.dataset.letter).sort().join(",");
+  return !!key && picks === key;
+}
+
+function recordResult(q, ok) {
+  const map = readSrs();
+  const id = srsId(q);
+  const prev = map[id] || { b: 0, w: 0, n: 0 };
+  const box = ok ? Math.min(prev.n ? prev.b + 1 : 1, SRS_GAPS.length - 1) : 0;
+  map[id] = {
+    b: box,
+    d: dayStart(Date.now()) + SRS_GAPS[box] * DAY_MS,
+    w: prev.w + (ok ? 0 : 1),
+    r: ok ? 1 : 0,
+    n: prev.n + 1
+  };
+  writeSrs(map);
+  paintDueBadges();
+}
+
+function dueText(entry) {
+  const days = Math.round((entry.d - dayStart(Date.now())) / DAY_MS);
+  if (days <= 0) return "今日再溫";
+  if (days === 1) return "聽日再溫";
+  return days + " 日後再溫";
+}
+
+function paintStatus(q) {
+  let box = q.querySelector(":scope > .q-status");
+  const entry = readSrs()[srsId(q)];
+  if (!q.classList.contains("shown") || !entry) {
+    if (box) box.hidden = true;
+    return;
+  }
+  if (!box) {
+    box = document.createElement("div");
+    box.className = "q-status";
+    const anchor = q.querySelector(":scope > .reveal");
+    if (anchor) anchor.after(box);
+    else q.append(box);
+  }
+  const ok = entry.r === 1;
+  const miss = entry.w > 0 ? ` · 錯過 ${entry.w} 次` : "";
+  box.hidden = false;
+  box.className = "q-status " + (ok ? "ok" : "bad");
+  box.innerHTML = `<span class="verdict">${ok ? "答啱" : "答錯"}</span><span class="when-next">${dueText(entry)}${miss}</span><button type="button" class="redo">重做</button>`;
+  box.querySelector(".redo").addEventListener("click", () => resetQuestion(q));
+}
+
+function setAnswerOpen(host, show) {
+  const panel = host.querySelector(".answer");
+  const button = host.querySelector(".reveal");
+  if (!panel) return;
+  panel.hidden = !show;
+  if (button) paintReveal(button, show);
+  if (host.classList.contains("q")) {
+    host.classList.toggle("shown", show);
+    grade(host);
+    if (show && host.dataset.done !== "1") {
+      host.dataset.done = "1";
+      const ok = isCorrect(host);
+      recordResult(host, ok);
+      host.dispatchEvent(new CustomEvent("q:graded", { bubbles: true, detail: { ok } }));
+    }
+    paintStatus(host);
+  }
+  saveQuestion(host);
+}
+
+function resetQuestion(q) {
+  q.querySelectorAll(".choice").forEach((button) => button.setAttribute("aria-pressed", "false"));
+  q.dataset.done = "";
+  setAnswerOpen(q, false);
+  q.dataset.done = "";
 }
 
 function grade(q) {
@@ -598,27 +727,144 @@ document.querySelectorAll(".q").forEach((q) => {
   });
   if (saved && saved.open) {
     q.classList.add("shown");
+    q.dataset.done = "1";
     const panel = q.querySelector(".answer");
     if (panel) panel.hidden = false;
   }
   grade(q);
+  paintStatus(q);
 });
 
 document.querySelectorAll(".reveal").forEach((button) => {
   const host = button.closest(".q, .kept");
   const panel = host ? host.querySelector(".answer") : null;
   if (!panel) return;
-  const open = !panel.hidden;
-  paintReveal(button, open);
-  button.addEventListener("click", () => {
-    const show = panel.hidden;
-    panel.hidden = !show;
-    if (host && host.classList.contains("q")) host.classList.toggle("shown", show);
-    paintReveal(button, show);
-    if (host && host.classList.contains("q")) grade(host);
-    saveQuestion(host);
-  });
+  paintReveal(button, !panel.hidden);
+  button.addEventListener("click", () => setAnswerOpen(host, panel.hidden));
 });
+
+const deck = document.querySelector("#review-deck");
+if (deck) {
+  const cards = [...deck.querySelectorAll(".q")];
+  const bar = document.querySelector("#review-bar");
+  const empty = document.querySelector("#review-empty");
+  const nextWrap = document.querySelector("#review-next");
+  const modes = [...document.querySelectorAll(".review-modes .mode")];
+  let queue = [];
+  let pos = 0;
+  let right = 0;
+  let mode = "";
+
+  const shuffle = (list) => {
+    const copy = list.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  function pools() {
+    const map = readSrs();
+    const until = dayStart(Date.now()) + DAY_MS;
+    const weeks = new Set();
+    cards.forEach((q) => {
+      if (localStorage.getItem("ocp-week-done:" + q.dataset.week) === "1" || map[srsId(q)]) weeks.add(q.dataset.week);
+    });
+    return {
+      due: cards.filter((q) => map[srsId(q)] && map[srsId(q)].d < until),
+      wrong: cards.filter((q) => map[srsId(q)] && map[srsId(q)].w > 0),
+      mix: cards.filter((q) => weeks.has(q.dataset.week))
+    };
+  }
+
+  function paintModes() {
+    const sets = pools();
+    modes.forEach((button) => {
+      const count = sets[button.dataset.mode].length;
+      button.querySelector("span").textContent = count;
+      button.disabled = !count;
+      button.setAttribute("aria-selected", button.dataset.mode === mode ? "true" : "false");
+    });
+    return sets;
+  }
+
+  function showMessage(text) {
+    cards.forEach((q) => { q.hidden = true; });
+    bar.hidden = true;
+    nextWrap.hidden = true;
+    empty.innerHTML = text;
+    empty.hidden = false;
+  }
+
+  function show(index) {
+    cards.forEach((q) => { q.hidden = true; });
+    empty.hidden = true;
+    nextWrap.hidden = true;
+    if (index >= queue.length) {
+      paintModes();
+      showMessage(`<strong>完成一輪：答啱 ${right} / ${queue.length}</strong><span>答錯嘅題已排喺聽日。揀上面一個模式再嚟。</span>`);
+      return;
+    }
+    const q = queue[index];
+    resetQuestion(q);
+    q.hidden = false;
+    const pct = Math.round((index / queue.length) * 100);
+    bar.innerHTML = `<p><span>${index + 1} / ${queue.length}</span><a href="${esc(q.dataset.href)}#${esc(q.dataset.qid)}">${esc(q.dataset.where)}</a></p><div class="track"><span style="width:${pct}%"></span></div>`;
+    bar.hidden = false;
+    if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function start(next) {
+    mode = next;
+    const sets = paintModes();
+    let list = shuffle(sets[mode] || []);
+    if (mode === "mix") list = list.slice(0, 10);
+    queue = list;
+    pos = 0;
+    right = 0;
+    if (!queue.length) {
+      showMessage("<strong>未有題目</strong><span>喺筆記做幾題，或者喺目錄標記完成一週，呢度就會有題目。</span>");
+      return;
+    }
+    show(0);
+  }
+
+  deck.addEventListener("q:graded", (event) => {
+    if (event.target !== queue[pos]) return;
+    if (event.detail.ok) right++;
+    nextWrap.hidden = false;
+  });
+
+  nextWrap.querySelector(".next-q").addEventListener("click", () => {
+    pos++;
+    show(pos);
+  });
+
+  modes.forEach((button) => button.addEventListener("click", () => start(button.dataset.mode)));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.target.closest("input, textarea") || event.metaKey || event.ctrlKey || event.altKey) return;
+    const q = queue[pos];
+    if (!q || q.hidden) return;
+    const key = event.key.toUpperCase();
+    if (/^[A-H]$/.test(key) && !q.classList.contains("shown")) {
+      q.querySelector(`.choice[data-letter="${key}"]`)?.click();
+      event.preventDefault();
+    } else if (event.key === "Enter" && !event.target.closest(".mode, .next-q, .redo, a")) {
+      if (!q.classList.contains("shown")) q.querySelector(".reveal")?.click();
+      else if (!nextWrap.hidden) nextWrap.querySelector(".next-q").click();
+      event.preventDefault();
+    } else if (event.key === "ArrowRight" && !nextWrap.hidden) {
+      nextWrap.querySelector(".next-q").click();
+      event.preventDefault();
+    }
+  });
+
+  const sets = paintModes();
+  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : "mix");
+}
 
 document.querySelectorAll(".kept").forEach((host) => {
   let saved = null;
