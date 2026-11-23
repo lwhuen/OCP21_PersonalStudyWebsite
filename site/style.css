@@ -614,6 +614,12 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
 }
 kbd { font-family: inherit; font-size: 0.72rem; padding: 0.05rem 0.35rem; border-radius: 5px; background: rgba(255, 255, 255, 0.2); }
 .review-keys { color: var(--muted); font-size: 0.75rem; margin-top: 1.4rem; }
+.review-clear { margin-top: 1.6rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.review-clear summary { cursor: pointer; color: var(--muted); font-size: 0.85rem; font-weight: 650; width: fit-content; }
+.review-clear[open] summary { color: #8a4b33; margin-bottom: 0.3rem; }
+.review-clear label { display: flex; align-items: center; gap: 0.45rem; font-size: 0.9rem; margin: 0.35rem 0; cursor: pointer; }
+.review-clear .clear-go { margin-top: 0.6rem; background: #8a4b33; }
+.review-clear .clear-go:disabled { opacity: 0.45; cursor: not-allowed; }
 .q-actions { margin-left: auto; display: inline-flex; gap: 0.4rem; }
 .q-actions .redo { margin-left: 0; }
 .note-toggle, .self-ok, .self-bad {

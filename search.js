@@ -1088,6 +1088,30 @@ if (deck) {
 
   modes.forEach((button) => button.addEventListener("click", () => start(button.dataset.mode)));
 
+  const clearBox = document.querySelector(".review-clear");
+  const clearGo = clearBox?.querySelector(".clear-go");
+  const clearPicks = () => [...clearBox.querySelectorAll("input:checked")];
+  clearBox?.addEventListener("change", () => { clearGo.disabled = !clearPicks().length; });
+  clearGo?.addEventListener("click", () => {
+    const picks = clearPicks();
+    if (!picks.length) return;
+    const names = picks.map((input) => input.parentElement.textContent.trim().replace(/（.*）/, ""));
+    if (mock && mock.timer && !confirm("模擬考進行緊，清除紀錄會放棄今次模擬考。繼續？")) return;
+    if (!confirm(`確定清除：${names.join("、")}？清咗冇得還原。`)) return;
+    stopMock();
+    const values = picks.map((input) => input.value);
+    try {
+      if (values.includes("srs")) {
+        localStorage.removeItem("ocp-srs");
+        Object.keys(localStorage).filter((key) => key.startsWith("ocp-q:")).forEach((key) => localStorage.removeItem(key));
+      }
+      if (values.includes("mocks")) localStorage.removeItem("ocp-mocks");
+      if (values.includes("notes")) localStorage.removeItem("ocp-notes");
+      sessionStorage.setItem("ocp-cleared", names.join("、"));
+    } catch (error) {}
+    location.reload();
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.target.closest("input, textarea") || event.metaKey || event.ctrlKey || event.altKey) return;
     const q = queue[pos];
@@ -1109,8 +1133,14 @@ if (deck) {
     }
   });
 
+  let cleared = "";
+  try {
+    cleared = sessionStorage.getItem("ocp-cleared") || "";
+    sessionStorage.removeItem("ocp-cleared");
+  } catch (error) {}
   const sets = paintModes();
-  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : sets.mix.length ? "mix" : "flash");
+  if (cleared) showMessage(`<strong>已清除：${esc(cleared)}</strong><span>揀上面一個模式重新開始。</span>`);
+  else start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : sets.mix.length ? "mix" : "flash");
 }
 
 document.querySelectorAll(".kept").forEach((host) => {

@@ -1295,6 +1295,12 @@ pre code { background: transparent; color: inherit; padding: 0; font-size: inher
 }
 kbd { font-family: inherit; font-size: 0.72rem; padding: 0.05rem 0.35rem; border-radius: 5px; background: rgba(255, 255, 255, 0.2); }
 .review-keys { color: var(--muted); font-size: 0.75rem; margin-top: 1.4rem; }
+.review-clear { margin-top: 1.6rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.review-clear summary { cursor: pointer; color: var(--muted); font-size: 0.85rem; font-weight: 650; width: fit-content; }
+.review-clear[open] summary { color: #8a4b33; margin-bottom: 0.3rem; }
+.review-clear label { display: flex; align-items: center; gap: 0.45rem; font-size: 0.9rem; margin: 0.35rem 0; cursor: pointer; }
+.review-clear .clear-go { margin-top: 0.6rem; background: #8a4b33; }
+.review-clear .clear-go:disabled { opacity: 0.45; cursor: not-allowed; }
 .q-actions { margin-left: auto; display: inline-flex; gap: 0.4rem; }
 .q-actions .redo { margin-left: 0; }
 .note-toggle, .self-ok, .self-bad {
@@ -3158,6 +3164,30 @@ if (deck) {
 
   modes.forEach((button) => button.addEventListener("click", () => start(button.dataset.mode)));
 
+  const clearBox = document.querySelector(".review-clear");
+  const clearGo = clearBox?.querySelector(".clear-go");
+  const clearPicks = () => [...clearBox.querySelectorAll("input:checked")];
+  clearBox?.addEventListener("change", () => { clearGo.disabled = !clearPicks().length; });
+  clearGo?.addEventListener("click", () => {
+    const picks = clearPicks();
+    if (!picks.length) return;
+    const names = picks.map((input) => input.parentElement.textContent.trim().replace(/（.*）/, ""));
+    if (mock && mock.timer && !confirm("模擬考進行緊，清除紀錄會放棄今次模擬考。繼續？")) return;
+    if (!confirm(`確定清除：${names.join("、")}？清咗冇得還原。`)) return;
+    stopMock();
+    const values = picks.map((input) => input.value);
+    try {
+      if (values.includes("srs")) {
+        localStorage.removeItem("ocp-srs");
+        Object.keys(localStorage).filter((key) => key.startsWith("ocp-q:")).forEach((key) => localStorage.removeItem(key));
+      }
+      if (values.includes("mocks")) localStorage.removeItem("ocp-mocks");
+      if (values.includes("notes")) localStorage.removeItem("ocp-notes");
+      sessionStorage.setItem("ocp-cleared", names.join("、"));
+    } catch (error) {}
+    location.reload();
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.target.closest("input, textarea") || event.metaKey || event.ctrlKey || event.altKey) return;
     const q = queue[pos];
@@ -3179,8 +3209,14 @@ if (deck) {
     }
   });
 
+  let cleared = "";
+  try {
+    cleared = sessionStorage.getItem("ocp-cleared") || "";
+    sessionStorage.removeItem("ocp-cleared");
+  } catch (error) {}
   const sets = paintModes();
-  start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : sets.mix.length ? "mix" : "flash");
+  if (cleared) showMessage(`<strong>已清除：${esc(cleared)}</strong><span>揀上面一個模式重新開始。</span>`);
+  else start(sets.due.length ? "due" : sets.wrong.length ? "wrong" : sets.mix.length ? "mix" : "flash");
 }
 
 document.querySelectorAll(".kept").forEach((host) => {
@@ -3495,6 +3531,14 @@ def review_page(questions):
 </div>
 <div id="review-next" class="review-next" hidden><button type="button" class="next-q">下一題<kbd>→</kbd></button></div>
 <p class="review-keys">鍵盤：A–H 揀答案 · Enter 揭曉 · 1／2 自評 · → 下一題</p>
+<details class="review-clear">
+<summary>清除紀錄</summary>
+<p class="stats-hint">揀要清嘅項目。收藏同「完成一週」標記會保留。清咗冇得還原，想保險可以先去<a href="stats.html">進度頁</a>匯出。</p>
+<label><input type="checkbox" value="srs" checked> 答題紀錄（到期、錯題、正確率、已揀答案）</label>
+<label><input type="checkbox" value="mocks" checked> 模擬考紀錄</label>
+<label><input type="checkbox" value="notes"> 錯題筆記</label>
+<button type="button" class="next-q clear-go">清除</button>
+</details>
 </div>"""
     return plain_page("review.html", "溫習題目", body)
 
