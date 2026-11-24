@@ -202,6 +202,41 @@ function saveLast(hash, where) {
   } catch (error) {}
 }
 
+const READ_KEY = "ocp-read";
+
+function readRead() {
+  try { return JSON.parse(localStorage.getItem(READ_KEY) || "{}") || {}; } catch (error) { return {}; }
+}
+
+function saveRead(file, pct, spot) {
+  const map = readRead();
+  const prev = map[file] || { max: 0, id: "", title: "" };
+  const next = { max: Math.max(prev.max || 0, pct), id: spot.id, title: spot.title, t: Date.now() };
+  if (next.max === prev.max && next.id === prev.id) return;
+  map[file] = next;
+  try { localStorage.setItem(READ_KEY, JSON.stringify(map)); } catch (error) {}
+  paintReadBadges();
+}
+
+function paintReadBadges() {
+  const map = readRead();
+  document.querySelectorAll('.pair .links a[href$="-notes.html"]').forEach((link) => {
+    const page = map[link.getAttribute("href")];
+    let badge = link.querySelector(".read-pct");
+    if (!page) {
+      badge?.remove();
+      return;
+    }
+    if (!badge) {
+      badge = document.createElement("span");
+      badge.className = "read-pct";
+      link.append(badge);
+    }
+    badge.textContent = page.max + "%";
+    link.title = "讀咗 " + page.max + "%";
+  });
+}
+
 function paintHome() {
   const resume = document.querySelector("#resume");
   const overall = document.querySelector("#overall");
@@ -209,12 +244,15 @@ function paintHome() {
   try {
     const last = JSON.parse(localStorage.getItem(LAST_KEY) || "null");
     if (resume && last && last.href) {
+      const page = readRead()[last.href.split("#")[0]];
+      const read = page ? ` · 讀咗 ${page.max}%` : "";
       resume.href = last.href;
-      resume.innerHTML = `<small>繼續上次</small><strong>${esc(last.label)}</strong>${last.where ? `<span>${esc(last.where)}</span>` : ""}`;
+      resume.innerHTML = `<small>繼續上次${read}</small><strong>${esc(last.label)}</strong>${last.where ? `<span>${esc(last.where)}</span>` : ""}`;
       resume.hidden = false;
     }
   } catch (error) {}
   const cards = [...document.querySelectorAll(".weeks li[data-week]")];
+  const reads = readRead();
   let done = 0;
   cards.forEach((card) => {
     const on = localStorage.getItem("ocp-week-done:" + card.dataset.week) === "1";
@@ -222,6 +260,13 @@ function paintHome() {
     card.classList.toggle("done", on);
     const badge = card.querySelector(".done-badge");
     if (badge) badge.hidden = !on;
+    const line = card.querySelector(".read-line");
+    const page = line && reads[card.dataset.notes];
+    if (!line) return;
+    line.hidden = !page;
+    if (!page) return;
+    const href = card.dataset.notes + (page.id ? "#" + page.id : "");
+    line.innerHTML = `<p><span>筆記讀咗</span><span class="pct">${page.max}%</span></p><div class="track"><span style="width:${page.max}%"></span></div>${page.title ? `<a class="read-at" href="${esc(href)}">上次：${esc(page.title)}</a>` : ""}`;
   });
   const dueCard = document.querySelector("#due");
   if (dueCard) {
@@ -242,6 +287,7 @@ function paintHome() {
 saveLast("", "");
 paintHome();
 paintDueBadges();
+paintReadBadges();
 
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
@@ -571,6 +617,7 @@ function paintProgress() {
   if (key === progressKey && !box.hidden) return;
   progressKey = key;
   saveLast(spot ? spot.id : "", spot ? spot.title : "");
+  if (spot) saveRead(week.file, pct, spot);
   const whereHtml = where ? `<span class="where">${esc(where)}</span>` : "";
   box.hidden = false;
   box.innerHTML = `<p><span>${esc(week.week)}</span><span class="pct">${pct}%</span></p><div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${esc(week.week)}進度"><span></span></div><small>${whereHtml}${esc(status)}</small>`;
@@ -646,6 +693,40 @@ if (pageToc && jump) {
   }
 }
 
+function offerResume() {
+  const week = (window.OUTLINE || []).find((item) => item.file === fileName());
+  if (!week || location.hash) return;
+  const saved = readRead()[week.file];
+  const flat = chapterSpots(week);
+  if (!saved || !saved.id || !flat.length || flat[0].id === saved.id) return;
+  const target = document.getElementById(saved.id);
+  if (!target) return;
+  const toast = document.createElement("div");
+  toast.className = "read-toast";
+  toast.setAttribute("role", "status");
+  toast.innerHTML = `<span><small>上次讀到 · ${saved.max}%</small><strong>${esc(saved.title)}</strong></span><button type="button" class="read-go">繼續</button><button type="button" class="read-x" aria-label="關閉">×</button>`;
+  document.body.append(toast);
+  const close = () => {
+    toast.remove();
+    window.removeEventListener("scroll", onScroll);
+  };
+  const onScroll = () => { if (window.scrollY > 400) close(); };
+  toast.querySelector(".read-go").addEventListener("click", () => {
+    close();
+    history.replaceState(null, "", "#" + saved.id);
+    const side = document.querySelector(".side");
+    const offset = side && getComputedStyle(side).position === "sticky" ? side.getBoundingClientRect().height + 12 : 24;
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
+  });
+  toast.querySelector(".read-x").addEventListener("click", close);
+  setTimeout(() => {
+    if (!toast.isConnected) return;
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }, 800);
+}
+
+offerResume();
 window.addEventListener("scroll", queueProgress, { passive: true });
 window.addEventListener("resize", queueProgress);
 paintProgress();
@@ -1107,6 +1188,10 @@ if (deck) {
       }
       if (values.includes("mocks")) localStorage.removeItem("ocp-mocks");
       if (values.includes("notes")) localStorage.removeItem("ocp-notes");
+      if (values.includes("read")) {
+        localStorage.removeItem("ocp-read");
+        localStorage.removeItem("ocp-last");
+      }
       sessionStorage.setItem("ocp-cleared", names.join("、"));
     } catch (error) {}
     location.reload();
@@ -1203,6 +1288,14 @@ if (statsMeta && document.querySelector("#stats-overview")) {
     tile("今日到期", String(due), `錯過嘅題 ${wrong} 題`),
     tile("詞彙卡", `${flashTried.length} / ${flash.length}`, flashTried.length ? `識 ${pct(flashRight.length, flashTried.length)}%` : "未開始")
   ].join("");
+
+  const reads = readRead();
+  document.querySelector("#stats-read").innerHTML = `<div class="week-rows read-rows">${(window.OUTLINE || []).map((week) => {
+    const page = reads[week.file];
+    const max = page ? page.max : 0;
+    const at = page && page.title ? `<a href="${esc(week.file + (page.id ? "#" + page.id : ""))}">上次：${esc(page.title)}</a>` : "未開始";
+    return `<div class="week-row ${page ? "good" : "none"}"><span class="wk">${esc(week.week)}</span><div class="track"><span style="width:${max}%"></span></div><span class="num">${page ? max + "%" : "—"}</span><small>${at}</small></div>`;
+  }).join("")}</div><p class="stats-hint">百分比係每週筆記讀到最遠嘅位置。</p>`;
 
   const weeks = [...new Set(qs.map((item) => item.w))];
   document.querySelector("#stats-weeks").innerHTML = `<div class="week-rows">${weeks.map((week) => {

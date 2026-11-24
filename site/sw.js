@@ -1,5 +1,5 @@
-const CACHE = "ocp21-7db281e229";
-const ASSETS = ["./", "Week-01-glossary.html", "Week-01-notes.html", "Week-02-glossary.html", "Week-02-notes.html", "Week-03-glossary.html", "Week-03-notes.html", "Week-04-glossary.html", "Week-04-notes.html", "Week-05-glossary.html", "Week-05-notes.html", "Week-06-glossary.html", "Week-06-notes.html", "Week-07-glossary.html", "Week-07-notes.html", "Week-08-glossary.html", "Week-08-notes.html", "index.html", "review.html", "stats.html", "strategy.html", "study-plan.html", "style.css?v=0e9eff6d96", "search.js?v=0e9eff6d96", "favicon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"];
+const CACHE = "ocp21-6fa264f553";
+const ASSETS = ["./", "Week-01-glossary.html", "Week-01-notes.html", "Week-02-glossary.html", "Week-02-notes.html", "Week-03-glossary.html", "Week-03-notes.html", "Week-04-glossary.html", "Week-04-notes.html", "Week-05-glossary.html", "Week-05-notes.html", "Week-06-glossary.html", "Week-06-notes.html", "Week-07-glossary.html", "Week-07-notes.html", "Week-08-glossary.html", "Week-08-notes.html", "index.html", "review.html", "stats.html", "strategy.html", "study-plan.html", "style.css?v=1a1555c85c", "search.js?v=1a1555c85c", "favicon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));

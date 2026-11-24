@@ -635,9 +635,14 @@ def home():
         )
         note = html.escape(HOME_NOTE.get(name, ""))
         week_attr = f' data-week="{html.escape(name)}"' if name.startswith("第") else ""
+        notes = next((dest for dest, _, _ in pages if dest.endswith("-notes.html")), "")
+        read = ""
+        if notes:
+            week_attr += f' data-notes="{notes}"'
+            read = '<div class="read-line" hidden></div>'
         cards.append(
             f"<li{week_attr}><h2>{html.escape(name)}<span class=\"done-badge\" hidden>已完成</span></h2>"
-            f"<p class=\"when\">{note}</p><p class=\"go\">{links}</p></li>"
+            f"<p class=\"when\">{note}</p>{read}<p class=\"go\">{links}</p></li>"
         )
     body = f"""<div class="home">
 <header class="hero">
@@ -1415,6 +1420,41 @@ kbd { font-family: inherit; font-size: 0.72rem; padding: 0.05rem 0.35rem; border
 .week-row .num { font-weight: 750; text-align: right; font-variant-numeric: tabular-nums; }
 .week-row small { color: var(--muted); font-size: 0.75rem; }
 .week-row.none { opacity: 0.55; }
+.read-rows .week-row { grid-template-columns: 4.2rem 1fr 3rem; row-gap: 0.1rem; }
+.read-rows .week-row small { grid-column: 2 / -1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.read-rows .week-row small a { color: var(--muted); }
+.read-line { margin-top: 0.6rem; }
+.read-line p { margin: 0; display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: var(--muted); }
+.read-line .pct { color: var(--accent); font-variant-numeric: tabular-nums; }
+.weeks .read-line a.read-at { display: block; margin-top: 0.3rem; padding: 0; background: none; border-radius: 0; color: var(--muted); font-size: 0.75rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.weeks .read-line a.read-at:hover, .weeks .read-line a.read-at:focus { background: none; color: var(--accent); text-decoration: underline; }
+.read-pct { margin-left: 0.3rem; font-size: 0.68rem; font-weight: 700; opacity: 0.7; font-variant-numeric: tabular-nums; }
+.read-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  padding: 0.55rem 0.55rem 0.55rem 1rem;
+  border-radius: 14px;
+  background: var(--ink);
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  animation: toast-in 0.25s ease;
+}
+.read-toast span { display: flex; flex-direction: column; min-width: 0; }
+.read-toast small { font-size: 0.7rem; opacity: 0.75; font-weight: 650; }
+.read-toast strong { font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.read-toast button { font: inherit; border: 0; cursor: pointer; border-radius: 999px; }
+.read-go { background: white; color: var(--ink); font-weight: 750; padding: 0.4rem 0.95rem; flex-shrink: 0; }
+.read-x { background: transparent; color: white; opacity: 0.7; font-size: 1.2rem; line-height: 1; width: 2rem; height: 2rem; flex-shrink: 0; }
+.read-x:hover { opacity: 1; }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 0.6rem); } }
 .stats-hint { color: var(--muted); font-size: 0.85rem; margin: 0.5rem 0; }
 .weak-list { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
 .weak-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
@@ -1445,6 +1485,7 @@ kbd { font-family: inherit; font-size: 0.72rem; padding: 0.05rem 0.35rem; border
   .review-bar.sticky { top: 3.6rem; margin: 0 -1rem 0.5rem; padding: 0.55rem 1rem; }
   .week-row { grid-template-columns: 3.8rem 1fr 2.6rem; }
   .week-row small { display: none; }
+  .read-rows .week-row:not(.none) small { display: block; }
   .q-actions { margin-left: 0; }
 }
 @media (hover: none) { .review-keys, kbd { display: none; } }
@@ -2278,6 +2319,41 @@ function saveLast(hash, where) {
   } catch (error) {}
 }
 
+const READ_KEY = "ocp-read";
+
+function readRead() {
+  try { return JSON.parse(localStorage.getItem(READ_KEY) || "{}") || {}; } catch (error) { return {}; }
+}
+
+function saveRead(file, pct, spot) {
+  const map = readRead();
+  const prev = map[file] || { max: 0, id: "", title: "" };
+  const next = { max: Math.max(prev.max || 0, pct), id: spot.id, title: spot.title, t: Date.now() };
+  if (next.max === prev.max && next.id === prev.id) return;
+  map[file] = next;
+  try { localStorage.setItem(READ_KEY, JSON.stringify(map)); } catch (error) {}
+  paintReadBadges();
+}
+
+function paintReadBadges() {
+  const map = readRead();
+  document.querySelectorAll('.pair .links a[href$="-notes.html"]').forEach((link) => {
+    const page = map[link.getAttribute("href")];
+    let badge = link.querySelector(".read-pct");
+    if (!page) {
+      badge?.remove();
+      return;
+    }
+    if (!badge) {
+      badge = document.createElement("span");
+      badge.className = "read-pct";
+      link.append(badge);
+    }
+    badge.textContent = page.max + "%";
+    link.title = "讀咗 " + page.max + "%";
+  });
+}
+
 function paintHome() {
   const resume = document.querySelector("#resume");
   const overall = document.querySelector("#overall");
@@ -2285,12 +2361,15 @@ function paintHome() {
   try {
     const last = JSON.parse(localStorage.getItem(LAST_KEY) || "null");
     if (resume && last && last.href) {
+      const page = readRead()[last.href.split("#")[0]];
+      const read = page ? ` · 讀咗 ${page.max}%` : "";
       resume.href = last.href;
-      resume.innerHTML = `<small>繼續上次</small><strong>${esc(last.label)}</strong>${last.where ? `<span>${esc(last.where)}</span>` : ""}`;
+      resume.innerHTML = `<small>繼續上次${read}</small><strong>${esc(last.label)}</strong>${last.where ? `<span>${esc(last.where)}</span>` : ""}`;
       resume.hidden = false;
     }
   } catch (error) {}
   const cards = [...document.querySelectorAll(".weeks li[data-week]")];
+  const reads = readRead();
   let done = 0;
   cards.forEach((card) => {
     const on = localStorage.getItem("ocp-week-done:" + card.dataset.week) === "1";
@@ -2298,6 +2377,13 @@ function paintHome() {
     card.classList.toggle("done", on);
     const badge = card.querySelector(".done-badge");
     if (badge) badge.hidden = !on;
+    const line = card.querySelector(".read-line");
+    const page = line && reads[card.dataset.notes];
+    if (!line) return;
+    line.hidden = !page;
+    if (!page) return;
+    const href = card.dataset.notes + (page.id ? "#" + page.id : "");
+    line.innerHTML = `<p><span>筆記讀咗</span><span class="pct">${page.max}%</span></p><div class="track"><span style="width:${page.max}%"></span></div>${page.title ? `<a class="read-at" href="${esc(href)}">上次：${esc(page.title)}</a>` : ""}`;
   });
   const dueCard = document.querySelector("#due");
   if (dueCard) {
@@ -2318,6 +2404,7 @@ function paintHome() {
 saveLast("", "");
 paintHome();
 paintDueBadges();
+paintReadBadges();
 
 const PLACE_KEY = "ocp-place";
 const PLACES_KEY = "ocp-places";
@@ -2647,6 +2734,7 @@ function paintProgress() {
   if (key === progressKey && !box.hidden) return;
   progressKey = key;
   saveLast(spot ? spot.id : "", spot ? spot.title : "");
+  if (spot) saveRead(week.file, pct, spot);
   const whereHtml = where ? `<span class="where">${esc(where)}</span>` : "";
   box.hidden = false;
   box.innerHTML = `<p><span>${esc(week.week)}</span><span class="pct">${pct}%</span></p><div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${esc(week.week)}進度"><span></span></div><small>${whereHtml}${esc(status)}</small>`;
@@ -2722,6 +2810,40 @@ if (pageToc && jump) {
   }
 }
 
+function offerResume() {
+  const week = (window.OUTLINE || []).find((item) => item.file === fileName());
+  if (!week || location.hash) return;
+  const saved = readRead()[week.file];
+  const flat = chapterSpots(week);
+  if (!saved || !saved.id || !flat.length || flat[0].id === saved.id) return;
+  const target = document.getElementById(saved.id);
+  if (!target) return;
+  const toast = document.createElement("div");
+  toast.className = "read-toast";
+  toast.setAttribute("role", "status");
+  toast.innerHTML = `<span><small>上次讀到 · ${saved.max}%</small><strong>${esc(saved.title)}</strong></span><button type="button" class="read-go">繼續</button><button type="button" class="read-x" aria-label="關閉">×</button>`;
+  document.body.append(toast);
+  const close = () => {
+    toast.remove();
+    window.removeEventListener("scroll", onScroll);
+  };
+  const onScroll = () => { if (window.scrollY > 400) close(); };
+  toast.querySelector(".read-go").addEventListener("click", () => {
+    close();
+    history.replaceState(null, "", "#" + saved.id);
+    const side = document.querySelector(".side");
+    const offset = side && getComputedStyle(side).position === "sticky" ? side.getBoundingClientRect().height + 12 : 24;
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
+  });
+  toast.querySelector(".read-x").addEventListener("click", close);
+  setTimeout(() => {
+    if (!toast.isConnected) return;
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }, 800);
+}
+
+offerResume();
 window.addEventListener("scroll", queueProgress, { passive: true });
 window.addEventListener("resize", queueProgress);
 paintProgress();
@@ -3183,6 +3305,10 @@ if (deck) {
       }
       if (values.includes("mocks")) localStorage.removeItem("ocp-mocks");
       if (values.includes("notes")) localStorage.removeItem("ocp-notes");
+      if (values.includes("read")) {
+        localStorage.removeItem("ocp-read");
+        localStorage.removeItem("ocp-last");
+      }
       sessionStorage.setItem("ocp-cleared", names.join("、"));
     } catch (error) {}
     location.reload();
@@ -3279,6 +3405,14 @@ if (statsMeta && document.querySelector("#stats-overview")) {
     tile("今日到期", String(due), `錯過嘅題 ${wrong} 題`),
     tile("詞彙卡", `${flashTried.length} / ${flash.length}`, flashTried.length ? `識 ${pct(flashRight.length, flashTried.length)}%` : "未開始")
   ].join("");
+
+  const reads = readRead();
+  document.querySelector("#stats-read").innerHTML = `<div class="week-rows read-rows">${(window.OUTLINE || []).map((week) => {
+    const page = reads[week.file];
+    const max = page ? page.max : 0;
+    const at = page && page.title ? `<a href="${esc(week.file + (page.id ? "#" + page.id : ""))}">上次：${esc(page.title)}</a>` : "未開始";
+    return `<div class="week-row ${page ? "good" : "none"}"><span class="wk">${esc(week.week)}</span><div class="track"><span style="width:${max}%"></span></div><span class="num">${page ? max + "%" : "—"}</span><small>${at}</small></div>`;
+  }).join("")}</div><p class="stats-hint">百分比係每週筆記讀到最遠嘅位置。</p>`;
 
   const weeks = [...new Set(qs.map((item) => item.w))];
   document.querySelector("#stats-weeks").innerHTML = `<div class="week-rows">${weeks.map((week) => {
@@ -3496,6 +3630,8 @@ def stats_page(meta):
 <p class="crumb">開始 · 進度與錯題本</p>
 <h1>進度與錯題本</h1>
 <div id="stats-overview" class="stat-grid"></div>
+<h2>筆記閱讀進度</h2>
+<div id="stats-read"></div>
 <h2>按週正確率</h2>
 <div id="stats-weeks"></div>
 <h2>最弱三個章節</h2>
@@ -3537,6 +3673,7 @@ def review_page(questions):
 <label><input type="checkbox" value="srs" checked> 答題紀錄（到期、錯題、正確率、已揀答案）</label>
 <label><input type="checkbox" value="mocks" checked> 模擬考紀錄</label>
 <label><input type="checkbox" value="notes"> 錯題筆記</label>
+<label><input type="checkbox" value="read"> 閱讀進度（讀到邊、上次位置）</label>
 <button type="button" class="next-q clear-go">清除</button>
 </details>
 </div>"""
