@@ -3843,11 +3843,18 @@ self.addEventListener("fetch", (event) => {
     return response;
   };
   if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request).then(keep).catch(() =>
-        caches.match(request, { ignoreSearch: true }).then((hit) => hit || caches.match("index.html"))
-      )
-    );
+    const network = fetch(request).then(keep);
+    network.catch(() => {});
+    event.waitUntil(network.catch(() => {}));
+    event.respondWith((async () => {
+      const slow = new Promise((resolve) => setTimeout(resolve, 3000));
+      try {
+        const first = await Promise.race([network, slow]);
+        if (first) return first;
+      } catch (error) {}
+      const hit = (await caches.match(request, { ignoreSearch: true })) || (await caches.match("index.html"));
+      return hit || network;
+    })());
     return;
   }
   event.respondWith(caches.match(request).then((hit) => hit || fetch(request).then(keep)));
