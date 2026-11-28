@@ -2118,6 +2118,26 @@ article ul:has(> .task) {
 """
 
 SEARCH_JS = r"""
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  const hadWorker = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register("sw.js").then((reg) => {
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") reg.update().catch(() => {});
+    });
+  }).catch(() => {});
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadWorker || document.querySelector(".update-toast")) return;
+    const toast = document.createElement("div");
+    toast.className = "read-toast update-toast";
+    toast.setAttribute("role", "status");
+    toast.innerHTML = `<span><small>已下載新版本</small><strong>重新整理就用新版</strong></span><button type="button" class="read-go">重新整理</button><button type="button" class="read-x" aria-label="關閉">×</button>`;
+    document.body.append(toast);
+    toast.querySelector(".read-go").addEventListener("click", () => location.reload());
+    toast.querySelector(".read-x").addEventListener("click", () => toast.remove());
+  });
+  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+}
+
 const input = document.querySelector("#q");
 const box = document.querySelector("#results");
 const fold = document.querySelector(".fold");
@@ -3498,10 +3518,6 @@ document.querySelector("#import")?.addEventListener("change", async (event) => {
   }
   event.target.value = "";
 });
-
-if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-  navigator.serviceWorker.register("sw.js").catch(() => {});
-}
 """
 
 
@@ -3821,7 +3837,11 @@ SW_JS = r"""const CACHE = "__CACHE__";
 const ASSETS = __ASSETS__;
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.addAll(ASSETS.map((url) => new Request(url, { cache: "reload" }))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (event) => {
@@ -3843,18 +3863,11 @@ self.addEventListener("fetch", (event) => {
     return response;
   };
   if (request.mode === "navigate") {
-    const network = fetch(request).then(keep);
-    network.catch(() => {});
-    event.waitUntil(network.catch(() => {}));
-    event.respondWith((async () => {
-      const slow = new Promise((resolve) => setTimeout(resolve, 3000));
-      try {
-        const first = await Promise.race([network, slow]);
-        if (first) return first;
-      } catch (error) {}
-      const hit = (await caches.match(request, { ignoreSearch: true })) || (await caches.match("index.html"));
-      return hit || network;
-    })());
+    event.respondWith(
+      caches.match(request, { ignoreSearch: true }).then((hit) =>
+        hit || fetch(request).then(keep).catch(() => caches.match("index.html"))
+      )
+    );
     return;
   }
   event.respondWith(caches.match(request).then((hit) => hit || fetch(request).then(keep)));
