@@ -19,6 +19,24 @@ if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     toast.querySelector(".read-x").addEventListener("click", () => toast.remove());
   });
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+
+  const offlineState = document.querySelector("#offline-state");
+  let offlineTries = 0;
+  const paintOffline = async () => {
+    if (!offlineState || !window.caches) return;
+    const css = document.querySelector('link[rel="stylesheet"]')?.href;
+    const js = [...document.scripts].find((script) => /search\.js/.test(script.src))?.src;
+    const pages = [...new Set(["index.html", ...[...document.querySelectorAll('nav a[href$=".html"]')].map((link) => link.getAttribute("href"))])];
+    const urls = [css, js, ...pages].filter(Boolean);
+    const hits = await Promise.all(urls.map((url) => caches.match(url, { ignoreSearch: !/\?v=/.test(url) })));
+    const have = hits.filter(Boolean).length;
+    const ready = have === urls.length;
+    offlineState.classList.toggle("ok", ready);
+    offlineState.textContent = ready ? "已可離線使用：冇網都開到" : `離線版下載緊（${have} / ${urls.length}），請保持連線`;
+    offlineState.hidden = false;
+    if (!ready && offlineTries++ < 30) setTimeout(paintOffline, 2000);
+  };
+  navigator.serviceWorker.ready.then(paintOffline).catch(() => {});
 }
 
 const input = document.querySelector("#q");

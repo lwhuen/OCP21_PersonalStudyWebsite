@@ -1201,6 +1201,10 @@ article ul:has(> .task) {
 .weeks h2 { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .done-badge { font-size: 0.7rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 0.15rem 0.55rem; }
 .weeks li.done { border-color: var(--accent-mid); background: linear-gradient(180deg, #f3f9f8 0%, var(--paper) 60%); }
+.offline-state { margin: 0.7rem 0 0; font-size: 0.78rem; font-weight: 650; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; }
+.offline-state::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #d39a4a; flex-shrink: 0; }
+.offline-state.ok { color: var(--accent); }
+.offline-state.ok::before { background: var(--accent); }
 .home-status { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem; }
 .home-status:not(:has(:not([hidden]))) { display: none; }
 .resume {

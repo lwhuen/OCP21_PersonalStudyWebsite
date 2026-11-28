@@ -654,6 +654,7 @@ def home():
 <a id="due" class="resume due-card" href="review.html" hidden></a>
 <div id="overall" class="overall" hidden></div>
 </div>
+<p id="offline-state" class="offline-state" hidden></p>
 </header>
 <ol class="weeks">
 {"".join(cards)}
@@ -1887,6 +1888,10 @@ article ul:has(> .task) {
 .weeks h2 { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .done-badge { font-size: 0.7rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 0.15rem 0.55rem; }
 .weeks li.done { border-color: var(--accent-mid); background: linear-gradient(180deg, #f3f9f8 0%, var(--paper) 60%); }
+.offline-state { margin: 0.7rem 0 0; font-size: 0.78rem; font-weight: 650; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; }
+.offline-state::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #d39a4a; flex-shrink: 0; }
+.offline-state.ok { color: var(--accent); }
+.offline-state.ok::before { background: var(--accent); }
 .home-status { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem; }
 .home-status:not(:has(:not([hidden]))) { display: none; }
 .resume {
@@ -2136,6 +2141,24 @@ if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     toast.querySelector(".read-x").addEventListener("click", () => toast.remove());
   });
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+
+  const offlineState = document.querySelector("#offline-state");
+  let offlineTries = 0;
+  const paintOffline = async () => {
+    if (!offlineState || !window.caches) return;
+    const css = document.querySelector('link[rel="stylesheet"]')?.href;
+    const js = [...document.scripts].find((script) => /search\.js/.test(script.src))?.src;
+    const pages = [...new Set(["index.html", ...[...document.querySelectorAll('nav a[href$=".html"]')].map((link) => link.getAttribute("href"))])];
+    const urls = [css, js, ...pages].filter(Boolean);
+    const hits = await Promise.all(urls.map((url) => caches.match(url, { ignoreSearch: !/\?v=/.test(url) })));
+    const have = hits.filter(Boolean).length;
+    const ready = have === urls.length;
+    offlineState.classList.toggle("ok", ready);
+    offlineState.textContent = ready ? "已可離線使用：冇網都開到" : `離線版下載緊（${have} / ${urls.length}），請保持連線`;
+    offlineState.hidden = false;
+    if (!ready && offlineTries++ < 30) setTimeout(paintOffline, 2000);
+  };
+  navigator.serviceWorker.ready.then(paintOffline).catch(() => {});
 }
 
 const input = document.querySelector("#q");
@@ -3822,24 +3845,31 @@ def write_app_files():
     }
     (OUT / "manifest.webmanifest").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
     pages = sorted(path.name for path in OUT.glob("*.html"))
-    assets = ["./", *pages, f"style.css?v={ASSET_V}", f"search.js?v={ASSET_V}",
-              "favicon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"]
+    core = ["./", "index.html", f"style.css?v={ASSET_V}", f"search.js?v={ASSET_V}"]
+    assets = core + [name for name in pages if name != "index.html"] + [
+        "favicon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"]
     digest = hashlib.sha1()
     for name in pages + ["search.js", "style.css"]:
         digest.update((OUT / name).read_bytes())
     worker = SW_JS.replace("__CACHE__", "ocp21-" + digest.hexdigest()[:10]).replace(
         "__ASSETS__", json.dumps(assets, ensure_ascii=False)
-    )
+    ).replace("__CORE_COUNT__", str(len(core)))
     (OUT / "sw.js").write_text(worker, encoding="utf-8")
 
 
 SW_JS = r"""const CACHE = "__CACHE__";
 const ASSETS = __ASSETS__;
+const CORE_COUNT = __CORE_COUNT__;
+
+const CORE = ASSETS.slice(0, CORE_COUNT);
 
 self.addEventListener("install", (event) => {
+  const fresh = (url) => new Request(url, { cache: "reload" });
   event.waitUntil(
     caches.open(CACHE)
-      .then((cache) => cache.addAll(ASSETS.map((url) => new Request(url, { cache: "reload" }))))
+      .then((cache) => cache.addAll(CORE.map(fresh)).then(() =>
+        Promise.all(ASSETS.slice(CORE_COUNT).map((url) => cache.add(fresh(url)).catch(() => {})))
+      ))
       .then(() => self.skipWaiting())
   );
 });
