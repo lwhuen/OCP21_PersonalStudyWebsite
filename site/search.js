@@ -31,9 +31,8 @@ if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     const hits = await Promise.all(urls.map((url) => caches.match(url, { ignoreSearch: !/\?v=/.test(url) })));
     const have = hits.filter(Boolean).length;
     const ready = have === urls.length;
-    offlineState.classList.toggle("ok", ready);
-    offlineState.textContent = ready ? "已可離線使用：冇網都開到" : `離線版下載緊（${have} / ${urls.length}），請保持連線`;
-    offlineState.hidden = false;
+    offlineState.textContent = ready ? "" : `離線版下載緊（${have} / ${urls.length}），請保持連線`;
+    offlineState.hidden = ready;
     if (!ready && offlineTries++ < 30) setTimeout(paintOffline, 2000);
   };
   navigator.serviceWorker.ready.then(paintOffline).catch(() => {});
